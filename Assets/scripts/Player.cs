@@ -129,13 +129,21 @@ public class Player : MonoBehaviour {
 
         // jump & dropdown
 
-        if (jump && currentState != PlayerState.Crouch) {
+        if (jump && currentState != PlayerState.Crouch && !onStair) {
             rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
             canJump = false;
             jump = false;
         }
         else if (jump && currentState == PlayerState.Crouch && onStair) {
+            //dropdown
+            print("dropdown");
+        }
 
+        if (onStair) {
+            rb.gravityScale = 0;
+        }
+        else {
+            rb.gravityScale = 1;
         }
     }
 
