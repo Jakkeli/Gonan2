@@ -61,8 +61,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         boxCol = GetComponent<BoxCollider2D>();
     }
 
-    public void TakeDamage(int dir) {
-
+    public void EnemyHitPlayer(int dir) {
+        print("enemy hit player");
     }
 
     public void CrouchEnd() {
