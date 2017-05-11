@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 8460c78166d126340a29e1221846a0a1
+timeCreated: 1494415269
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Commodore 64 Angled
+  fontNames:
+  - Commodore 64 Angled
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,428 @@
+fileFormatVersion: 2
+guid: 7d33f0223c0e3a247ad886fac1f7a2cc
+timeCreated: 1494488512
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Gonan_walk_0
+    21300002: Gonan_walk_1
+    21300004: Gonan_walk_2
+    21300006: Gonan_walk_3
+    21300008: Gonan_walk_4
+    21300010: Gonan_walk_5
+    21300012: Gonan_walk_6
+    21300014: Gonan_walk_7
+    21300016: Gonan_walk_8
+    21300018: Gonan_walk_9
+    21300020: Gonan_walk_10
+    21300022: Gonan_walk_11
+    21300024: Gonan_walk_12
+    21300026: Gonan_walk_13
+    21300028: Gonan_walk_14
+    21300030: Gonan_walk_15
+    21300032: Gonan_walk_16
+    21300034: Gonan_walk_17
+    21300036: Gonan_walk_18
+    21300038: Gonan_walk_19
+    21300040: Gonan_walk_20
+    21300042: Gonan_walk_21
+    21300044: Gonan_walk_22
+    21300046: Gonan_walk_23
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 200
+  alphaUsage: 1
+  alphaIsTransparency: 0
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 3
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 3
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 3
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 1024
+    textureFormat: -1
+    textureCompression: 3
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Gonan_walk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 970.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_1
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 970.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_2
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 970.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_3
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 970.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_4
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 970.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_5
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 970.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 647.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_7
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 647.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_8
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 647.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_9
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 647.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_10
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 647.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_11
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 647.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 324.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_13
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 324.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_14
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 324.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_15
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 324.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_16
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 324.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_17
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 324.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_19
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 1.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_20
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 1.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_21
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 1.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_22
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 1.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Gonan_walk_23
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 1.5
+        width: 234.83333
+        height: 323.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
