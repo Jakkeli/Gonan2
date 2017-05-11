@@ -10,29 +10,36 @@ public class Item : MonoBehaviour, IReaction {
     public bool seenAtStart;
     public GameObject candle;
     public GameObject heart;
-    public GameObject partSys;
+    public GameObject[] partSys;
     ParticleSystem ps;
     bool hasReacted;
 
 
     void Start () {
-        ps = partSys.GetComponent<ParticleSystem>();
-        if (ps == null) {
-            print("particlesystem null!!!!!");
-            return;
+        for (int i = 0; i < partSys.Length; i++)  {
+            ps = partSys[i].GetComponent<ParticleSystem>();
+            if (!seenAtStart) {
+                candle.GetComponent<SpriteRenderer>().enabled = false;
+                heart.GetComponent<SpriteRenderer>().enabled = false;
+                ps.Pause(true);
+            }
+            if (ps == null) {
+                print("particlesystem null!!!!!");
+                return;
+            }
         }
-        if (!seenAtStart) {
-            candle.GetComponent<SpriteRenderer>().enabled = false;
-            heart.GetComponent<SpriteRenderer>().enabled = false;
-            ps.Pause(true);
-        }     
+        //ps = partSys.GetComponent<ParticleSystem>();       
     }
 	
     public void Activate() {
         if (!seenAtStart) {
             candle.GetComponent<SpriteRenderer>().enabled = true;
             
-            ps.Pause(false);
+            
+            for (int i = 0; i < partSys.Length; i++) {
+                ps = partSys[i].GetComponent<ParticleSystem>();
+                ps.Pause(false);
+            }
         }
     }
 
@@ -40,8 +47,12 @@ public class Item : MonoBehaviour, IReaction {
         if (!hasReacted) {
             heart.GetComponent<SpriteRenderer>().enabled = true;
             candle.GetComponent<SpriteRenderer>().enabled = false;
-            ps.Pause(true);
-            partSys.SetActive(false);
+            
+            for (int i = 0; i < partSys.Length; i++) {
+                ps = partSys[i].GetComponent<ParticleSystem>();
+                ps.Pause(true);
+                partSys[i].SetActive(false);
+            }
             heart.GetComponent<FloatDown>().DoIt();
             print("you've done it now buster!");
             hasReacted = true;

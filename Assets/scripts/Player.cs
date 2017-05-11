@@ -80,9 +80,9 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         // ground-check
         float colliderLowerEdge = transform.position.y + boxCol.offset.y - boxCol.size.y / 2;
         var checkBoxCenter = new Vector2(transform.position.x, colliderLowerEdge + 0.05f);
-        Debug.DrawLine(
-            new Vector2(transform.position.x - groundCheckWidth / 2, colliderLowerEdge),
-            new Vector3(transform.position.x + groundCheckWidth / 2, colliderLowerEdge - groundCheckHeight));
+        //Debug.DrawLine(
+        //    new Vector2(transform.position.x - groundCheckWidth / 2, colliderLowerEdge),
+        //    new Vector3(transform.position.x + groundCheckWidth / 2, colliderLowerEdge - groundCheckHeight));
 
         if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround)) {
             if (currentState == PlayerState.Crouch) {
@@ -220,12 +220,13 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         // shooting
         if (Input.GetButtonDown("Fire1") && canWhip) {
             // shooting forward
-            if (currentState == PlayerState.Crouch && currentAimState == AimState.Right) {
+            
+            if (currentAimState == AimState.Right) {
                 // whip right
-                //whipRight.SetActive(true);
+                whipRight.SetActive(true);
                 whipRight.GetComponent<Whip>().DoIt();
             }
-            else if (currentState == PlayerState.Crouch && currentAimState == AimState.Left) {
+            else if (currentAimState == AimState.Left) {
                 // whip left
                 whipLeft.SetActive(true);
                 whipLeft.GetComponent<Whip>().DoIt();
@@ -260,7 +261,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             if (currentAimState == AimState.Up) {
                 //up
                 whipUp.SetActive(true);
-                whipUp.GetComponent<Whip>().DoIt();
+                //whipUp.GetComponent<Whip>().DoIt();
+                whipUp.GetComponent<Whip2d>().DoIt();
             }
 
             // shooting downwards
