@@ -8,7 +8,7 @@ public class Whip : MonoBehaviour {
     float timer = 0.07f;
     bool called;
     Player player;
-    public AudioClip whipSound;
+    //public AudioClip whipSound;
     
 
     private void Start() {
@@ -25,16 +25,13 @@ public class Whip : MonoBehaviour {
         tickTime = 0;
         called = true;
         Invoke("PutBack", 0.3f);
-        //player.GetComponent<Player>().canMove = false;
         player.whipping = true;
     }
 	
     void PutBack() {
         GetComponent<BoxCollider>().enabled = false;
         GetComponent<MeshRenderer>().enabled = false;
-        //gameObject.SetActive(false);
         player.GetComponent<Player>().canWhip = true;
-        //player.GetComponent<Player>().canMove = true;
         player.whipping = false;
     }
 
