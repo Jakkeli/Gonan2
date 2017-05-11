@@ -5,4 +5,5 @@ using UnityEngine;
 public class FabricTrigger : MonoBehaviour {
     public string whipPlay;
     public string enemyDestroy;
+    public string pickUp;
 }
