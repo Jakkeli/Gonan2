@@ -149,7 +149,7 @@ public class Enemy : MonoBehaviour, IReaction {
                 dir = 1;
             }
             
-            player.GetComponent<Player>().TakeDamage(dir);
+            player.GetComponent<Player>().EnemyHitPlayer(dir);
             canAttack = false;
             Invoke("CanAttack", 2.1f);
         }
