@@ -8,15 +8,13 @@ public class Whip : MonoBehaviour {
     float timer = 0.07f;
     bool called;
     Player player;
-    //public AudioClip whipSound;
-    
 
     private void Start() {
         player = GameObject.Find("player").GetComponent<Player>();
     }
 
     void Activate() {
-        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
         GetComponent<MeshRenderer>().enabled = true;
         called = false;
     }
@@ -27,32 +25,33 @@ public class Whip : MonoBehaviour {
         Invoke("PutBack", 0.3f);
         player.whipping = true;
     }
-	
+
     void PutBack() {
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<MeshRenderer>().enabled = false;
         player.GetComponent<Player>().canWhip = true;
         player.whipping = false;
     }
 
-	void Update () {
-		if (called) {
+    void Update() {
+        if (called) {
             tickTime += Time.deltaTime;
             if (tickTime >= timer) {
                 Activate();
             }
         }
-	}
+    }
 
-    void OnTriggerEnter(Collider col) {
+    void OnTriggerEnter2D(Collider2D col) {
         if (col.GetComponent<IReaction>() != null && col.tag == "enemy") {
             col.GetComponent<IReaction>().React();
-        } else if (col.GetComponent<IReaction>() != null && col.tag == "item") {
+        }
+        else if (col.GetComponent<IReaction>() != null && col.tag == "item") {
             col.GetComponent<IReaction>().React();
             print("i should cause a reaction");
-        } else if (col.GetComponent<IReaction>() == null) {
+        }
+        else if (col.GetComponent<IReaction>() == null) {
             print("ireaction is null");
         }
     }
-
 }

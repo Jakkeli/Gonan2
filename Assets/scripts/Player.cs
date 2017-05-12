@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
 
     public PlayerState currentState;
     public AimState currentAimState;
+    public AimState lastHorizontalState;
 
     Rigidbody2D rb;
     BoxCollider2D boxCol;
@@ -55,6 +56,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
 
     void Start() {
         facingRight = true;
+        currentAimState = AimState.Right;
+        lastHorizontalState = AimState.Right;
         canMove = true;
         canJump = true;
         rb = GetComponent<Rigidbody2D>();
@@ -77,6 +80,44 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
     }
 
     void FixedUpdate() {
+
+        horizontalAxis = Input.GetAxis("Horizontal");
+        verticalAxis = Input.GetAxis("Vertical");
+
+        // aiming
+
+        if (horizontalAxis > 0) {
+            currentAimState = AimState.Right;
+            lastHorizontalState = AimState.Right;
+            if (verticalAxis > 0f) {
+                currentAimState = AimState.DiagUpRight;
+            }
+            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+                currentAimState = AimState.DiagDownRight;
+            }
+        }
+        else if (horizontalAxis < 0f) {
+            currentAimState = AimState.Left;
+            lastHorizontalState = AimState.Left;
+            if (verticalAxis > 0f) {
+                currentAimState = AimState.DiagUpLeft;
+            }
+            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+                currentAimState = AimState.DiagDownLeft;
+            }
+        }
+        else if (horizontalAxis == 0) {
+            if (verticalAxis < 0 && currentState == PlayerState.InAir) {
+                currentAimState = AimState.Down;
+            }
+            else if (verticalAxis > 0) {
+                currentAimState = AimState.Up;
+            }
+            else {
+                currentAimState = lastHorizontalState;
+            }
+        }
+
         // ground-check
         float colliderLowerEdge = transform.position.y + boxCol.offset.y - boxCol.size.y / 2;
         var checkBoxCenter = new Vector2(transform.position.x, colliderLowerEdge + 0.05f);
@@ -192,28 +233,31 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             animator.SetBool("walk", false);
         }
         // aiming
-        if (verticalAxis > 0f) {
-            if (horizontalAxis > 0f) {
+
+        if (horizontalAxis > 0) {
+            currentAimState = AimState.Right;
+            lastHorizontalState = AimState.Right;
+            if (verticalAxis > 0f) {
                 currentAimState = AimState.DiagUpRight;
-            }
-            else if (horizontalAxis < 0f) {
-                currentAimState = AimState.DiagUpLeft;
-            }
-            else {
-                currentAimState = AimState.Up;
-            }
-        }
-        if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-            if (horizontalAxis > 0f) {
+            } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
                 currentAimState = AimState.DiagDownRight;
             }
-
-            else if (horizontalAxis < 0f) {
+        } else if (horizontalAxis < 0f) {
+            currentAimState = AimState.Left;
+            lastHorizontalState = AimState.Left;
+            if (verticalAxis > 0f) {
+                currentAimState = AimState.DiagUpLeft;
+            }
+            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
                 currentAimState = AimState.DiagDownLeft;
             }
-
-            else if (horizontalAxis == 0) {
+        } else if (horizontalAxis == 0) {
+            if (verticalAxis < 0 && currentState == PlayerState.InAir) {
                 currentAimState = AimState.Down;
+            } else if (verticalAxis > 0) {
+                currentAimState = AimState.Up;
+            } else {
+                currentAimState = lastHorizontalState;
             }
         }
 
@@ -262,7 +306,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
                 //up
                 whipUp.SetActive(true);
                 //whipUp.GetComponent<Whip>().DoIt();
-                whipUp.GetComponent<Whip2d>().DoIt();
+                whipUp.GetComponent<Whip>().DoIt();
             }
 
             // shooting downwards
