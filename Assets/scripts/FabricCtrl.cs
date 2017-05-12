@@ -10,6 +10,8 @@ public class FabricCtrl : MonoBehaviour {
     public Fabric.GroupComponent music;
     public Fabric.GroupComponent sfx;
 
+    public GameObject soundPos;
+
     void MuteMusic() {
         if (music.Mute) {
             music.Mute = false;
@@ -28,4 +30,15 @@ public class FabricCtrl : MonoBehaviour {
         }
     }
 
+    public void PlaySoundWhip1() {
+        Fabric.EventManager.Instance.PostEvent(whipPlay, soundPos);
+    }
+
+    public void PlaySoundEnemy1Destroyed() {
+        Fabric.EventManager.Instance.PostEvent(enemy1Destroy, soundPos);
+    }
+
+    public void PlaySoundPickup() {
+        Fabric.EventManager.Instance.PostEvent(pickUp, soundPos);
+    }
 }
