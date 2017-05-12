@@ -81,42 +81,42 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
 
     void FixedUpdate() {
 
-        horizontalAxis = Input.GetAxis("Horizontal");
-        verticalAxis = Input.GetAxis("Vertical");
+        //horizontalAxis = Input.GetAxis("Horizontal");
+        //verticalAxis = Input.GetAxis("Vertical");
 
-        // aiming
+        //// aiming
 
-        if (horizontalAxis > 0) {
-            currentAimState = AimState.Right;
-            lastHorizontalState = AimState.Right;
-            if (verticalAxis > 0f) {
-                currentAimState = AimState.DiagUpRight;
-            }
-            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-                currentAimState = AimState.DiagDownRight;
-            }
-        }
-        else if (horizontalAxis < 0f) {
-            currentAimState = AimState.Left;
-            lastHorizontalState = AimState.Left;
-            if (verticalAxis > 0f) {
-                currentAimState = AimState.DiagUpLeft;
-            }
-            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-                currentAimState = AimState.DiagDownLeft;
-            }
-        }
-        else if (horizontalAxis == 0) {
-            if (verticalAxis < 0 && currentState == PlayerState.InAir) {
-                currentAimState = AimState.Down;
-            }
-            else if (verticalAxis > 0) {
-                currentAimState = AimState.Up;
-            }
-            else {
-                currentAimState = lastHorizontalState;
-            }
-        }
+        //if (horizontalAxis > 0) {
+        //    currentAimState = AimState.Right;
+        //    lastHorizontalState = AimState.Right;
+        //    if (verticalAxis > 0f) {
+        //        currentAimState = AimState.DiagUpRight;
+        //    }
+        //    else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+        //        currentAimState = AimState.DiagDownRight;
+        //    }
+        //}
+        //else if (horizontalAxis < 0f) {
+        //    currentAimState = AimState.Left;
+        //    lastHorizontalState = AimState.Left;
+        //    if (verticalAxis > 0f) {
+        //        currentAimState = AimState.DiagUpLeft;
+        //    }
+        //    else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+        //        currentAimState = AimState.DiagDownLeft;
+        //    }
+        //}
+        //else if (horizontalAxis == 0) {
+        //    if (verticalAxis < 0 && currentState == PlayerState.InAir) {
+        //        currentAimState = AimState.Down;
+        //    }
+        //    else if (verticalAxis > 0) {
+        //        currentAimState = AimState.Up;
+        //    }
+        //    else {
+        //        currentAimState = lastHorizontalState;
+        //    }
+        //}
 
         // ground-check
         float colliderLowerEdge = transform.position.y + boxCol.offset.y - boxCol.size.y / 2;
@@ -203,8 +203,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
 
     void Update() {
 
-        horizontalAxis = Input.GetAxis("Horizontal");
-        verticalAxis = Input.GetAxis("Vertical");
+        horizontalAxis = Input.GetAxisRaw("Horizontal");
+        verticalAxis = Input.GetAxisRaw("Vertical");
 
         if (Input.GetButtonDown("Jump")) {
             if (currentState != PlayerState.InAir) {
@@ -239,10 +239,12 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             lastHorizontalState = AimState.Right;
             if (verticalAxis > 0f) {
                 currentAimState = AimState.DiagUpRight;
-            } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+            }
+            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
                 currentAimState = AimState.DiagDownRight;
             }
-        } else if (horizontalAxis < 0f) {
+        }
+        else if (horizontalAxis < 0f) {
             currentAimState = AimState.Left;
             lastHorizontalState = AimState.Left;
             if (verticalAxis > 0f) {
@@ -251,12 +253,15 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
                 currentAimState = AimState.DiagDownLeft;
             }
-        } else if (horizontalAxis == 0) {
+        }
+        else if (horizontalAxis == 0) {
             if (verticalAxis < 0 && currentState == PlayerState.InAir) {
                 currentAimState = AimState.Down;
-            } else if (verticalAxis > 0) {
+            }
+            else if (verticalAxis > 0) {
                 currentAimState = AimState.Up;
-            } else {
+            }
+            else {
                 currentAimState = lastHorizontalState;
             }
         }
