@@ -6,6 +6,8 @@ public class FabricCtrl : MonoBehaviour {
     public string whipPlay;
     public string enemy1Destroy;
     public string pickUp;
+    public string enemyHit;
+    public string drumBeat1;
 
     public Fabric.GroupComponent music;
     public Fabric.GroupComponent sfx;
