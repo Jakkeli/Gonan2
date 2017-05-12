@@ -48,10 +48,10 @@ public class Whip : MonoBehaviour {
         }
         else if (col.GetComponent<IReaction>() != null && col.tag == "item") {
             col.GetComponent<IReaction>().React();
-            print("i should cause a reaction");
+            //print("i should cause a reaction");
         }
         else if (col.GetComponent<IReaction>() == null) {
-            print("ireaction is null");
+            //print("ireaction is null");
         }
     }
 }

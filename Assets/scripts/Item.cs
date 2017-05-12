@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { Candle, Other };
+public enum ItemType { Candle, Other, };
 
 public class Item : MonoBehaviour, IReaction {
 

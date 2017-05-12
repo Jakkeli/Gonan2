@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour, IReaction {
             activated = true;
             print("enemy activated");
             //player = GameObject.Find("player");
-            currentState = EnemyState.Chase;
+            //currentState = EnemyState.Chase;
         }
     }
 

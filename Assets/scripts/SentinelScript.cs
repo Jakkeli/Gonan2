@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SentinelScript : MonoBehaviour {
+public enum Enemy1State { Inactive, Activated, Dead };
 
+public class SentinelScript : MonoBehaviour, IReaction {
+
+    public Enemy1State currentState;
     public float hSpeed;
     public float vSpeed;
     float hDir;
@@ -11,16 +14,43 @@ public class SentinelScript : MonoBehaviour {
     public float maxY;
     public float minY;
 
-
+    public bool activateOnStart;
     public bool goRight;
+    public int hp = 1;
 
     GameObject player;
 
 	void Start () {
         player = GameObject.Find("player");
+        if (activateOnStart) {
+            Activate();
+        }
 	}
+
+    public void React() {
+        //take damage
+        hp--;
+        if (hp == 0) {
+            Death();
+        }
+    }
+
+    public void Death() {
+        //die
+        print("enemy dieded");
+        currentState = Enemy1State.Dead;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<CircleCollider2D>().enabled = false;
+    }
+
+    public void Activate() {
+        if (currentState == Enemy1State.Inactive) currentState = Enemy1State.Activated;
+    }
 	
 	void Update () {
+        if (currentState != Enemy1State.Activated) {
+            return;
+        }
         if (transform.position.y >= maxY) {
             vDir = -1;
         } else if (transform.position.y <= minY) {

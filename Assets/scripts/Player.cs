@@ -12,7 +12,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
     public AimState lastHorizontalState;
 
     Rigidbody2D rb;
-    BoxCollider2D boxCol;
+    // BoxCollider2D boxCol;
+    CapsuleCollider2D capCol;
     public float hSpeed = 4;
     public float vSpeed = 8;
 
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
     bool facingRight;
     bool canMove;
     bool jump;
-    bool canJump;
+
     public bool onStair;
     public bool whipping;
     public bool canWhip = true;
@@ -59,9 +60,9 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         currentAimState = AimState.Right;
         lastHorizontalState = AimState.Right;
         canMove = true;
-        canJump = true;
         rb = GetComponent<Rigidbody2D>();
-        boxCol = GetComponent<BoxCollider2D>();
+        //boxCol = GetComponent<BoxCollider2D>();
+        capCol = GetComponent<CapsuleCollider2D>();
     }
 
     public void EnemyHitPlayer(int dir) {
@@ -75,55 +76,17 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         //}
         //print("crouchend called");
         //animation
-        boxCol.size = new Vector2(1, 2);
-        boxCol.offset = new Vector2(0, 0);
+        //boxCol.size = new Vector2(1, 2);
+        //boxCol.offset = new Vector2(0, 0);
+        capCol.size = new Vector2(0.63f, 2);
+        capCol.offset = new Vector2(0, 0);
     }
 
     void FixedUpdate() {
 
-        //horizontalAxis = Input.GetAxis("Horizontal");
-        //verticalAxis = Input.GetAxis("Vertical");
-
-        //// aiming
-
-        //if (horizontalAxis > 0) {
-        //    currentAimState = AimState.Right;
-        //    lastHorizontalState = AimState.Right;
-        //    if (verticalAxis > 0f) {
-        //        currentAimState = AimState.DiagUpRight;
-        //    }
-        //    else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-        //        currentAimState = AimState.DiagDownRight;
-        //    }
-        //}
-        //else if (horizontalAxis < 0f) {
-        //    currentAimState = AimState.Left;
-        //    lastHorizontalState = AimState.Left;
-        //    if (verticalAxis > 0f) {
-        //        currentAimState = AimState.DiagUpLeft;
-        //    }
-        //    else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-        //        currentAimState = AimState.DiagDownLeft;
-        //    }
-        //}
-        //else if (horizontalAxis == 0) {
-        //    if (verticalAxis < 0 && currentState == PlayerState.InAir) {
-        //        currentAimState = AimState.Down;
-        //    }
-        //    else if (verticalAxis > 0) {
-        //        currentAimState = AimState.Up;
-        //    }
-        //    else {
-        //        currentAimState = lastHorizontalState;
-        //    }
-        //}
-
         // ground-check
-        float colliderLowerEdge = transform.position.y + boxCol.offset.y - boxCol.size.y / 2;
-        var checkBoxCenter = new Vector2(transform.position.x, colliderLowerEdge + 0.05f);
-        //Debug.DrawLine(
-        //    new Vector2(transform.position.x - groundCheckWidth / 2, colliderLowerEdge),
-        //    new Vector3(transform.position.x + groundCheckWidth / 2, colliderLowerEdge - groundCheckHeight));
+
+        float colliderLowerEdge = transform.position.y + capCol.offset.y - capCol.size.y / 2;
 
         if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround)) {
             if (currentState == PlayerState.Crouch) {
@@ -133,11 +96,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         }
         else if (currentState == PlayerState.InAir) {
             currentState = PlayerState.Idle;
-            canJump = true;
         }
-        else {
-            canJump = false;
-        }
+
         // stair check
         if (Physics.Raycast(transform.position, Vector3.down, stairCheckDist, stairsOnly)) {
             onStair = true;
@@ -185,7 +145,6 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
 
         if (jump && currentState != PlayerState.Crouch && !onStair) {
             rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
-            canJump = false;
             jump = false;
         }
         else if (jump && currentState == PlayerState.Crouch && onStair) {
@@ -218,8 +177,8 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         if (currentState != PlayerState.InAir) {
             if (verticalAxis < 0) {
                 currentState = PlayerState.Crouch;
-                boxCol.size = new Vector2(boxCol.size.x, 1f);
-                boxCol.offset = new Vector2(0, -0.5f);
+                capCol.size = new Vector2(capCol.size.x, 1);
+                capCol.offset = new Vector2(0, -0.5f);
                 //animation
             }
             else if (verticalAxis >= 0) {
@@ -310,7 +269,6 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             if (currentAimState == AimState.Up) {
                 //up
                 whipUp.SetActive(true);
-                //whipUp.GetComponent<Whip>().DoIt();
                 whipUp.GetComponent<Whip>().DoIt();
             }
 
