@@ -6,6 +6,7 @@ TagManager:
   tags:
   - enemy
   - item
+  - hookPoint
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - ground
   - stair
-  - 
-  - 
+  - whip
+  - hookPoint
   - 
   - 
   - 

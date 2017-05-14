@@ -8,9 +8,11 @@ public class Whip : MonoBehaviour {
     float timer = 0.07f;
     bool called;
     Player player;
+    FabricCtrl fabCtrl;
 
     private void Start() {
         player = GameObject.Find("player").GetComponent<Player>();
+        fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
     }
 
     void Activate() {
@@ -24,6 +26,7 @@ public class Whip : MonoBehaviour {
         called = true;
         Invoke("PutBack", 0.3f);
         player.whipping = true;
+        fabCtrl.PlaySoundWhip1();
     }
 
     void PutBack() {
@@ -50,8 +53,9 @@ public class Whip : MonoBehaviour {
             col.GetComponent<IReaction>().React();
             //print("i should cause a reaction");
         }
-        else if (col.GetComponent<IReaction>() == null) {
-            //print("ireaction is null");
+        else if (col.GetComponent<IReaction>() == null && col.tag == "hookPoint") {
+            print("hit hookPoint");
+            player.IndianaJones(col.gameObject);
         }
     }
 }
