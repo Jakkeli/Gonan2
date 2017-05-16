@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones, OnStair};
+public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones, OnStair, Dead};
 public enum AimState { Right, Left, Up, Down, DiagUpRight, DiagUpLeft, DiagDownRight, DiagDownLeft };
 
 public class Player : MonoBehaviour {       // gonan 2d actual
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public LayerMask stairsOnly;
 
     public int hp;
+    public int playerLives = 3;
 
     bool facingRight;
     bool canMove;
@@ -91,8 +92,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
     }
 
-    void Death() {
+    public void Death() {
         fabCtrl.PlaySoundPlayerDeath();
+        if (playerLives == 0) /* gameover */ ;
+        playerLives--;
+        currentState = PlayerState.Dead;
+        print("u dieded");
     }
 
     public void IndianaJones(GameObject go) {
@@ -127,6 +132,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void FixedUpdate() {
+
+        if (currentState == PlayerState.Dead) return;
 
         // ground-check
 
@@ -218,6 +225,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void Update() {
+
+        if (currentState == PlayerState.Dead) return;
 
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
