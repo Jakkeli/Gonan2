@@ -51,10 +51,8 @@ public class Whip : MonoBehaviour {
         }
         else if (col.GetComponent<IReaction>() != null && col.tag == "item") {
             col.GetComponent<IReaction>().React();
-            //print("i should cause a reaction");
         }
         else if (col.GetComponent<IReaction>() == null && col.tag == "hookPoint") {
-            print("hit hookPoint");
             player.IndianaJones(col.gameObject);
         }
     }

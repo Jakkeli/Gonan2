@@ -7,6 +7,8 @@ TagManager:
   - enemy
   - item
   - hookPoint
+  - leftUp
+  - rightUp
   layers:
   - Default
   - TransparentFX

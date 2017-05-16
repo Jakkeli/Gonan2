@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones };
+public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones, OnStair};
 public enum AimState { Right, Left, Up, Down, DiagUpRight, DiagUpLeft, DiagDownRight, DiagDownLeft };
 
-public class Player : MonoBehaviour {       // gonan 2d 05/11//17
+public class Player : MonoBehaviour {       // gonan 2d actual
 
     public PlayerState currentState;
     public AimState currentAimState;
     public AimState lastHorizontalState;
 
     Rigidbody2D rb;
-    // BoxCollider2D boxCol;
     CapsuleCollider2D capCol;
     public float hSpeed = 4;
     public float vSpeed = 8;
     public float swingSpeed = 1;
+
+    public float stairSpeed = 1;
+    public float stairY = 1;
+    public float stairX = 1;
 
     float horizontalAxis;
     float verticalAxis;
 
     public float groundCheckWidth = 0.5f;
     public float groundCheckHeight = 0.5f;
-    public float stairCheckDist = 1.1f;
+    //public float stairCheckDist = 1.1f;
 
     public Transform groundCheck;
     public LayerMask whatIsGround;
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
     public bool whipping;
     public bool canWhip = true;
     bool crouchWhip;
+    public bool stairLeftUp;
 
     Vector2 v;
 
@@ -105,7 +109,6 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         joint.connectedBody = null;
         joint.enabled = false;
         line.enabled = false;
-        print("do we happen?!?!");
         capCol.isTrigger = false;
     }
 
@@ -114,7 +117,6 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             whip.transform.position += new Vector3(0, 0.5f, 0);
             crouchWhip = false;
         }
-        //print("crouchend called");
         //animation
         capCol.size = new Vector2(0.63f, 2);
         capCol.offset = new Vector2(0, 0);
@@ -141,11 +143,16 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         }
 
         // stair check
-        if (Physics.Raycast(transform.position, Vector3.down, stairCheckDist, stairsOnly) && currentState != PlayerState.IndianaJones) {
-            onStair = true;
-            currentState = PlayerState.Idle;
-        } else {
-            onStair = false;
+        if (Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, stairsOnly) && currentState != PlayerState.IndianaJones) {
+            //onStair = true;
+            currentState = PlayerState.OnStair;
+            rb.gravityScale = 0;
+            
+        }
+        else {
+            //onStair = false;
+            rb.gravityScale = 1;
+            if (currentState == PlayerState.OnStair) currentState = PlayerState.Idle;
         }
 
         v = rb.velocity;    //rigidbody velocity
@@ -159,7 +166,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
-        if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones) {
+        if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
 
             if (v.x != 0f && currentState != PlayerState.Crouch) {
                 currentState = PlayerState.Moving;
@@ -171,7 +178,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
 
         // movement
 
-        if (canMove && currentState != PlayerState.IndianaJones) {
+        if (canMove && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
             if (currentState == PlayerState.Crouch) {
                 rb.velocity = new Vector3(horizontalAxis * (hSpeed / 2), rb.velocity.y, 0);
             }
@@ -183,23 +190,23 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
 
+        // on stairs
+
+        if (currentState == PlayerState.OnStair) {
+            rb.velocity = new Vector3(horizontalAxis * stairSpeed, rb.velocity.y, 0);
+        }
+
         // jump & dropdown
 
-        if (jump && currentState != PlayerState.Crouch && !onStair) {
+        if (jump && currentState != PlayerState.Crouch && currentState != PlayerState.OnStair) {
             rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
             jump = false;
         }
-        else if (jump && currentState == PlayerState.Crouch && onStair) {
+        else if (currentState == PlayerState.OnStair) {
             //dropdown
             print("dropdown");
         }
 
-        if (onStair) {
-            rb.gravityScale = 0;
-        }
-        else {
-            rb.gravityScale = 1;
-        }
         // indiana jones
         if (currentState == PlayerState.IndianaJones) {
             Vector2 hookPos = currentHookPoint.transform.position;
@@ -224,7 +231,7 @@ public class Player : MonoBehaviour {       // gonan 2d 05/11//17
         }
 
         // crouch
-        if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones) {
+        if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
             if (verticalAxis < 0) {
                 currentState = PlayerState.Crouch;
                 capCol.size = new Vector2(capCol.size.x, 1);
