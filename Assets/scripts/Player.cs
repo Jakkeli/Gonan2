@@ -224,6 +224,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
     }
 
+    void DropDown() {
+
+    }
+
     void Update() {
 
         if (currentState == PlayerState.Dead) return;
@@ -232,10 +236,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         verticalAxis = Input.GetAxisRaw("Vertical");
 
         if (Input.GetButtonDown("Jump")) {
-            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones) {
+            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.Crouch) {
                 CrouchEnd();
                 jump = true;
                 //print("jump called");
+            }
+            else if (currentState == PlayerState.OnStair && verticalAxis < 0) {
+                DropDown();
             }
         }
 
