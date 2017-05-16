@@ -237,14 +237,18 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         if (Input.GetButtonDown("Jump")) {
             if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.Crouch) {
-                CrouchEnd();
-                jump = true;
-                //print("jump called");
+                if (currentState == PlayerState.Idle || currentState == PlayerState.Moving) {
+                    CrouchEnd();
+                    jump = true;
+                    print("jump called");
+                }
+                
             }
             else if (currentState == PlayerState.OnStair && verticalAxis < 0) {
                 DropDown();
             }
         }
+
 
         // crouch
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
@@ -369,6 +373,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
+            LetGoOfHook();
+        }
+
+        if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
             LetGoOfHook();
         }
     }
