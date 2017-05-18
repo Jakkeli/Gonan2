@@ -11956,6 +11956,7 @@ MonoBehaviour:
   stairSpeed: 1
   stairY: 1
   stairX: 1
+  knockBack: 8
   groundCheckWidth: 0.5
   groundCheckHeight: 0.5
   groundCheck: {fileID: 144921715}
