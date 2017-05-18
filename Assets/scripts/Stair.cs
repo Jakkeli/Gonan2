@@ -12,8 +12,8 @@ public class Stair : MonoBehaviour {
 
     private void OnCollisionEnter(Collision col) {
         if (col.gameObject.tag == "Player") {
-            if (stairLeftUp) col.gameObject.GetComponent<Player>().stairLeftUp = true;
-            if (!stairLeftUp) col.gameObject.GetComponent<Player>().stairLeftUp = false;
+            //if (stairLeftUp) col.gameObject.GetComponent<Player>().stairLeftUp = true;
+            //if (!stairLeftUp) col.gameObject.GetComponent<Player>().stairLeftUp = false;
         }
     }
 }

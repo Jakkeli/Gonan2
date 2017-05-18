@@ -95,7 +95,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void Death() {
         fabCtrl.PlaySoundPlayerDeath();
-        if (playerLives == 0) /* gameover */ ;
+        if (playerLives == 0) {
+            //gameover
+        }
         playerLives--;
         currentState = PlayerState.Dead;
         print("u dieded");
@@ -221,7 +223,21 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // on stairs
 
         if (currentState == PlayerState.OnStair) {
-            rb.velocity = new Vector3(horizontalAxis * stairSpeed, rb.velocity.y, 0);
+            //rb.velocity = new Vector3(horizontalAxis * stairSpeed, rb.velocity.y, 0);
+            rb.velocity = new Vector3(0, 0, 0);
+            if (stairLeftUp) {
+                if (verticalAxis < 0) {
+
+                } else if (verticalAxis > 0) {
+
+                } else if (horizontalAxis < 0) {
+                    
+                } else if (horizontalAxis > 0) {
+
+                }
+            } else {
+
+            }
         }
 
         // jump & dropdown
@@ -230,7 +246,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
             jump = false;
         }
-        else if (currentState == PlayerState.OnStair) {
+        else if (jump && currentState == PlayerState.OnStair) {
             //dropdown
             print("dropdown");
         }
