@@ -28,7 +28,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public float groundCheckWidth = 0.5f;
     public float groundCheckHeight = 0.5f;
-    //public float stairCheckDist = 1.1f;
+    public float stairCheckHeight = 1.1f;
+    public float stairCheckWidth = 0.7f;
 
     public Transform groundCheck;
     public LayerMask whatIsGround;
@@ -83,13 +84,18 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void GetOnStair(bool leftUp) {
-        currentState = PlayerState.OnStair;
-        rb.gravityScale = 0;
+        if (onStair) {
+            stairLeftUp = leftUp;
+            currentState = PlayerState.OnStair;
+            rb.gravityScale = 0;
+        }        
     }
 
     public void GetOffStair() {
-        currentState = PlayerState.Idle;
-        rb.gravityScale = 1;
+        if (currentState == PlayerState.OnStair) {
+            currentState = PlayerState.Idle;
+            rb.gravityScale = 1;
+        }        
     }
 
     public void EnemyHitPlayer(int dir) {
@@ -187,21 +193,17 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 knockBackDone = false;
             }
         }
-        
 
-        //kokeillaan triggeriä
 
-        // stair check
-        //if (Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, stairsOnly) && 
-        //    currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
-        //    currentState = PlayerState.OnStair;            
-        //} else if (currentState == PlayerState.OnStair) {
-        //    rb.gravityScale = 1;
-        //     currentState = PlayerState.Idle;
-        //}
+        //kokeillaan triggeriä, mut käytetään tätäkin
 
-        
-
+        //stair check
+        if (Physics2D.OverlapBox(groundCheck.position, new Vector2(stairCheckWidth, stairCheckHeight), 0, stairsOnly)) {
+            onStair = true;
+        } else {
+            onStair = false;
+        }
+                
         if (v.x > 0) facingRight = true;
         if (v.x < 0) facingRight = false;
 
@@ -317,7 +319,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (Input.GetButtonDown("Jump")) {
-            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.Crouch) {
+            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.Crouch && currentState != PlayerState.OnStair) {
                 if (currentState == PlayerState.Idle || currentState == PlayerState.Moving) {
                     CrouchEnd();
                     jump = true;
