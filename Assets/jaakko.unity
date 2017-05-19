@@ -1030,6 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whipPlay: Whip/Play
+  secondaryWeapon: 
   enemy1Destroy: Enemy1Destroy/Play
   pickUp: PickUp1/Play
   enemy1Hit: 
