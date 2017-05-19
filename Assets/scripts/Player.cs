@@ -88,6 +88,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         line.enabled = false;
     }
 
+    public void FallTrigger() {
+        Death();
+    }
+
     public void GetOnStair(bool leftUp) {
         if (onStair) {
             stairLeftUp = leftUp;
