@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 14c3bd21063a5904fbe7ffed74f45db6
-timeCreated: 1494575908
+timeCreated: 1495186293
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -104,10 +104,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -115,12 +115,12 @@ TextureImporter:
       name: LavaLamp_1
       rect:
         serializedVersion: 2
-        x: 26
+        x: 20
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -128,12 +128,12 @@ TextureImporter:
       name: LavaLamp_2
       rect:
         serializedVersion: 2
-        x: 52
+        x: 40
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -141,12 +141,12 @@ TextureImporter:
       name: LavaLamp_3
       rect:
         serializedVersion: 2
-        x: 78
+        x: 60
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -154,12 +154,12 @@ TextureImporter:
       name: LavaLamp_4
       rect:
         serializedVersion: 2
-        x: 104
+        x: 80
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -167,12 +167,12 @@ TextureImporter:
       name: LavaLamp_5
       rect:
         serializedVersion: 2
-        x: 130
+        x: 100
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -180,12 +180,12 @@ TextureImporter:
       name: LavaLamp_6
       rect:
         serializedVersion: 2
-        x: 156
+        x: 120
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -193,12 +193,12 @@ TextureImporter:
       name: LavaLamp_7
       rect:
         serializedVersion: 2
-        x: 182
+        x: 140
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -206,12 +206,12 @@ TextureImporter:
       name: LavaLamp_8
       rect:
         serializedVersion: 2
-        x: 208
+        x: 160
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -219,12 +219,12 @@ TextureImporter:
       name: LavaLamp_9
       rect:
         serializedVersion: 2
-        x: 234
+        x: 180
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -232,12 +232,12 @@ TextureImporter:
       name: LavaLamp_10
       rect:
         serializedVersion: 2
-        x: 260
+        x: 200
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -245,25 +245,12 @@ TextureImporter:
       name: LavaLamp_11
       rect:
         serializedVersion: 2
-        x: 286
+        x: 220
         y: 0
-        width: 26
-        height: 100
+        width: 20
+        height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LavaLamp_12
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 0
-        width: 26
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
