@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FabricCtrl : MonoBehaviour {
     public string whipPlay;
+    public string secondaryWeapon;
     public string enemy1Destroy;
     //public string enemy2Destroy;
     public string pickUp;
