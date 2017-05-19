@@ -20,7 +20,8 @@ public class LavaLamp : MonoBehaviour, IReaction {
 	}
 
     public void React() {
-
+        //release floating blob/other pickup-item
+        Deactivate();
     }
 
     public void Activate() {
@@ -29,7 +30,9 @@ public class LavaLamp : MonoBehaviour, IReaction {
         GetComponent<BoxCollider2D>().enabled = true;
     }
 
-	void Update () {
-		
-	}
+    public void Deactivate() {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Animator>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+    }
 }
