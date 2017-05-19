@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Stair : MonoBehaviour {
 
-    public bool stairLeftUp;
+    Player player;
+    bool leftUp;
 
-	void Start () {
-		
-	}
+    private void Start() {
+        player = GameObject.Find("player").GetComponent<Player>();
+        if (tag == "leftUp") leftUp = true;
+        if (tag == "rightUp") leftUp = false;
+    }
 
-    private void OnCollisionEnter(Collision col) {
-        if (col.gameObject.tag == "Player") {
-            //if (stairLeftUp) col.gameObject.GetComponent<Player>().stairLeftUp = true;
-            //if (!stairLeftUp) col.gameObject.GetComponent<Player>().stairLeftUp = false;
+    void OnTriggerEnter2D(Collider2D c) {
+        if (c.gameObject.tag == "Player") {
+            player.GetOnStair(leftUp);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D c) {
+        if (c.gameObject.tag == "Player") {
+            player.GetOffStair();
         }
     }
 }

@@ -17,7 +17,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float vSpeed = 8;
     public float swingSpeed = 1;
 
-    public float stairSpeed = 1;
+    public float strSpeed = 1;
     public float stairY = 1;
     public float stairX = 1;
 
@@ -82,6 +82,16 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         line.enabled = false;
     }
 
+    public void GetOnStair(bool leftUp) {
+        currentState = PlayerState.OnStair;
+        rb.gravityScale = 0;
+    }
+
+    public void GetOffStair() {
+        currentState = PlayerState.Idle;
+        rb.gravityScale = 1;
+    }
+
     public void EnemyHitPlayer(int dir) {
         print("enemy hit player");
         hp--;
@@ -100,6 +110,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
         playerLives--;
         currentState = PlayerState.Dead;
+        // stop animations
         print("u dieded");
     }
 
@@ -158,31 +169,36 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // ground-check
 
         float colliderLowerEdge = transform.position.y + capCol.offset.y - capCol.size.y / 2;
-
-        if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround) && currentState != PlayerState.IndianaJones) {
-            if (currentState == PlayerState.KnockedBack) {
-                print("knocked back and in the air"); 
+        if (currentState != PlayerState.OnStair) {
+            if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround) && currentState != PlayerState.IndianaJones) {
+                if (currentState == PlayerState.KnockedBack) {
+                    print("knocked back and in the air");
+                }
+                if (currentState == PlayerState.Crouch) {
+                    CrouchEnd();
+                    currentState = PlayerState.InAir;
+                } else {
+                    currentState = PlayerState.InAir;
+                }
+            } else if (currentState == PlayerState.InAir) {
+                currentState = PlayerState.Idle;
+            } else if (currentState == PlayerState.KnockedBack && rb.velocity.x == 0 && rb.velocity.y == 0) {
+                currentState = PlayerState.Idle;
+                knockBackDone = false;
             }
-            if (currentState == PlayerState.Crouch) {
-                CrouchEnd();
-                currentState = PlayerState.InAir;
-            } else {
-                currentState = PlayerState.InAir;
-            }
-        } else if (currentState == PlayerState.InAir) {
-            currentState = PlayerState.Idle;
-        } else if (currentState == PlayerState.KnockedBack && rb.velocity.x == 0 && rb.velocity.y == 0) {
-            currentState = PlayerState.Idle;            
-            knockBackDone = false;
         }
+        
+
+        //kokeillaan triggeriä
 
         // stair check
-        if (Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, stairsOnly) && 
-            currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
-            currentState = PlayerState.OnStair;            
-        } else if (currentState == PlayerState.OnStair) {
-             currentState = PlayerState.Idle;
-        }
+        //if (Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, stairsOnly) && 
+        //    currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
+        //    currentState = PlayerState.OnStair;            
+        //} else if (currentState == PlayerState.OnStair) {
+        //    rb.gravityScale = 1;
+        //     currentState = PlayerState.Idle;
+        //}
 
         
 
@@ -220,25 +236,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
         }
 
-        // on stairs
-
-        if (currentState == PlayerState.OnStair) {
-            //rb.velocity = new Vector3(horizontalAxis * stairSpeed, rb.velocity.y, 0);
-            rb.velocity = new Vector3(0, 0, 0);
-            if (stairLeftUp) {
-                if (verticalAxis < 0) {
-
-                } else if (verticalAxis > 0) {
-
-                } else if (horizontalAxis < 0) {
-                    
-                } else if (horizontalAxis > 0) {
-
-                }
-            } else {
-
-            }
-        }
+        
 
         // jump & dropdown
 
@@ -247,8 +245,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             jump = false;
         }
         else if (jump && currentState == PlayerState.OnStair) {
-            //dropdown
-            print("dropdown");
+            DropDown();
+            
         }
 
         // indiana jones
@@ -262,7 +260,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void DropDown() {
-
+        print("dropdown");
+        GetOffStair();
     }
 
     void Update() {
@@ -286,6 +285,34 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
             else if (verticalAxis >= 0) {
                 CrouchEnd();
+            }
+        }
+
+        // on stairs
+
+        if (currentState == PlayerState.OnStair) {
+            rb.velocity = new Vector3(0, 0, 0);
+            float stairSpeed = strSpeed * Time.deltaTime;
+            if (stairLeftUp) {
+                if (verticalAxis < 0) {
+                    transform.Translate(stairSpeed, -stairSpeed, 0);
+                } else if (verticalAxis > 0) {
+                    transform.Translate(-stairSpeed, stairSpeed, 0);
+                } else if (horizontalAxis < 0) {
+                    transform.Translate(-stairSpeed, stairSpeed, 0);
+                } else if (horizontalAxis > 0) {
+                    transform.Translate(stairSpeed, -stairSpeed, 0);
+                }
+            } else if (!stairLeftUp) {
+                if (verticalAxis < 0) {
+                    transform.Translate(-stairSpeed, -stairSpeed, 0);
+                } else if (verticalAxis > 0) {
+                    transform.Translate(stairSpeed, stairSpeed, 0);
+                } else if (horizontalAxis < 0) {
+                    transform.Translate(-stairSpeed, -stairSpeed, 0);
+                } else if (horizontalAxis > 0) {
+                    transform.Translate(stairSpeed, stairSpeed, 0);
+                }
             }
         }
 

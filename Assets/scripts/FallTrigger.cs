@@ -12,7 +12,8 @@ public class FallTrigger : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D col) {
         if (col.tag == "Player") {
-            player.Death();
+            //player.Death();
+            print("falldeath disabled");
         }
     }
 }
