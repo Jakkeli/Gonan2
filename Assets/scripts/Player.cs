@@ -23,8 +23,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public float knockBack;
 
-    float horizontalAxis;
-    float verticalAxis;
+    public float horizontalAxis;
+    public float verticalAxis;
 
     public float groundCheckWidth = 0.5f;
     public float groundCheckHeight = 0.5f;
@@ -69,6 +69,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     int knockBackDir;
 
+    public bool playerComesFromAbove;
+    public float jointStep = 0.25f;
+    public float jointMaxDist = 4;
+    public float jointMinDist = 0.5f;
+
     void Start() {
         joint = GetComponent<DistanceJoint2D>();
         line = GameObject.Find("line").GetComponent<LineRenderer>();
@@ -88,6 +93,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             stairLeftUp = leftUp;
             currentState = PlayerState.OnStair;
             rb.gravityScale = 0;
+            capCol.isTrigger = true;
         }        
     }
 
@@ -95,6 +101,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.OnStair) {
             currentState = PlayerState.Idle;
             rb.gravityScale = 1;
+            capCol.isTrigger = false;
         }        
     }
 
@@ -194,12 +201,14 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
         }
 
-
-        //kokeillaan triggeriä, mut käytetään tätäkin
-
-        //stair check
+        //stair check (are we on top of a stair?)
         if (Physics2D.OverlapBox(groundCheck.position, new Vector2(stairCheckWidth, stairCheckHeight), 0, stairsOnly)) {
             onStair = true;
+            if (currentState == PlayerState.InAir) {
+                playerComesFromAbove = true;
+            } else {
+                playerComesFromAbove = false;
+            }
         } else {
             onStair = false;
         }
@@ -254,10 +263,32 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // indiana jones
         if (currentState == PlayerState.IndianaJones) {
             Vector2 hookPos = currentHookPoint.transform.position;
-            joint.distance = Vector2.Distance(transform.position, hookPos);
+            //joint.distance = Vector2.Distance(transform.position, hookPos);
             line.SetPosition(0, transform.position);
             line.SetPosition(1, hookPos);
-            rb.velocity = new Vector3(horizontalAxis * swingSpeed, rb.velocity.y, 0);
+            if (transform.position.y < hookPos.y) {
+                rb.velocity = new Vector3(horizontalAxis * swingSpeed, rb.velocity.y, 0);
+            } else {
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+            }
+
+            float dist;
+            dist = joint.distance;
+            if (verticalAxis > 0) {
+                if (joint.distance < jointMaxDist - jointStep) {
+                    joint.distance += jointStep;
+                } else if (joint.distance < jointMaxDist) {
+                    joint.distance = jointMaxDist;
+                }
+            } else if (verticalAxis < 0) {
+                if (joint.distance > jointMinDist + jointStep) {
+                    joint.distance -= jointStep;
+                } else if (joint.distance > jointMinDist) {
+                    joint.distance = jointMinDist;
+                }
+            } else {
+                joint.distance = dist;
+            }
         }
     }
 
@@ -316,6 +347,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                     transform.Translate(stairSpeed, stairSpeed, 0);
                 }
             }
+
+            if (horizontalAxis < 0) facingRight = false;
+            if (horizontalAxis > 0) facingRight = true;
         }
 
         if (Input.GetButtonDown("Jump")) {
@@ -443,6 +477,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
             LetGoOfHook();
-        }
+        }        
     }
 }
