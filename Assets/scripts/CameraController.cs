@@ -29,6 +29,9 @@ public class CameraController : MonoBehaviour {
 
     public bool gizmosOn;
 
+    public float cameraXLimitLeft;
+    public float cameraXLimitRight;
+
     void Update() {
         var pos = transform.position;
         targetPos = pos;
@@ -38,7 +41,11 @@ public class CameraController : MonoBehaviour {
 
         if (currentMode == CameraMode.Jaakko) {         
             if (currentArea == CameraArea.Normal) {
-                targetPos.x = playerPos.x;
+                if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight) {
+                    targetPos.x = playerPos.x;
+                } else {
+                    targetPos.x = pos.x;
+                }
                 targetPos.y = lockedY;
                 transform.position = targetPos;
             } else if (currentArea == CameraArea.Climb) {
