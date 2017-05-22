@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones, OnStair, Dead};
 public enum AimState { Right, Left, Up, Down, DiagUpRight, DiagUpLeft, DiagDownRight, DiagDownLeft };
@@ -74,6 +75,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float jointMaxDist = 4;
     public float jointMinDist = 0.5f;
 
+    public Slider playerHealthBar;
+
     void Start() {
         joint = GetComponent<DistanceJoint2D>();
         line = GameObject.Find("line").GetComponent<LineRenderer>();
@@ -112,6 +115,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public void EnemyHitPlayer(int dir) {
         print("enemy hit player");
         hp--;
+        playerHealthBar.value -= 1;
         if (hp == 0) {
             Death();
         } else {
