@@ -233,11 +233,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (v.x > 0) facingRight = true;
         if (v.x < 0) facingRight = false;
 
-        if (facingRight) {
-            GetComponent<SpriteRenderer>().flipX = true;
-        } else {
-            GetComponent<SpriteRenderer>().flipX = false;
-        }
+        GetComponent<SpriteRenderer>().flipX = !facingRight;
+
 
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
 
