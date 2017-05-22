@@ -9,6 +9,7 @@ TagManager:
   - hookPoint
   - leftUp
   - rightUp
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - stair
   - whip
   - hookPoint
-  - 
+  - topCheck
   - 
   - 
   - 
