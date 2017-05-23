@@ -14,12 +14,20 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
     public float maxY;
     public float minY;
 
+    public float speed = 1;
+    public float wavelength = 5;
+    float startTime;
+
+    Vector2 originalPos;
+
     public bool activateOnStart;
     public bool goRight;
+    public bool startVDirDown;
     public int hp = 1;
 
     GameObject player;
     FabricCtrl fabCtrl;
+    int svdir;
 
 	void Start () {
         player = GameObject.Find("player");
@@ -27,6 +35,9 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         if (activateOnStart) {
             Activate();
         }
+        originalPos = transform.position;
+        hDir = goRight? 1:-1;
+        svdir = startVDirDown ? 1 : 3; 
 	}
 
     public void React() {
@@ -50,25 +61,25 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
     }
 
     public void Activate() {
-        if (currentState == Enemy1State.Inactive) currentState = Enemy1State.Activated;
+        if (currentState == Enemy1State.Inactive) {
+            currentState = Enemy1State.Activated;
+            startTime = Time.time;
+        }
     }
 	
 	void Update () {
         if (currentState != Enemy1State.Activated) {
-            return;
-        }
-        if (transform.position.y >= maxY) {
-            vDir = -1;
-        } else if (transform.position.y <= minY) {
-            vDir = 1;
+               return;
         }
 
-        if (goRight) hDir = 1;
-        if (!goRight) hDir = -1;
-        transform.Translate(hSpeed * Time.deltaTime * hDir, vSpeed * Time.deltaTime * vDir, 0);
         if (hDir < 0) GetComponent<SpriteRenderer>().flipX = false;
         if (hDir > 0) GetComponent<SpriteRenderer>().flipX = true;
-	}
+        var t = Time.time - startTime;
+        var dx = speed * hDir * t;
+
+        //transform.position = originalPos + new Vector2(dx, maxY * Mathf.Sin(dx * 2 * Mathf.PI / wavelength));
+        transform.position = originalPos + new Vector2(dx, maxY * (Mathf.Abs((Mathf.Abs(dx * 4 / wavelength) + svdir)%4 - 2) - 1));
+    }
 
     private void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
