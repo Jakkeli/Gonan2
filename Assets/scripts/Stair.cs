@@ -11,6 +11,8 @@ public class Stair : MonoBehaviour {
     Vector2 playerPos;
     Vector2 myPos;
 
+    public bool forceStair;
+
     private void Start() {
         player = GameObject.Find("player").GetComponent<Player>();
         if (tag == "leftUp") leftUp = true;
@@ -30,6 +32,8 @@ public class Stair : MonoBehaviour {
             } else if (!leftUp && playerComesFromLeft && player.horizontalAxis > 0 && player.verticalAxis > 0) {
                 player.GetOnStair(leftUp);
             } else if (!leftUp && !playerComesFromLeft && player.horizontalAxis < 0 && player.verticalAxis < 0) {
+                player.GetOnStair(leftUp);
+            } else if (forceStair) {
                 player.GetOnStair(leftUp);
             }
         }

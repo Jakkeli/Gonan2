@@ -1376,6 +1376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &154639590
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1819,6 +1820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &216350077
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2122,6 +2124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &239758439
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3020,7 +3023,7 @@ GameObject:
   m_Layer: 0
   m_Name: edgeRight
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -12373,6 +12376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!212 &888205152
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16384,6 +16388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &994287726
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -16933,6 +16938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &1086179560
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -18053,6 +18059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 1
 --- !u!60 &1255787761
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -19786,7 +19793,7 @@ GameObject:
   m_Layer: 0
   m_Name: falldetector
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -19833,7 +19840,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1562333630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.5, y: -3.01, z: 0}
+  m_LocalPosition: {x: 31.5, y: -1.25, z: 0}
   m_LocalScale: {x: 140.23, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -19911,7 +19918,7 @@ GameObject:
   m_Layer: 0
   m_Name: edgeLeft (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -20399,6 +20406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &1683514372
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -21750,6 +21758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!1 &1953705857
 GameObject:
   m_ObjectHideFlags: 0
@@ -22139,6 +22148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStair: 0
 --- !u!60 &1996289836
 PolygonCollider2D:
   m_ObjectHideFlags: 0
