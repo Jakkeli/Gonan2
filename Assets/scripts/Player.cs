@@ -77,6 +77,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float jointMinDist = 0.5f;
 
     public Slider playerHealthBar;
+    bool canDropDown;
+    PolygonCollider2D polCollider;
 
     void Start() {
         joint = GetComponent<DistanceJoint2D>();
@@ -97,8 +99,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         Death();
     }
 
-    public void GetOnStair(bool leftUp) {
+    public void GetOnStair(bool leftUp, bool canDD) {
         if (onStair) {
+            canDropDown = canDD;
             stairLeftUp = leftUp;
             currentState = PlayerState.OnStair;
             rb.gravityScale = 0;
@@ -230,8 +233,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             onStair = false;
         }             
 
-        if (v.x > 0) facingRight = true;
-        if (v.x < 0) facingRight = false;
+        if (horizontalAxis > 0) facingRight = true;
+        if (horizontalAxis < 0) facingRight = false;
 
         GetComponent<SpriteRenderer>().flipX = !facingRight;
 
