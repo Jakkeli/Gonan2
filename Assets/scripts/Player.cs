@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones, OnStair, Dead};
+public enum PlayerState { Idle, Moving, InAir, Crouch, KnockedBack, IndianaJones, OnStair, Dead };
 public enum AimState { Right, Left, Up, Down, DiagUpRight, DiagUpLeft, DiagDownRight, DiagDownLeft };
 
 public class Player : MonoBehaviour {       // gonan 2d actual
@@ -79,6 +79,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public Slider playerHealthBar;
     bool canDropDown;
     PolygonCollider2D polCollider;
+
+    public SpriteRenderer spriteRenderer;
 
     void Start() {
         joint = GetComponent<DistanceJoint2D>();
@@ -236,7 +238,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (horizontalAxis > 0) facingRight = true;
         if (horizontalAxis < 0) facingRight = false;
 
-        GetComponent<SpriteRenderer>().flipX = !facingRight;
+        spriteRenderer.flipX = !facingRight;
 
 
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {

@@ -8,6 +8,7 @@ public class CameraAreaTrigger : MonoBehaviour {
 
     public CameraAreaTriggerType myType;
     Vector3 playerPos;
+    
 	
 	void Start () {
 		
