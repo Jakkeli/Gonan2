@@ -12283,7 +12283,7 @@ DistanceJoint2D:
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
   m_Distance: 1.2757742
-  m_MaxDistanceOnly: 1
+  m_MaxDistanceOnly: 0
 --- !u!1 &853259169
 GameObject:
   m_ObjectHideFlags: 0
