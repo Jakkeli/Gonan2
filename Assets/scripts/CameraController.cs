@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour {
     public CameraArea currentArea;
     public YLevel currentLevel;
     public GameObject player;
-    Vector3 playerPos;
+    public Vector3 playerPos;
     Vector3 targetPos;
     Vector3 currentVelocity = Vector3.zero;
     public float speedLookaheadFactor;
@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour {
 
     public float cameraXLimitLeft;
     public float cameraXLimitRight;
+
+    
 
     void Update() {
         var pos = transform.position;
@@ -77,10 +79,10 @@ public class CameraController : MonoBehaviour {
             targetPos.x = playerPos.x;
             transform.position = targetPos;
         }
+
     }
 
     void OnDrawGizmos() {
         if (gizmosOn) Gizmos.DrawWireSphere(targetPos, 1f);
-
     }
 }

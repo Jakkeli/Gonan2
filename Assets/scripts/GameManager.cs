@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		
 	}
+
+    public void GameOver() {
+        print("Game Over N00b!1! git gud.");
+    }
 	
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R)) {
