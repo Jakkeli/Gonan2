@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FabricCtrl : MonoBehaviour {
     public string whipPlay;
+    public string laserWhipPlay;
     public string secondaryWeapon;
     public string enemy1Destroy;
     //public string enemy2Destroy;
@@ -11,7 +12,7 @@ public class FabricCtrl : MonoBehaviour {
     public string enemy1Hit;
     //public string enemy2Hit;
     //public string playerHit1;
-    //public string playerDeath;
+    public string playerDeath;
     public string drumBeat1;
 
     public Fabric.GroupComponent music;
