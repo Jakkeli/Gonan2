@@ -12993,6 +12993,7 @@ MonoBehaviour:
   jointMinDist: 0.5
   playerHealthBar: {fileID: 903805383}
   spriteRenderer: {fileID: 2115703659}
+  crouchWhipDrop: 0.7
 --- !u!70 &836511956
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -18832,7 +18833,6 @@ Transform:
   - {fileID: 1967750202}
   - {fileID: 664656323}
   - {fileID: 186387152}
-  - {fileID: 1288951036}
   m_Father: {fileID: 866511734}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19935,66 +19935,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!1001 &1288951035
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1168602307}
-    m_Modifications:
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 29.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 14.33
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_RootOrder
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 1266867158409450, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_Name
-      value: platform1x1_midv2 (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 212545866939084908, guid: 5745eea5feb249f48bea1b6f3bb0935f,
-        type: 2}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1266867158409450, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-      propertyPath: m_TagString
-      value: ground
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 5745eea5feb249f48bea1b6f3bb0935f, type: 2}
-  m_IsPrefabParent: 0
---- !u!4 &1288951036 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1288951035}
 --- !u!1 &1306483327
 GameObject:
   m_ObjectHideFlags: 0
@@ -24761,7 +24701,7 @@ GameObject:
   - component: {fileID: 2059448234}
   m_Layer: 0
   m_Name: sweeper_jaakko
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24802,14 +24742,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 0.5}
+    oldSize: {x: 2, y: 1}
     newSize: {x: 2, y: 0.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.5}
+  m_Size: {x: 2, y: 1.16}
   m_EdgeRadius: 0
 --- !u!114 &2059448236
 MonoBehaviour:
@@ -24824,7 +24764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   hSpeed: 3
-  targetY: 0.5
+  targetY: 0.7
   dropSpeed: 10
   activateOnStart: 1
   goRight: 0
@@ -24878,7 +24818,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2059448233}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5500002, y: 4.05, z: 0}
+  m_LocalPosition: {x: -1.5500002, y: 3.7700005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 34655302}

@@ -34,7 +34,7 @@ public class Whip : MonoBehaviour {
         GetComponent<MeshRenderer>().enabled = false;
         player.GetComponent<Player>().canWhip = true;
         player.whipping = false;
-        player.CanMove();
+        player.StopWhip();
     }
 
     void Update() {

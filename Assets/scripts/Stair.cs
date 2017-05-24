@@ -22,7 +22,7 @@ public class Stair : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
-            if (player.playerComesFromAbove) {
+            if (player.playerComesFromAbove && player.verticalAxis > 0) {
                 player.GetOnStair(leftUp, canDropDown);
             } else if (leftUp && playerComesFromLeft && player.horizontalAxis > 0 && player.verticalAxis < 0) {
                 player.GetOnStair(leftUp, canDropDown);

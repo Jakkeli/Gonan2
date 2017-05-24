@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.C)) {
-            GameObject.Find("player").GetComponent<Player>().CanMove();
+            GameObject.Find("player").GetComponent<Player>().StopWhip();
         }
     }
 }
