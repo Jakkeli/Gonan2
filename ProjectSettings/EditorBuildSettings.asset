@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/jaakko.unity
-    guid: 00000000000000000000000000000000
+    guid: 637dbb24a8b29e04f9757dd4bc6f6a4b
+  - enabled: 1
+    path: Assets/Keke.unity
+    guid: 62fb1553283d9e5439f0c0214b26687e
