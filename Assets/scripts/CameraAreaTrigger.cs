@@ -2,31 +2,83 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CameraAreaTriggerType { LeftBottom, LeftTop, RightBottom, RightTop };
+//public enum CameraAreaTriggerPos { LeftBottom, LeftTop, RightBottom, RightTop };
+
+
+public enum PlayerApproachDirection { Left, Right, Up, Down }; // player approached the trigger from this direction (relative to the trigger)
 
 public class CameraAreaTrigger : MonoBehaviour {
 
-    public CameraAreaTriggerType myType;
+    //public CameraAreaTriggerPos myType;
+    public CameraArea myPrimary;
+    public CameraArea mySecondary;
+    public PlayerApproachDirection myPAD;
+    public float primaryYarea;
+    public float secondaryYarea;
+    public GameObject playerObj;
     Vector3 playerPos;
-    
+    Vector3 myPos;
+    public GameObject cam;
+    CameraController cc;
 	
 	void Start () {
-		
+        cc = cam.GetComponent<CameraController>();
 	}
 	
 	void Update () {
-        playerPos = GameObject.Find("Main Camera").GetComponent<CameraController>().playerPos;
+        playerPos = playerObj.transform.position;
+        myPos = transform.position;
 	}
 
+    void ChangeCameraArea(CameraArea ca) {
+        cc.ChangeCameraArea(ca);
+    }
+
     void OnTriggerExit2D(Collider2D c) {
-        if (myType == CameraAreaTriggerType.LeftBottom) {
 
-        } else if (myType == CameraAreaTriggerType.LeftTop) {
-
-        } else if (myType == CameraAreaTriggerType.RightBottom) {
-
-        } else if (myType == CameraAreaTriggerType.RightTop) {
-
+        if (myPAD == PlayerApproachDirection.Left) {
+            if (playerPos.x > myPos.x) {
+                ChangeCameraArea(mySecondary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+            } else if (playerPos.x < myPos.x) {
+                ChangeCameraArea(myPrimary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+            }
+        } else if (myPAD == PlayerApproachDirection.Right) {
+            if (playerPos.x > myPos.x) {
+                ChangeCameraArea(myPrimary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+            } else if (playerPos.x < myPos.x) {
+                ChangeCameraArea(mySecondary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+            }
+        } else if (myPAD == PlayerApproachDirection.Down) {
+            if (playerPos.y > myPos.y) {
+                ChangeCameraArea(mySecondary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+            } else if (playerPos.y < myPos.y) {
+                ChangeCameraArea(myPrimary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+            }
+        } else if (myPAD == PlayerApproachDirection.Up) {
+            if (playerPos.y < myPos.y) {
+                ChangeCameraArea(mySecondary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+            } else if (playerPos.y > myPos.y) {
+                ChangeCameraArea(myPrimary);
+                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+            }
         }
+
+
+        //if (myType == CameraAreaTriggerPos.LeftBottom) {
+
+        //} else if (myType == CameraAreaTriggerPos.LeftTop) {
+
+        //} else if (myType == CameraAreaTriggerPos.RightBottom) {
+
+        //} else if (myType == CameraAreaTriggerPos.RightTop) {
+
+        //}
     }
 }

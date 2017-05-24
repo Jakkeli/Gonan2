@@ -5,7 +5,7 @@ using UnityEngine;
 public class Whip : MonoBehaviour {
 
     float tickTime;
-    float timer = 0.07f;
+    float timer = 0.1f;
     bool called;
     Player player;
     FabricCtrl fabCtrl;
@@ -34,6 +34,7 @@ public class Whip : MonoBehaviour {
         GetComponent<MeshRenderer>().enabled = false;
         player.GetComponent<Player>().canWhip = true;
         player.whipping = false;
+        player.CanMove();
     }
 
     void Update() {

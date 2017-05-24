@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour {
     public CameraState currentState;
     public CameraMode currentMode;
     public CameraArea currentArea;
-    public YLevel currentLevel;
+    //public YLevel currentLevel;
     public GameObject player;
     public Vector3 playerPos;
     Vector3 targetPos;
@@ -25,14 +25,19 @@ public class CameraController : MonoBehaviour {
     public float lerpFactor = 3;
     public float goDownAdd;
     public float lockedY;
-    public float[] yLevels;
+    //public float[] yLevels;
 
     public bool gizmosOn;
 
     public float cameraXLimitLeft;
     public float cameraXLimitRight;
+    public bool transition;
+    public float transitionSmoother;
 
-    
+    public void ChangeCameraArea(CameraArea ca) {
+        currentArea = ca;
+        transition = true;
+    }
 
     void Update() {
         var pos = transform.position;
@@ -41,26 +46,33 @@ public class CameraController : MonoBehaviour {
         targetPos = player.transform.position;
         targetPos.z = cameraZ;
 
-        if (currentMode == CameraMode.Jaakko) {         
+        if (currentMode == CameraMode.Jaakko) {
+            
             if (currentArea == CameraArea.Normal) {
-                if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight) {
-                    targetPos.x = playerPos.x;
+                if (transition) {
+                    if (pos.y != lockedY) {
+                        targetPos.y = lockedY;
+                        targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
+                    } else {
+                        transition = false;
+                        targetPos.y = lockedY;
+                    }
                 } else {
-                    targetPos.x = pos.x;
+                    targetPos.y = lockedY;
                 }
-                targetPos.y = lockedY;
-                transform.position = targetPos;
+                                
             } else if (currentArea == CameraArea.Climb) {
-                if (playerPos.y >= 8) {
-                    targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * lerpFactor);
-                    targetPos.x = playerPos.x;
-                    targetPos.z = transform.position.z;
-                    transform.position = targetPos;
-                } else if (playerPos.y < 8 && playerPos.y > -8) {
-
-                }
-                
+                targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
             }
+            if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight) {
+                targetPos.x = playerPos.x;
+            } else {
+                targetPos.x = pos.x;
+            }
+            transform.position = targetPos;
+
+
+
         } else if (currentMode == CameraMode.AverageSmooth) {
             //targetPos.y += speedLookaheadFactor * player.GetComponent<Player>().smoothedVerticalSpeed + avgSmoothOffset;
             targetPos.x = playerPos.x;

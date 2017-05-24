@@ -82,7 +82,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public SpriteRenderer spriteRenderer;
 
+    GameManager gm;
+
     void Start() {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         joint = GetComponent<DistanceJoint2D>();
         line = GameObject.Find("line").GetComponent<LineRenderer>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -135,6 +138,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         fabCtrl.PlaySoundPlayerDeath();
         if (playerLives == 0) {
             //gameover
+            gm.GameOver();
         }
         playerLives--;
         currentState = PlayerState.Dead;
@@ -181,6 +185,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         print("knockback?");
         knockBackDir = dir;
         currentState = PlayerState.KnockedBack;
+    }
+
+    public void CanMove() {
+        canMove = canMove ? false : true;
     }
 
     void FixedUpdate() {
@@ -371,7 +379,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (Input.GetButtonDown("Jump")) {
-            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
+            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && canMove) {
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     jump = true;
@@ -488,6 +496,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 whipDown.GetComponent<Whip>().DoIt();
             }
             canWhip = false;
+            canMove = false;
         }
 
         if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
