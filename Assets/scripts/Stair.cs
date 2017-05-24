@@ -7,7 +7,6 @@ public class Stair : MonoBehaviour {
     Player player;
     bool leftUp;
     bool playerComesFromLeft;
-    Rigidbody2D rb;
     Vector2 playerPos;
     Vector2 myPos;
 
@@ -18,7 +17,6 @@ public class Stair : MonoBehaviour {
         player = GameObject.Find("player").GetComponent<Player>();
         if (tag == "leftUp") leftUp = true;
         if (tag == "rightUp") leftUp = false;
-        rb = GameObject.Find("player").GetComponent<Rigidbody2D>();
         myPos = transform.position;
     }
 

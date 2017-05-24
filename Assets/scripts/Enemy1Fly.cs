@@ -10,7 +10,6 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
     public float hSpeed;
     public float vSpeed;
     float hDir;
-    float vDir = 1;
     public float maxY;
     public float minY;
 
@@ -81,7 +80,7 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         transform.position = originalPos + new Vector2(dx, maxY * (Mathf.Abs((Mathf.Abs(dx * 4 / wavelength) + svdir)%4 - 2) - 1));
     }
 
-    private void OnTriggerEnter2D(Collider2D c) {
+    void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
             int dir;
             if (c.transform.position.x < transform.position.x) {
