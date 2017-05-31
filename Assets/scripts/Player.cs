@@ -140,6 +140,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void Death() {
         fabCtrl.PlaySoundPlayerDeath();
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
         if (playerLives == 0) {
             //gameover
             gm.GameOver();
@@ -185,10 +186,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void KnockBack(int dir) {
-        capCol.isTrigger = true;
-        print("knockback?");
         knockBackDir = dir;
         currentState = PlayerState.KnockedBack;
+        canWhip = false;
+        rb.velocity = new Vector3(knockBack * knockBackDir, knockBack, 0);
     }
 
     public void StopWhip() {
@@ -202,26 +203,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         v = rb.velocity;    //rigidbody velocity
 
-        if (currentState == PlayerState.KnockedBack) {
-            if (!knockBackDone) {
-                rb.velocity = new Vector3(knockBack * knockBackDir, knockBack, 0);
-                knockBackDone = true;
-                print("knockback2?");
-            }
-            else {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-            }
-            if (v.y < 0) capCol.isTrigger = false;
-        }
-
         // ground-check
 
         float colliderLowerEdge = transform.position.y + capCol.offset.y - capCol.size.y / 2;
-        if (currentState != PlayerState.OnStair) {
+        if (currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround) && currentState != PlayerState.IndianaJones) {
-                if (currentState == PlayerState.KnockedBack) {
-                    print("knocked back and in the air");
-                }
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     currentState = PlayerState.InAir;
@@ -230,10 +216,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
-            } else if (currentState == PlayerState.KnockedBack && rb.velocity.x == 0 && rb.velocity.y == 0) {
-                currentState = PlayerState.Idle;
-                knockBackDone = false;
             }
+        }
+        // knockbackend check
+        if (currentState == PlayerState.KnockedBack && rb.velocity.y == 0) {
+            currentState = PlayerState.Idle;            
+            canWhip = true;
         }
 
         //stair check (are we on top of a stair?)
@@ -272,9 +260,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             else {
                 rb.velocity = new Vector3(horizontalAxis * hSpeed, rb.velocity.y, 0);
             }
-        } else if (!canMove) {
+        } else if (!canMove && currentState != PlayerState.KnockedBack) {
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        } else {
+        } else if (currentState != PlayerState.KnockedBack) {
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
         }
 
@@ -282,11 +270,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // jump & dropdown
 
-        if (jump && currentState != PlayerState.OnStair) {
+        if (jump && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
             jump = false;
         }
-        else if (jump && currentState == PlayerState.OnStair) {
+        else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             DropDown();
             
         }
@@ -336,7 +324,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         verticalAxis = Input.GetAxisRaw("Vertical");
 
         // crouch
-        if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
+        if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             if (verticalAxis < 0) {
                 currentState = PlayerState.Crouch;
                 capCol.size = new Vector2(capCol.size.x, 1);
@@ -384,7 +372,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (Input.GetButtonDown("Jump")) {
-            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && canMove) {
+            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && canMove && currentState != PlayerState.KnockedBack) {
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     jump = true;
@@ -392,7 +380,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                     jump = true;
                 }             
             }
-            else if (currentState == PlayerState.OnStair && verticalAxis < 0) {
+            else if (currentState == PlayerState.OnStair && verticalAxis < 0 && currentState != PlayerState.KnockedBack) {
                 DropDown();
             }
         }
@@ -496,6 +484,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
             LetGoOfHook();
-        }        
+        }
+        
+        if (Input.GetKeyDown(KeyCode.K)) {
+            KnockBack(-1);
+        }
     }
 }
