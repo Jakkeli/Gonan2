@@ -62,12 +62,20 @@ public class FabricCtrl : MonoBehaviour {
         //Fabric.EventManager.Instance.PostEvent(enemy2Destroy, soundPos);
     }
 
+    public void PlaySoundEnemy3Destroyed() {
+        //Fabric.EventManager.Instance.PostEvent(enemy3Destroy, soundPos);
+    }
+
     public void PlaySoundEnemy1Hit() {
         Fabric.EventManager.Instance.PostEvent(enemy1Hit, soundPos);
     }
 
     public void PlaySoundEnemy2Hit() {
         //Fabric.EventManager.Instance.PostEvent(enemy2Hit, soundPos);
+    }
+
+    public void PlaySoundEnemy3Hit() {
+        //Fabric.EventManager.Instance.PostEvent(enemy3Hit, soundPos);
     }
 
     public void PlaySoundPickup() {

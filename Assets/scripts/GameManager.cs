@@ -16,11 +16,16 @@ public class GameManager : MonoBehaviour {
 
     public void GameOver() {
         print("Game Over N00b!1! git gud.");
+        currentState = GameState.GameOver;
     }
 	
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R)) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C)) {
+            GameObject.Find("player").GetComponent<Player>().StopWhip();
         }
     }
 }

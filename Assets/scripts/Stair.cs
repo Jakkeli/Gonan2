@@ -7,7 +7,6 @@ public class Stair : MonoBehaviour {
     Player player;
     bool leftUp;
     bool playerComesFromLeft;
-    Rigidbody2D rb;
     Vector2 playerPos;
     Vector2 myPos;
 
@@ -18,13 +17,12 @@ public class Stair : MonoBehaviour {
         player = GameObject.Find("player").GetComponent<Player>();
         if (tag == "leftUp") leftUp = true;
         if (tag == "rightUp") leftUp = false;
-        rb = GameObject.Find("player").GetComponent<Rigidbody2D>();
         myPos = transform.position;
     }
 
     void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
-            if (player.playerComesFromAbove) {
+            if (player.playerComesFromAbove && player.verticalAxis > 0) {
                 player.GetOnStair(leftUp, canDropDown);
             } else if (leftUp && playerComesFromLeft && player.horizontalAxis > 0 && player.verticalAxis < 0) {
                 player.GetOnStair(leftUp, canDropDown);

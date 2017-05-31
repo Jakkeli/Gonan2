@@ -82,7 +82,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public SpriteRenderer spriteRenderer;
 
+    GameManager gm;
+
+    public float crouchWhipDrop = 0.7f;
+    public float whipSpeed = 1;
+
     void Start() {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         joint = GetComponent<DistanceJoint2D>();
         line = GameObject.Find("line").GetComponent<LineRenderer>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -95,6 +101,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         joint.enabled = false;
         line.enabled = false;
         playerHealthBar.value = hp;
+        animator.SetFloat("whipSpeed", whipSpeed);
     }
 
     public void FallTrigger() {
@@ -135,6 +142,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         fabCtrl.PlaySoundPlayerDeath();
         if (playerLives == 0) {
             //gameover
+            gm.GameOver();
         }
         playerLives--;
         currentState = PlayerState.Dead;
@@ -167,7 +175,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
         if (!canStopCrouch) return;
         if (crouchWhip) {
-            whip.transform.position += new Vector3(0, 0.5f, 0);
+            whip.transform.position += new Vector3(0, crouchWhipDrop, 0);
             crouchWhip = false;
         }
         //animation
@@ -181,6 +189,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         print("knockback?");
         knockBackDir = dir;
         currentState = PlayerState.KnockedBack;
+    }
+
+    public void StopWhip() {
+        canMove = true;
+        animator.SetBool("whip", false);
     }
 
     void FixedUpdate() {
@@ -329,7 +342,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 capCol.size = new Vector2(capCol.size.x, 1);
                 capCol.offset = new Vector2(0, -0.5f);
                 if (!crouchWhip) {
-                    whip.transform.position += new Vector3(0, -0.5f, 0);
+                    whip.transform.position += new Vector3(0, -crouchWhipDrop, 0);
                     crouchWhip = true;
                 }
                 //animation
@@ -371,7 +384,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (Input.GetButtonDown("Jump")) {
-            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
+            if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && canMove) {
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     jump = true;
@@ -439,21 +452,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 whipLeft.GetComponent<Whip>().DoIt();
             }
 
-            // shooting forward while crouched
-            if (currentState == PlayerState.Crouch) {
-                if (currentAimState == AimState.Right) {
-                    // whip right crouched
-                    whipRight.SetActive(true);
-                    whipRight.GetComponent<Whip>().DoIt();
-                }
-
-                else if (currentAimState == AimState.Left) {
-                    // whip left crouched
-                    whipLeft.SetActive(true);
-                    whipLeft.GetComponent<Whip>().DoIt();
-                }
-            }
-
             // shooting upwards
             if (currentAimState == AimState.DiagUpRight) {
                 //diagupright
@@ -488,6 +486,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 whipDown.GetComponent<Whip>().DoIt();
             }
             canWhip = false;
+            if (currentState != PlayerState.InAir) canMove = false;
+            animator.SetBool("whip", true);
         }
 
         if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
