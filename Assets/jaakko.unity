@@ -13293,7 +13293,6 @@ MonoBehaviour:
   whipDiagUpLeft: {fileID: 1113581993}
   whipDiagDownRight: {fileID: 236102893}
   whipDiagDownLeft: {fileID: 61472551}
-  shuriken: {fileID: 0}
   playerComesFromAbove: 0
   jointStep: 0.25
   jointMaxDist: 4
@@ -13302,6 +13301,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2115703659}
   crouchWhipDrop: 0.7
   whipSpeed: 1
+  maxShurikenCount: 3
+  currentShurikenCount: 0
+  shurikenPrefab: {fileID: 1736535538806562, guid: 83987b701a6c4614abedaccfc98857a1,
+    type: 2}
 --- !u!70 &836511956
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -13324,7 +13327,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 836511951}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.46, y: 16.85, z: 0}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1362423685}
@@ -13350,7 +13353,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 41.075226
+  m_Distance: 1.4
   m_MaxDistanceOnly: 0
 --- !u!1 &853259169
 GameObject:

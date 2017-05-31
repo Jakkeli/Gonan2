@@ -87,9 +87,8 @@ public class CameraController : MonoBehaviour {
             } else if (currentArea != CameraArea.Boss) {
                 targetPos.x = pos.x;
             }
-            transform.position = targetPos;
 
-
+            if (transform.position != targetPos) transform.position = targetPos;
 
         } else if (currentMode == CameraMode.AverageSmooth) {
             //targetPos.y += speedLookaheadFactor * player.GetComponent<Player>().smoothedVerticalSpeed + avgSmoothOffset;

@@ -63,7 +63,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject whipDiagUpLeft;
     public GameObject whipDiagDownRight;
     public GameObject whipDiagDownLeft;
-    public GameObject shuriken;
+
     LineRenderer line;
     FabricCtrl fabCtrl;
     DistanceJoint2D joint;
@@ -86,6 +86,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public float crouchWhipDrop = 0.7f;
     public float whipSpeed = 1;
+
+    public int maxShurikenCount;
+    public int currentShurikenCount;
+
+    public GameObject shurikenPrefab;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -476,6 +481,14 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             canWhip = false;
             if (currentState != PlayerState.InAir) canMove = false;
             animator.SetBool("whip", true);
+        }
+
+        // secondary fire
+
+        if (Input.GetButtonDown("Fire2") && currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
+            Vector3 shurikenStartPos = new Vector3(transform.position.x, transform.position.y + 0.5f, 0);
+            Instantiate(shurikenPrefab, shurikenStartPos, Quaternion.identity);
+            currentShurikenCount++;
         }
 
         if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
