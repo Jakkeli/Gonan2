@@ -189,7 +189,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         knockBackDir = dir;
         currentState = PlayerState.KnockedBack;
         canWhip = false;
-        rb.velocity = new Vector3(knockBack * knockBackDir, knockBack, 0);
+        rb.velocity = new Vector3(knockBack * knockBackDir, knockBack + 2, 0);
     }
 
     public void StopWhip() {

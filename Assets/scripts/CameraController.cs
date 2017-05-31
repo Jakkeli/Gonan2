@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum CameraState { Normal, CutScene, Pause, Gameover };
 public enum CameraMode { Lerp, AverageSmooth, AllLocked, XOnlyLocked, Jaakko };
-public enum CameraArea { Normal, Climb };
+public enum CameraArea { Normal, Climb, Boss };
 public enum YLevel { Normal, Plus1, Minus1 };
 
 public class CameraController : MonoBehaviour {
@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour {
     public float lerpFactor = 3;
     public float goDownAdd;
     public float lockedY;
+    public float bossX;
+    public float bossY;
     //public float[] yLevels;
 
     public bool gizmosOn;
@@ -63,10 +65,26 @@ public class CameraController : MonoBehaviour {
                                 
             } else if (currentArea == CameraArea.Climb) {
                 targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
+            } else if (currentArea == CameraArea.Boss) {
+                if (transition) {
+                    if (pos.y != bossY || pos.x != bossX) {
+                        targetPos.y = bossY;
+                        targetPos.x = bossX;
+                        targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
+                    } else {
+                        transition = false;
+                        targetPos.y = bossY;
+                        targetPos.x = bossX;
+                    }
+                } else {
+                    targetPos.y = bossY;
+                    targetPos.x = bossX;
+                }
             }
-            if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight) {
+
+            if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight && currentArea != CameraArea.Boss) {
                 targetPos.x = playerPos.x;
-            } else {
+            } else if (currentArea != CameraArea.Boss) {
                 targetPos.x = pos.x;
             }
             transform.position = targetPos;
