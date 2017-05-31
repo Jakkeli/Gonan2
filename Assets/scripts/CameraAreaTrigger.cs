@@ -20,8 +20,12 @@ public class CameraAreaTrigger : MonoBehaviour {
     Vector3 myPos;
     public GameObject cam;
     CameraController cc;
-	
-	void Start () {
+
+    public float myBossX;
+    public float myBossY;
+
+
+    void Start () {
         cc = cam.GetComponent<CameraController>();
 	}
 	
@@ -70,6 +74,10 @@ public class CameraAreaTrigger : MonoBehaviour {
             }
         }
 
+        if (mySecondary == CameraArea.Boss) {
+            cc.bossX = myBossX;
+            cc.bossY = myBossY;
+        }
 
         //if (myType == CameraAreaTriggerPos.LeftBottom) {
 
