@@ -91,6 +91,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public int currentShurikenCount;
 
     public GameObject shurikenPrefab;
+    public GameObject[] shurikens;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -339,8 +340,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                     crouchWhip = true;
                 }
                 //animation
-            }
-            else if (verticalAxis >= 0) {
+            } else if (verticalAxis >= 0) {
                 CrouchEnd();
             }
         }
@@ -383,17 +383,16 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                     jump = true;
                 } else {
                     jump = true;
-                }             
-            }
-            else if (currentState == PlayerState.OnStair && verticalAxis < 0 && currentState != PlayerState.KnockedBack) {
+                }
+            } else if (currentState == PlayerState.OnStair && verticalAxis < 0 && currentState != PlayerState.KnockedBack) {
                 DropDown();
             }
         }
-        
-        if(v.x != 0) {
+
+        if (v.x != 0) {
             animator.SetBool("walk", true);
         }
-        if(v.x == 0) {
+        if (v.x == 0) {
             animator.SetBool("walk", false);
         }
         // aiming
@@ -403,29 +402,23 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             lastHorizontalState = AimState.Right;
             if (verticalAxis > 0f) {
                 currentAimState = AimState.DiagUpRight;
-            }
-            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+            } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
                 currentAimState = AimState.DiagDownRight;
             }
-        }
-        else if (horizontalAxis < 0f) {
+        } else if (horizontalAxis < 0f) {
             currentAimState = AimState.Left;
             lastHorizontalState = AimState.Left;
             if (verticalAxis > 0f) {
                 currentAimState = AimState.DiagUpLeft;
-            }
-            else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+            } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
                 currentAimState = AimState.DiagDownLeft;
             }
-        }
-        else if (horizontalAxis == 0) {
+        } else if (horizontalAxis == 0) {
             if (verticalAxis < 0 && currentState == PlayerState.InAir) {
                 currentAimState = AimState.Down;
-            }
-            else if (verticalAxis > 0) {
+            } else if (verticalAxis > 0) {
                 currentAimState = AimState.Up;
-            }
-            else {
+            } else {
                 currentAimState = lastHorizontalState;
             }
         }
@@ -433,13 +426,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // shooting
         if (Input.GetButtonDown("Fire1") && canWhip) {
             // shooting forward
-            
+
             if (currentAimState == AimState.Right) {
                 // whip right
                 whipRight.SetActive(true);
                 whipRight.GetComponent<Whip>().DoIt();
-            }
-            else if (currentAimState == AimState.Left) {
+            } else if (currentAimState == AimState.Left) {
                 // whip left
                 whipLeft.SetActive(true);
                 whipLeft.GetComponent<Whip>().DoIt();
@@ -486,21 +478,36 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // secondary fire
 
         if (Input.GetButtonDown("Fire2") && currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
-            Vector3 shurikenStartPos = new Vector3(transform.position.x, transform.position.y + 0.5f, 0);
-            Instantiate(shurikenPrefab, shurikenStartPos, Quaternion.identity);
-            currentShurikenCount++;
+            if (currentShurikenCount < maxShurikenCount) {
+                GameObject shrkn = null;
+                for (int i = 0; i < maxShurikenCount; i++) {
+                    if (!shurikens[i].GetComponent<Shuriken>().wasThrown) {
+                        shrkn = shurikens[i];
+                    }
+                }
+                if (shrkn == null) return;
+                bool crouch;
+                if (currentState == PlayerState.Crouch) {
+                    crouch = true;
+                } else {
+                    crouch = false;
+                }
+                shrkn.GetComponent<Shuriken>().Throw(facingRight ? 1 : -1, crouch);
+                currentShurikenCount++;
+            }
         }
 
-        if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
-            LetGoOfHook();
-        }
+            if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
+                LetGoOfHook();
+            }
 
-        if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
-            LetGoOfHook();
-        }
+            if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
+                LetGoOfHook();
+            }
+
+            if (Input.GetKeyDown(KeyCode.K)) {
+                KnockBack(-1);
+            }
         
-        if (Input.GetKeyDown(KeyCode.K)) {
-            KnockBack(-1);
-        }
     }
 }
