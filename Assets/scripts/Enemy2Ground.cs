@@ -64,8 +64,8 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
         if (goRight) hDir = 1;
         if (!goRight) hDir = -1;
         transform.Translate(hSpeed * Time.deltaTime * hDir, 0, 0);
-        if (hDir < 0) GetComponent<SpriteRenderer>().flipX = false;
-        if (hDir > 0) GetComponent<SpriteRenderer>().flipX = true;
+        if (hDir < 0) GetComponent<SpriteRenderer>().flipX = true;
+        if (hDir > 0) GetComponent<SpriteRenderer>().flipX = false;
     }
 
     private void OnTriggerEnter2D(Collider2D c) {

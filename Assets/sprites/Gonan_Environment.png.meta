@@ -1,18 +1,18 @@
 fileFormatVersion: 2
 guid: d4bc2e83d2ad9c64e9d81a18fa5690ad
-timeCreated: 1495449892
+timeCreated: 1496140143
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: Ground_UL
-    21300002: Ground_U
-    21300004: Ground_UR
+    21300002: Ground_Floor
+    21300004: Ground_Corner_U
     21300006: Ground_L
-    21300008: Ground_Mid
-    21300010: Ground_R
+    21300008: Null
+    21300010: Ground_Side
     21300012: Ground_DL
     21300014: Ground_D
-    21300016: Ground_DR
+    21300016: Ground_Corner_D
     21300018: Wall_UL
     21300020: Wall_U
     21300022: Wall_UR
@@ -22,13 +22,41 @@ TextureImporter:
     21300030: Wall_DL
     21300032: Wall_D
     21300034: Wall_DR
-    21300036: WallEnd_U
+    21300036: WallEnd_UR
     21300038: WallEnd_Mid
-    21300040: WallEnd_D
-    21300042: Platform_End
+    21300040: WallEnd_DR
+    21300042: Platform_End_L
     21300044: Platform
     21300046: Bridge_End
     21300048: Bridge
+    21300050: Stairs
+    21300052: WallEnd_D
+    21300054: WallCorner_UL
+    21300056: WallMidSection
+    21300058: Fan
+    21300060: WallMidsection_End
+    21300062: Tube_D
+    21300064: Tube_Mid
+    21300066: Tube_U
+    21300068: Tubing
+    21300070: WallElement
+    21300072: WallCorner_U
+    21300074: Wall
+    21300076: TubeElement
+    21300078: TubeElement2
+    21300080: WallElement2
+    21300082: Platform_End_R
+    21300084: Drain
+    21300086: TubeElement3
+    21300088: Sludge
+    21300090: WallElem_1
+    21300092: WallElem_2
+    21300094: AirDuct
+    21300096: WallEdge_Inner_U
+    21300098: WallEdge_U
+    21300100: WallEdge_Side
+    21300102: WallEdge_Inner_D
+    21300104: WallEdge_D
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -52,7 +80,7 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapMode: 1
@@ -60,8 +88,8 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -78,7 +106,7 @@ TextureImporter:
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -86,7 +114,7 @@ TextureImporter:
   - buildTarget: Standalone
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -94,7 +122,7 @@ TextureImporter:
   - buildTarget: Android
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -102,7 +130,7 @@ TextureImporter:
   - buildTarget: WebGL
     maxTextureSize: 2048
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -111,24 +139,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ground_UL
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 200
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Ground_U
+      name: Ground_Floor
       rect:
         serializedVersion: 2
         x: 100
-        y: 200
+        y: 600
         width: 100
         height: 100
       alignment: 1
@@ -137,11 +152,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Ground_UR
+      name: Ground_Corner_U
       rect:
         serializedVersion: 2
         x: 200
-        y: 200
+        y: 600
         width: 100
         height: 100
       alignment: 1
@@ -150,24 +165,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Ground_L
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 100
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Ground_Mid
+      name: Null
       rect:
         serializedVersion: 2
         x: 100
-        y: 100
+        y: 500
         width: 100
         height: 100
       alignment: 1
@@ -176,24 +178,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Ground_R
+      name: Ground_Side
       rect:
         serializedVersion: 2
         x: 200
-        y: 100
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Ground_DL
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
+        y: 500
         width: 100
         height: 100
       alignment: 1
@@ -206,84 +195,6 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 100
-        y: 0
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Ground_DR
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Wall_UL
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 600
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Wall_U
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 600
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Wall_UR
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 600
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Wall_Mid
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 500
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Wall_DL
-      rect:
-        serializedVersion: 2
-        x: 0
         y: 400
         width: 100
         height: 100
@@ -293,20 +204,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Wall_D
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 400
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Wall_DR
+      name: Ground_Corner_D
       rect:
         serializedVersion: 2
         x: 200
@@ -319,52 +217,13 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: WallEnd_U
+      name: Platform_End_L
       rect:
         serializedVersion: 2
-        x: 300
-        y: 600
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: WallEnd_Mid
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 500
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: WallEnd_D
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 400
-        width: 100
-        height: 100
-      alignment: 1
-      pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Platform_End
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 300
-        width: 100
-        height: 100
+        x: 100
+        y: 250
+        width: 50
+        height: 50
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -374,6 +233,97 @@ TextureImporter:
       name: Platform
       rect:
         serializedVersion: 2
+        x: 150
+        y: 250
+        width: 50
+        height: 50
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bridge_End
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 100
+        width: 50
+        height: 50
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Bridge
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 100
+        width: 50
+        height: 50
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Stairs
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 150
+        width: 50
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: TubeElement
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 50
+        width: 100
+        height: 300
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: TubeElement2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 350
+        width: 100
+        height: 300
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Platform_End_R
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 250
+        width: 50
+        height: 50
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Fan
+      rect:
+        serializedVersion: 2
         x: 100
         y: 300
         width: 100
@@ -384,10 +334,10 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Bridge_End
+      name: Drain
       rect:
         serializedVersion: 2
-        x: 300
+        x: 200
         y: 300
         width: 100
         height: 100
@@ -397,11 +347,115 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Bridge
+      name: TubeElement3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 650
+        width: 100
+        height: 50
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallElem_1
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 500
+        width: 300
+        height: 200
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallElem_2
       rect:
         serializedVersion: 2
         x: 400
         y: 300
+        width: 300
+        height: 200
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AirDuct
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 300
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallEdge_Inner_U
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 200
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallEdge_U
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 200
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallEdge_Side
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 100
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallEdge_Inner_D
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: WallEdge_D
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 0
         width: 100
         height: 100
       alignment: 1
