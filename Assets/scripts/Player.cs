@@ -230,8 +230,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     currentState = PlayerState.InAir;
+                    dbc.PlayerInAir();
                 } else {
                     currentState = PlayerState.InAir;
+                    dbc.PlayerInAir();
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
@@ -253,15 +255,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
         } else {
             onStair = false;
-        }             
+        }
 
-        if (horizontalAxis > 0) facingRight = true;
-        if (horizontalAxis < 0) facingRight = false;
-
-        if (horizontalAxis > 0) {
+        if (horizontalAxis > 0 && !facingRight) {
             facingRight = true;
             dbc.FaceRight();
-        } else if (horizontalAxis < 0) {
+        } else if (horizontalAxis < 0 && facingRight) {
             facingRight = false;
             dbc.FaceLeft();
         }
@@ -428,6 +427,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 dbc.PlayerCrouchIdle();
             } else if (currentState == PlayerState.Idle) {
                 dbc.PlayerIdle();
+            } else if (currentState == PlayerState.InAir) {
+                dbc.PlayerInAir();
             }
         }
         // aiming

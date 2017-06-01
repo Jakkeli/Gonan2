@@ -12,10 +12,12 @@ public class DBController : MonoBehaviour {
 	}
 
     public void FaceRight() {
-        uac.flipX = false;
+        transform.localScale = new Vector3(0.38f, 0.38f, 038f);
+        print("faceright called");
     }
 
     public void FaceLeft() {
+        transform.localScale = new Vector3(-0.38f, 0.38f, 038f);
         uac.flipX = true;
     }
 
@@ -37,6 +39,7 @@ public class DBController : MonoBehaviour {
 
     public void PlayerInAir() {
         //uac.animation.Play("InAir");
+        uac.animation.Play("Standing_Idle");
     }
 
     public void Whip() {
