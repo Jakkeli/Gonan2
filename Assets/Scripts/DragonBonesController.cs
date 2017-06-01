@@ -7,9 +7,9 @@ public class DragonBonesController : MonoBehaviour {
 
     void Start() {
         // Load data.
-        UnityFactory.factory.LoadDragonBonesData("DragonBones"); // DragonBones file path (without suffix)
+        UnityFactory.factory.LoadDragonBonesData("GonanMoves/GonanMoves_ske"); // DragonBones file path (without suffix)
 
-        UnityFactory.factory.LoadTextureAtlasData("Ubbie/texture"); //Texture atlas file path (without suffix) 
+        UnityFactory.factory.LoadTextureAtlasData("GonanMoves/GonanMoves_tex"); //Texture atlas file path (without suffix) 
         // Create armature.
         //var armatureComponent = UnityFactory.factory.BuildArmatureComponent("ubbie"); // Input armature name
                                                                                       // Play animation.
