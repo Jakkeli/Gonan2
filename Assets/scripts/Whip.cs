@@ -5,7 +5,7 @@ using UnityEngine;
 public class Whip : MonoBehaviour {
 
     float tickTime;
-    float timer = 0.1f;
+    float timer = 0.2f;
     bool called;
     Player player;
     FabricCtrl fabCtrl;
@@ -24,7 +24,7 @@ public class Whip : MonoBehaviour {
     public void DoIt() {
         tickTime = 0;
         called = true;
-        Invoke("PutBack", 0.3f);
+        Invoke("PutBack", 0.7f);
         player.whipping = true;
         fabCtrl.PlaySoundWhip1();
     }

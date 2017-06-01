@@ -216,6 +216,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public void StopWhip() {
         canMove = true;
         //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+        whipping = false;
         dbc.PlayerIdle();
     }
 
@@ -233,10 +234,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     currentState = PlayerState.InAir;
-                    dbc.PlayerInAir();
+                    if (!whipping) dbc.PlayerInAir();
                 } else {
                     currentState = PlayerState.InAir;
-                    dbc.PlayerInAir();
+                    if (!whipping) dbc.PlayerInAir();
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
@@ -413,29 +414,31 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 DropDown();
             }
         }
-
-        if (v.x != 0) {
-            //animator.SetBool("walk", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
-            if (currentState == PlayerState.Crouch) {
-                dbc.PlayerCrouchWalk();
-            } else if (currentState == PlayerState.InAir) {
-                dbc.PlayerInAir();
-            } else if (currentState == PlayerState.Moving) {
-                dbc.PlayerWalk();
-            } else if (currentState == PlayerState.KnockedBack) {
-                dbc.Knockback();
+        if (!whipping) {
+            if (v.x != 0) {
+                //animator.SetBool("walk", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR            
+                if (currentState == PlayerState.Crouch) {
+                    dbc.PlayerCrouchWalk();
+                } else if (currentState == PlayerState.InAir) {
+                    dbc.PlayerInAir();
+                } else if (currentState == PlayerState.Moving) {
+                    dbc.PlayerWalk();
+                } else if (currentState == PlayerState.KnockedBack) {
+                    dbc.Knockback();
+                }
+            }
+            if (v.x == 0) {
+                //animator.SetBool("walk", false); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+                if (currentState == PlayerState.Crouch) {
+                    dbc.PlayerCrouchIdle();
+                } else if (currentState == PlayerState.Idle) {
+                    dbc.PlayerIdle();
+                } else if (currentState == PlayerState.InAir) {
+                    dbc.PlayerInAir();
+                }
             }
         }
-        if (v.x == 0) {
-            //animator.SetBool("walk", false); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
-            if (currentState == PlayerState.Crouch) {
-                dbc.PlayerCrouchIdle();
-            } else if (currentState == PlayerState.Idle) {
-                dbc.PlayerIdle();
-            } else if (currentState == PlayerState.InAir) {
-                dbc.PlayerInAir();
-            }
-        }
+        
         // aiming
 
         if (horizontalAxis > 0) {
@@ -466,6 +469,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // shooting
         if (Input.GetButtonDown("Fire1") && canWhip) {
+            whipping = true;
+            if (currentState == PlayerState.Crouch) {
+                dbc.CrouchWhip();
+            } else {
+                dbc.Whip();
+            }
+
             // shooting forward
 
             if (currentAimState == AimState.Right) {
@@ -514,11 +524,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             canWhip = false;
             if (currentState != PlayerState.InAir) canMove = false;
             //animator.SetBool("whip", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
-            if (currentState == PlayerState.Crouch) {
-                dbc.CrouchWhip();
-            } else {
-                dbc.Whip();
-            }            
+                       
         }
 
         // secondary fire

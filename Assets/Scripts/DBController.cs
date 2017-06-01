@@ -7,6 +7,8 @@ public class DBController : MonoBehaviour {
 
     public UnityArmatureComponent uac;
 
+    bool stopWhip;
+
 	void Start () {
         uac.animation.Play("Standing_Idle");
 	}
@@ -44,10 +46,13 @@ public class DBController : MonoBehaviour {
 
     public void Whip() {
         if (uac.animation.lastAnimationName != "Standing_Whip") uac.animation.Play("Standing_Whip");
+        print("whip");
+        
     }
 
     public void CrouchWhip() {
         if (uac.animation.lastAnimationName != "Crouch_Whip") uac.animation.Play("Crouch_Whip");
+        print("crouchwhip");
     }
 
     public void ThrowShuriken() {
@@ -65,5 +70,9 @@ public class DBController : MonoBehaviour {
 
     public void PlayerDeath() {
         //if (uac.animation.lastAnimationName != "PlayerDeath") uac.animation.Play("PlayerDeath");
+    }
+
+    void Update() {
+        
     }
 }
