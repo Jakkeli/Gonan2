@@ -4317,7 +4317,13 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114247307167785710, guid: 5609d547a538e814a9446fed390325d2,
+        type: 2}
+      propertyPath: canDropDown
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 60423992347858564, guid: 5609d547a538e814a9446fed390325d2, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5609d547a538e814a9446fed390325d2, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &416947555
