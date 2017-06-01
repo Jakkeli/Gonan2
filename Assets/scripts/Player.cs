@@ -52,7 +52,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public bool canStopCrouch = true;
 
     Vector2 v;
-    public Animator animator;
+    //public Animator animator;
+
 
     public GameObject whip;
     public GameObject whipRight;
@@ -93,8 +94,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject shurikenPrefab;
     public GameObject[] shurikens;
 
+    public int secondaryAmmo = 99;
+
+    DBController dbc;
+
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        dbc = GetComponentInChildren<DBController>();
         joint = GetComponent<DistanceJoint2D>();
         line = GameObject.Find("line").GetComponent<LineRenderer>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -107,7 +113,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         joint.enabled = false;
         line.enabled = false;
         playerHealthBar.value = hp;
-        animator.SetFloat("whipSpeed", whipSpeed);
+        //animator.SetFloat("whipSpeed", whipSpeed);    ANIMATOR ANIMATOR ANIMATOR ANIMATOR
     }
 
     public void FallTrigger() {
@@ -155,6 +161,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         currentState = PlayerState.Dead;
         // stop animations
         print("u dieded");
+        gm.UpdateLevelLivesAmmo();
+        Respawn();
+    }
+
+    void Respawn() {
+        print("respawn?!?!?");
     }
 
     public void IndianaJones(GameObject go) {
@@ -200,7 +212,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void StopWhip() {
         canMove = true;
-        animator.SetBool("whip", false);
+        //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+        dbc.PlayerIdle();
     }
 
     void FixedUpdate() {
@@ -217,8 +230,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     currentState = PlayerState.InAir;
+                    dbc.PlayerInAir();
                 } else {
                     currentState = PlayerState.InAir;
+                    dbc.PlayerInAir();
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
@@ -240,12 +255,17 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
         } else {
             onStair = false;
-        }             
+        }
 
-        if (horizontalAxis > 0) facingRight = true;
-        if (horizontalAxis < 0) facingRight = false;
+        if (horizontalAxis > 0 && !facingRight) {
+            facingRight = true;
+            dbc.FaceRight();
+        } else if (horizontalAxis < 0 && facingRight) {
+            facingRight = false;
+            dbc.FaceLeft();
+        }
 
-        spriteRenderer.flipX = !facingRight;
+        //spriteRenderer.flipX = !facingRight; REMOVED REMOVED REMOVED
 
 
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
@@ -390,10 +410,26 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (v.x != 0) {
-            animator.SetBool("walk", true);
+            //animator.SetBool("walk", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+            if (currentState == PlayerState.Crouch) {
+                dbc.PlayerCrouchWalk();
+            } else if (currentState == PlayerState.InAir) {
+                dbc.PlayerInAir();
+            } else if (currentState == PlayerState.Moving) {
+                dbc.PlayerWalk();
+            } else if (currentState == PlayerState.KnockedBack) {
+                dbc.Knockback();
+            }
         }
         if (v.x == 0) {
-            animator.SetBool("walk", false);
+            //animator.SetBool("walk", false); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+            if (currentState == PlayerState.Crouch) {
+                dbc.PlayerCrouchIdle();
+            } else if (currentState == PlayerState.Idle) {
+                dbc.PlayerIdle();
+            } else if (currentState == PlayerState.InAir) {
+                dbc.PlayerInAir();
+            }
         }
         // aiming
 
@@ -472,13 +508,18 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
             canWhip = false;
             if (currentState != PlayerState.InAir) canMove = false;
-            animator.SetBool("whip", true);
+            //animator.SetBool("whip", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+            if (currentState == PlayerState.Crouch) {
+                dbc.CrouchWhip();
+            } else {
+                dbc.Whip();
+            }            
         }
 
         // secondary fire
 
         if (Input.GetButtonDown("Fire2") && currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
-            if (currentShurikenCount < maxShurikenCount) {
+            if (currentShurikenCount < maxShurikenCount && secondaryAmmo > 0) {
                 GameObject shrkn = null;
                 for (int i = 0; i < maxShurikenCount; i++) {
                     if (!shurikens[i].GetComponent<Shuriken>().wasThrown) {
@@ -494,6 +535,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 }
                 shrkn.GetComponent<Shuriken>().Throw(facingRight ? 1 : -1, crouch);
                 currentShurikenCount++;
+                secondaryAmmo--;
+                gm.UpdateLevelLivesAmmo();
             }
         }
 

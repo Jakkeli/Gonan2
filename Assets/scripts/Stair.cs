@@ -5,13 +5,17 @@ using UnityEngine;
 public class Stair : MonoBehaviour {
 
     Player player;
-    bool leftUp;
-    bool playerComesFromLeft;
+    public bool leftUp;
+    public bool playerComesFromLeft;
     Vector2 playerPos;
     Vector2 myPos;
 
     public bool forceStair;
     public bool canDropDown;
+
+    public float minY;
+    public float maxY;
+
 
     private void Start() {
         player = GameObject.Find("player").GetComponent<Player>();
@@ -22,15 +26,16 @@ public class Stair : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.tag == "Player") {
+            print("collider hit");
             if (player.playerComesFromAbove && player.verticalAxis > 0) {
                 player.GetOnStair(leftUp, canDropDown);
-            } else if (leftUp && playerComesFromLeft && player.horizontalAxis > 0 && player.verticalAxis < 0) {
+            } else if (leftUp && playerComesFromLeft && player.horizontalAxis > 0) {
                 player.GetOnStair(leftUp, canDropDown);
             } else if (leftUp && !playerComesFromLeft && player.horizontalAxis < 0 && player.verticalAxis > 0) {
                 player.GetOnStair(leftUp, canDropDown);
             } else if (!leftUp && playerComesFromLeft && player.horizontalAxis > 0 && player.verticalAxis > 0) {
                 player.GetOnStair(leftUp, canDropDown);
-            } else if (!leftUp && !playerComesFromLeft && player.horizontalAxis < 0 && player.verticalAxis < 0) {
+            } else if (!leftUp && !playerComesFromLeft && player.horizontalAxis < 0) {
                 player.GetOnStair(leftUp, canDropDown);
             } else if (forceStair) {
                 player.GetOnStair(leftUp, canDropDown);
@@ -50,6 +55,10 @@ public class Stair : MonoBehaviour {
             playerComesFromLeft = false;
         } else {
             playerComesFromLeft = true;
+        }
+
+        if (player.currentState == PlayerState.OnStair) {
+            if (playerPos.y <= minY) player.GetOffStair();
         }
     }
 }
