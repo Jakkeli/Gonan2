@@ -52,7 +52,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public bool canStopCrouch = true;
 
     Vector2 v;
-    public Animator animator;
+    //public Animator animator;
+
 
     public GameObject whip;
     public GameObject whipRight;
@@ -94,10 +95,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject[] shurikens;
 
     public int secondaryAmmo = 99;
-    
+
+    DBController dbc;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        dbc = GetComponentInChildren<DBController>();
         joint = GetComponent<DistanceJoint2D>();
         line = GameObject.Find("line").GetComponent<LineRenderer>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -110,7 +113,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         joint.enabled = false;
         line.enabled = false;
         playerHealthBar.value = hp;
-        animator.SetFloat("whipSpeed", whipSpeed);
+        //animator.SetFloat("whipSpeed", whipSpeed);    ANIMATOR ANIMATOR ANIMATOR ANIMATOR
     }
 
     public void FallTrigger() {
@@ -209,7 +212,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void StopWhip() {
         canMove = true;
-        animator.SetBool("whip", false);
+        //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+        dbc.PlayerIdle();
     }
 
     void FixedUpdate() {
@@ -254,7 +258,15 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (horizontalAxis > 0) facingRight = true;
         if (horizontalAxis < 0) facingRight = false;
 
-        spriteRenderer.flipX = !facingRight;
+        if (horizontalAxis > 0) {
+            facingRight = true;
+            dbc.FaceRight();
+        } else if (horizontalAxis < 0) {
+            facingRight = false;
+            dbc.FaceLeft();
+        }
+
+        //spriteRenderer.flipX = !facingRight; REMOVED REMOVED REMOVED
 
 
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
@@ -399,10 +411,24 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (v.x != 0) {
-            animator.SetBool("walk", true);
+            //animator.SetBool("walk", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+            if (currentState == PlayerState.Crouch) {
+                dbc.PlayerCrouchWalk();
+            } else if (currentState == PlayerState.InAir) {
+                dbc.PlayerInAir();
+            } else if (currentState == PlayerState.Moving) {
+                dbc.PlayerWalk();
+            } else if (currentState == PlayerState.KnockedBack) {
+                dbc.Knockback();
+            }
         }
         if (v.x == 0) {
-            animator.SetBool("walk", false);
+            //animator.SetBool("walk", false); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+            if (currentState == PlayerState.Crouch) {
+                dbc.PlayerCrouchIdle();
+            } else if (currentState == PlayerState.Idle) {
+                dbc.PlayerIdle();
+            }
         }
         // aiming
 
@@ -481,7 +507,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
             canWhip = false;
             if (currentState != PlayerState.InAir) canMove = false;
-            animator.SetBool("whip", true);
+            //animator.SetBool("whip", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+            if (currentState == PlayerState.Crouch) {
+                dbc.CrouchWhip();
+            } else {
+                dbc.Whip();
+            }            
         }
 
         // secondary fire
