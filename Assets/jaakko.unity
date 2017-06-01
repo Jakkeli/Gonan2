@@ -391,13 +391,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 34655299}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.05, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2059448238}
-  m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_Father: {fileID: 152317186}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &42894405
 GameObject:
@@ -1458,6 +1458,7 @@ Transform:
   m_Children:
   - {fileID: 1707481155}
   - {fileID: 1513691723}
+  - {fileID: 34655302}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1569,8 +1570,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &154639590
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2019,8 +2024,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 1
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &216350077
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2324,8 +2333,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &239758439
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2350,10 +2363,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -2.1746092, y: 0.25731462}
-      - {x: -2.0946352, y: 0.20307809}
-      - {x: 2.1424806, y: 0.19535577}
-      - {x: 2.0285652, y: 0.29557648}
+    - - {x: -2.2174377, y: 0.25482696}
+      - {x: -2.0636888, y: 0.10307115}
+      - {x: 2.1037533, y: 0.07221234}
+      - {x: 2.0863836, y: 0.23938608}
 --- !u!1001 &270445947
 Prefab:
   m_ObjectHideFlags: 0
@@ -3304,8 +3317,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 1
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &342827892
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -7730,7 +7747,7 @@ Transform:
   - {fileID: 64062599}
   - {fileID: 1737328349}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &514241258
 GameObject:
@@ -13180,6 +13197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   currentLevel: 0
+  levelLivesAmmo: {fileID: 1986348832}
 --- !u!4 &787664902
 Transform:
   m_ObjectHideFlags: 0
@@ -13406,6 +13424,7 @@ MonoBehaviour:
   - {fileID: 932266899}
   - {fileID: 64062598}
   - {fileID: 1737328348}
+  secondaryAmmo: 99
 --- !u!70 &836511956
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -13632,8 +13651,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!212 &888205152
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17888,8 +17911,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &994287726
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -18653,8 +18680,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &1086179560
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -19647,15 +19678,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1736535538806562, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212120060823741888, guid: 83987b701a6c4614abedaccfc98857a1,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
   m_IsPrefabParent: 0
@@ -20396,8 +20418,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 1
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &1255787761
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -21476,71 +21502,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4855827900725600, guid: 5745eea5feb249f48bea1b6f3bb0935f,
     type: 2}
   m_PrefabInternal: {fileID: 1372993547}
---- !u!1001 &1376520524
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.796
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4862085651694262, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 1736535538806562, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1736535538806562, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-      propertyPath: m_Name
-      value: shuriken_jaakko (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114735013732441132, guid: 83987b701a6c4614abedaccfc98857a1,
-        type: 2}
-      propertyPath: wasThrown
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114735013732441132, guid: 83987b701a6c4614abedaccfc98857a1,
-        type: 2}
-      propertyPath: speed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114735013732441132, guid: 83987b701a6c4614abedaccfc98857a1,
-        type: 2}
-      propertyPath: rotateSpeed
-      value: 100
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 83987b701a6c4614abedaccfc98857a1, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1386701679
 GameObject:
   m_ObjectHideFlags: 0
@@ -23245,8 +23206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 1.25
+  maxY: 4.25
 --- !u!60 &1683514372
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -23271,11 +23236,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 2.0683064, y: 0.25502774}
-      - {x: -2.1551938, y: 0.25006345}
-      - {x: -1.9583672, y: 0.09349376}
-      - {x: 2.088664, y: 0.10627195}
-      - {x: 2.2522578, y: 0.2685237}
+    - - {x: 2.2024255, y: 0.29673123}
+      - {x: -2.150877, y: 0.32414296}
+      - {x: -1.988362, y: 0.12525326}
+      - {x: 2.0378976, y: 0.14046267}
 --- !u!1 &1707481150
 GameObject:
   m_ObjectHideFlags: 0
@@ -25017,8 +24981,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!1 &1953705857
 GameObject:
   m_ObjectHideFlags: 0
@@ -25420,7 +25388,7 @@ GameObject:
   - component: {fileID: 1986348833}
   - component: {fileID: 1986348832}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Level_Lives_Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25441,8 +25409,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 290, y: 195}
+  m_AnchoredPosition: {x: 0, y: -22}
+  m_SizeDelta: {x: 290, y: 232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1986348832
 MonoBehaviour:
@@ -25480,10 +25448,10 @@ MonoBehaviour:
 
     LIVES 3
 
+    PLAYER 99
 
-    ENEMY
 
-    HEALTH'
+    ENEMY'
 --- !u!222 &1986348833
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25540,8 +25508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f79a7e51b9dbc41ac5042e11903125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftUp: 0
+  playerComesFromLeft: 0
   forceStair: 0
   canDropDown: 0
+  minY: 0
+  maxY: 0
 --- !u!60 &1996289836
 PolygonCollider2D:
   m_ObjectHideFlags: 0

@@ -93,6 +93,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject shurikenPrefab;
     public GameObject[] shurikens;
 
+    public int secondaryAmmo = 99;
+
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         joint = GetComponent<DistanceJoint2D>();
@@ -155,6 +157,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         currentState = PlayerState.Dead;
         // stop animations
         print("u dieded");
+        gm.UpdateLevelLivesAmmo();
+        Respawn();
+    }
+
+    void Respawn() {
+        print("respawn?!?!?");
     }
 
     public void IndianaJones(GameObject go) {
@@ -478,7 +486,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // secondary fire
 
         if (Input.GetButtonDown("Fire2") && currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
-            if (currentShurikenCount < maxShurikenCount) {
+            if (currentShurikenCount < maxShurikenCount && secondaryAmmo > 0) {
                 GameObject shrkn = null;
                 for (int i = 0; i < maxShurikenCount; i++) {
                     if (!shurikens[i].GetComponent<Shuriken>().wasThrown) {
@@ -494,6 +502,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 }
                 shrkn.GetComponent<Shuriken>().Throw(facingRight ? 1 : -1, crouch);
                 currentShurikenCount++;
+                secondaryAmmo--;
+                gm.UpdateLevelLivesAmmo();
             }
         }
 
