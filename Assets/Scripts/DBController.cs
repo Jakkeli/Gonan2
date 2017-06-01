@@ -13,7 +13,6 @@ public class DBController : MonoBehaviour {
 
     public void FaceRight() {
         transform.localScale = new Vector3(0.38f, 0.38f, 038f);
-        print("faceright called");
     }
 
     public void FaceLeft() {
@@ -22,47 +21,49 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerIdle() {
-        uac.animation.Play("Standing_Idle");
+        if (uac.animation.lastAnimationName != "Standing_Idle") uac.animation.Play("Standing_Idle");
     }
 
     public void PlayerCrouchIdle() {
-        uac.animation.Play("Crouch_Idle");
+        if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
     }
 
     public void PlayerWalk() {
-        uac.animation.Play("Standing_Walk");
+        //uac.animation.Play("Standing_Walk", 1);
+        if (uac.animation.lastAnimationName != "Standing_Walk") uac.animation.Play("Standing_Walk");
     }
 
     public void PlayerCrouchWalk() {
-        uac.animation.Play("Crouch_walk");
+        if (uac.animation.lastAnimationName != "Crouch_walk") uac.animation.Play("Crouch_walk");
     }
 
     public void PlayerInAir() {
-        //uac.animation.Play("InAir");
-        uac.animation.Play("Standing_Idle");
+        //if (uac.animation.lastAnimationName != "InAir") uac.animation.Play("InAir");
+        if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
     }
 
     public void Whip() {
-        uac.animation.Play("Standing_Whip");
+        if (uac.animation.lastAnimationName != "Standing_Whip") uac.animation.Play("Standing_Whip");
     }
 
     public void CrouchWhip() {
-        uac.animation.Play("Crouch_Whip");
+        if (uac.animation.lastAnimationName != "Crouch_Whip") uac.animation.Play("Crouch_Whip");
     }
 
-    public void Shuriken() {
-
+    public void ThrowShuriken() {
+        //if (uac.animation.lastAnimationName != "ThrowShuriken") uac.animation.Play("ThrowShuriken");
     }
 
     public void PlayerJump() {
-
+        //if (uac.animation.lastAnimationName != "PlayerJump") uac.animation.Play("PlayerJump");
     }
 
     public void Knockback() {
-
+        //if (uac.animation.lastAnimationName != "Knockback") uac.animation.Play("Knockback");
+        if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
     }
 
     public void PlayerDeath() {
-
+        //if (uac.animation.lastAnimationName != "PlayerDeath") uac.animation.Play("PlayerDeath");
     }
 }
