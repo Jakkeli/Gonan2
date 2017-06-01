@@ -3474,6 +3474,8 @@ MonoBehaviour:
   lerpFactor: 8.5
   goDownAdd: 1
   lockedY: 4
+  bossX: 0
+  bossY: 0
   gizmosOn: 0
   cameraXLimitLeft: -1.7
   cameraXLimitRight: 55
@@ -4524,6 +4526,8 @@ MonoBehaviour:
   secondaryYarea: 0
   playerObj: {fileID: 836511951}
   cam: {fileID: 425024333}
+  myBossX: 0
+  myBossY: 0
 --- !u!61 &425024335
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13776,7 +13780,6 @@ MonoBehaviour:
   whipDiagUpLeft: {fileID: 1113581993}
   whipDiagDownRight: {fileID: 236102893}
   whipDiagDownLeft: {fileID: 61472551}
-  shuriken: {fileID: 0}
   playerComesFromAbove: 0
   jointStep: 0.25
   jointMaxDist: 4
@@ -13785,6 +13788,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2115703659}
   crouchWhipDrop: 0.7
   whipSpeed: 1
+  maxShurikenCount: 0
+  currentShurikenCount: 0
+  shurikenPrefab: {fileID: 0}
+  shurikens: []
 --- !u!70 &836511956
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
