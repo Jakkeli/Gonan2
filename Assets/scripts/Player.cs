@@ -94,6 +94,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject[] shurikens;
 
     public int secondaryAmmo = 99;
+    
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
