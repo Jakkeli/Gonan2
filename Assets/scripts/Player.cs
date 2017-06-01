@@ -131,6 +131,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void GetOffStair() {
+        //print("getoffstair");
         if (currentState == PlayerState.OnStair) {
             currentState = PlayerState.Idle;
             rb.gravityScale = 1;
@@ -139,7 +140,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void EnemyHitPlayer(int dir) {
-        print("enemy hit player");
+        //print("enemy hit player");
         hp--;
         playerHealthBar.value = hp;
         if (hp == 0) {
@@ -179,6 +180,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void LetGoOfHook() {
+        //print("letgoofhook");
         currentState = PlayerState.Idle;
         joint.connectedBody = null;
         joint.enabled = false;
@@ -201,6 +203,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         capCol.size = new Vector2(0.63f, 2);
         capCol.offset = new Vector2(0, 0);
         currentState = PlayerState.Idle;
+        //print("crouchend");
     }
 
     public void KnockBack(int dir) {
@@ -237,11 +240,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
+                //print("groundcheckforceidle");
             }
         }
         // knockbackend check
         if (currentState == PlayerState.KnockedBack && rb.velocity.y == 0) {
-            currentState = PlayerState.Idle;            
+            currentState = PlayerState.Idle;
+            //print("knockbackendidle");
             canWhip = true;
         }
 
@@ -272,7 +277,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
             if (v.x != 0f && currentState != PlayerState.Crouch) {
                 currentState = PlayerState.Moving;
-            } else if (currentState != PlayerState.Crouch) {
+            } else if (v.x == 0 && currentState != PlayerState.Crouch) {
                 currentState = PlayerState.Idle;
             }
         }
@@ -360,7 +365,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                     crouchWhip = true;
                 }
                 //animation
-            } else if (verticalAxis >= 0) {
+            } else if (verticalAxis >= 0 && currentState == PlayerState.Crouch) {
                 CrouchEnd();
             }
         }
