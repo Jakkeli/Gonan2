@@ -14,12 +14,11 @@ public class DBController : MonoBehaviour {
 	}
 
     public void FaceRight() {
-        transform.localScale = new Vector3(0.38f, 0.38f, 038f);
+        uac.armature.flipX = false;
     }
 
     public void FaceLeft() {
-        transform.localScale = new Vector3(-0.38f, 0.38f, 038f);
-        uac.flipX = true;
+        uac.armature.flipX = true;
     }
 
     public void PlayerIdle() {
@@ -31,7 +30,6 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerWalk() {
-        //uac.animation.Play("Standing_Walk", 1);
         if (uac.animation.lastAnimationName != "Standing_Walk") uac.animation.Play("Standing_Walk");
     }
 
