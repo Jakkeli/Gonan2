@@ -17,7 +17,7 @@ public class Whip : MonoBehaviour {
 
     void Activate() {
         GetComponent<BoxCollider2D>().enabled = true;
-        GetComponent<MeshRenderer>().enabled = true;
+        if (!player.disableWhipBox) GetComponent<MeshRenderer>().enabled = true;
         called = false;
     }
 
@@ -31,7 +31,7 @@ public class Whip : MonoBehaviour {
 
     void PutBack() {
         GetComponent<BoxCollider2D>().enabled = false;
-        GetComponent<MeshRenderer>().enabled = false;
+        if (!player.disableWhipBox) GetComponent<MeshRenderer>().enabled = false;
         player.GetComponent<Player>().canWhip = true;
         player.whipping = false;
         player.StopWhip();

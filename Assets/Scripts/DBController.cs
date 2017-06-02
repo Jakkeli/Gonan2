@@ -5,12 +5,17 @@ using DragonBones;
 
 public class DBController : MonoBehaviour {
 
-    public UnityArmatureComponent uac;
+    UnityArmatureComponent uac;
+    //Player player;
 
     bool stopWhip;
 
 	void Start () {
+        //player = GameObject.Find("player").GetComponent<Player>();
+        uac = GetComponent<UnityArmatureComponent>();
         uac.animation.Play("Standing_Idle");
+        transform.localScale = new Vector3(0.38f, 0.38f, 1);
+        transform.position -= new Vector3(0, -0.4f, 0);
 	}
 
     public void FaceRight() {
@@ -71,6 +76,6 @@ public class DBController : MonoBehaviour {
     }
 
     void Update() {
-        
+
     }
 }

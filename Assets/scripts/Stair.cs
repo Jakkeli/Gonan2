@@ -8,4 +8,10 @@ public class Stair : MonoBehaviour {
     public bool forceStair;
     public bool canDropDown;
 
+    public Vector3 stairPos;
+
+    void Start() {
+        stairPos = transform.position;
+    }
+
 }
