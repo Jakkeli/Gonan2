@@ -36,12 +36,12 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerCrouchWalk() {
-        if (uac.animation.lastAnimationName != "Crouch_walk") uac.animation.Play("Crouch_walk");
+        if (uac.animation.lastAnimationName != "Crouch_Walk") uac.animation.Play("Crouch_Walk");
     }
 
     public void PlayerInAir() {
         //if (uac.animation.lastAnimationName != "InAir") uac.animation.Play("InAir");
-        if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
+        if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
     }
 
     public void Whip() {
@@ -60,7 +60,7 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerJump() {
-        //if (uac.animation.lastAnimationName != "PlayerJump") uac.animation.Play("PlayerJump");
+       // if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
     }
 
     public void Knockback() {
