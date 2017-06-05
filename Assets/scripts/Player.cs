@@ -19,13 +19,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float hSpeed = 4;
     public float vSpeed = 8;
     public float swingSpeed = 1;
-
     public float strSpeed = 1;
     public float stairY = 1;
     public float stairX = 1;
-
     public float knockBack;
-
     public float horizontalAxis;
     public float verticalAxis;
 
@@ -45,17 +42,14 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     bool canMove;
     bool jump;
     bool knockBackDone;
-
+    bool crouchWhip;
     public bool onStair;
     public bool whipping;
-    public bool canWhip = true;
-    bool crouchWhip;
+    public bool canWhip = true;    
     public bool stairLeftUp;
     public bool canStopCrouch = true;
 
     Vector2 v;
-    //public Animator animator;
-
 
     public GameObject whip;
     public GameObject whipRight;
@@ -80,7 +74,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float jointMinDist = 0.5f;
 
     public Slider playerHealthBar;
-    bool canDropDown;
+    //bool canDropDown;
     PolygonCollider2D polCollider;
 
     public SpriteRenderer spriteRenderer;
@@ -115,7 +109,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         joint.enabled = false;
         line.enabled = false;
         playerHealthBar.value = hp;
-        //animator.SetFloat("whipSpeed", whipSpeed);    ANIMATOR ANIMATOR ANIMATOR ANIMATOR
     }
 
     public void FallTrigger() {
@@ -124,7 +117,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void GetOnStair(bool leftUp, bool canDD) {
         if (onStair) {
-            canDropDown = canDD;
+            //canDropDown = canDD;
             stairLeftUp = leftUp;
             currentState = PlayerState.OnStair;
             rb.gravityScale = 0;
@@ -154,6 +147,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void Death() {
+        dbc.PlayerDeath();
         fabCtrl.PlaySoundPlayerDeath();
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
         if (playerLives == 0) {
@@ -179,6 +173,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         currentHookPoint = go;
         currentState = PlayerState.IndianaJones;
         capCol.isTrigger = true;
+        dbc.IndianaJones();
     }
 
     void LetGoOfHook() {
@@ -188,6 +183,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         joint.enabled = false;
         line.enabled = false;
         capCol.isTrigger = false;
+        dbc.PlayerIdle();
     }
 
     public void CrouchEnd() {
@@ -201,7 +197,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             whip.transform.position += new Vector3(0, crouchWhipDrop, 0);
             crouchWhip = false;
         }
-        //animation
         capCol.size = new Vector2(0.63f, 2);
         capCol.offset = new Vector2(0, 0);
         currentState = PlayerState.Idle;
@@ -213,13 +208,34 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         currentState = PlayerState.KnockedBack;
         canWhip = false;
         rb.velocity = new Vector3(knockBack * knockBackDir, knockBack + 2, 0);
+        dbc.Knockback();
     }
 
     public void StopWhip() {
         canMove = true;
         //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
         whipping = false;
-        dbc.PlayerIdle();
+        AnimationCheck();
+    }
+
+    void AnimationCheck() {
+        if (currentState == PlayerState.Crouch) {
+            dbc.PlayerCrouchIdle();
+        } else if (currentState == PlayerState.InAir) {
+            dbc.PlayerInAir();
+        } else if (currentState == PlayerState.OnStair) {
+            dbc.PlayerIdle();
+        } else if (currentState == PlayerState.Moving) {
+            dbc.PlayerWalk();
+        } else if (currentState == PlayerState.KnockedBack) {
+            dbc.Knockback();
+        } else if (currentState == PlayerState.Dead) {
+            dbc.Knockback();
+        } else if (currentState == PlayerState.Idle) {
+            dbc.PlayerIdle();
+        } else if (currentState == PlayerState.IndianaJones) {
+            dbc.IndianaJones();
+        }
     }
 
     void FixedUpdate() {
@@ -230,7 +246,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // ground-check
 
-        float colliderLowerEdge = transform.position.y + capCol.offset.y - capCol.size.y / 2;
+        //float colliderLowerEdge = transform.position.y + capCol.offset.y - capCol.size.y / 2;
         if (currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround) && currentState != PlayerState.IndianaJones) {
                 if (currentState == PlayerState.Crouch) {
@@ -249,6 +265,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // knockbackend check
         if (currentState == PlayerState.KnockedBack && rb.velocity.y == 0) {
             currentState = PlayerState.Idle;
+            dbc.PlayerIdle();
             //print("knockbackendidle");
             canWhip = true;
         }
@@ -264,7 +281,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         } else {
             onStair = false;
         }        
-
+        // moving or idle? that is the question
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
 
             if (v.x != 0f && currentState != PlayerState.Crouch) {
@@ -296,6 +313,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (jump && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
             jump = false;
+            dbc.PlayerInAir();
         }
         else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             DropDown();            
@@ -303,6 +321,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // indiana jones
         if (currentState == PlayerState.IndianaJones) {
+            dbc.IndianaJones();
             Vector2 hookPos = currentHookPoint.transform.position;
             //joint.distance = Vector2.Distance(transform.position, hookPos);
             line.SetPosition(0, transform.position);
@@ -335,6 +354,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     void DropDown() {
         print("dropdown");
+        dbc.PlayerInAir();
         GetOffStair();
     }
 
@@ -456,11 +476,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // shooting
         if (Input.GetButtonDown("Fire1") && canWhip) {
             whipping = true;
-            if (currentState == PlayerState.Crouch) {
-                dbc.CrouchWhip();
-            } else {
-                dbc.Whip();
-            }
 
             // shooting forward
 
@@ -468,10 +483,20 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 // whip right
                 whipRight.SetActive(true);
                 whipRight.GetComponent<Whip>().DoIt();
+                if (currentState == PlayerState.Crouch) {
+                    dbc.CrouchWhip();
+                } else {
+                    dbc.Whip();
+                }
             } else if (currentAimState == AimState.Left) {
                 // whip left
                 whipLeft.SetActive(true);
                 whipLeft.GetComponent<Whip>().DoIt();
+                if (currentState == PlayerState.Crouch) {
+                    dbc.CrouchWhip();
+                } else {
+                    dbc.Whip();
+                }
             }
 
             // shooting upwards
@@ -479,16 +504,19 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 //diagupright
                 whipDiagUpRight.SetActive(true);
                 whipDiagUpRight.GetComponent<Whip>().DoIt();
+                dbc.WhipDiag();
             }
             if (currentAimState == AimState.DiagUpLeft) {
                 //diagupleft
                 whipDiagUpLeft.SetActive(true);
                 whipDiagUpLeft.GetComponent<Whip>().DoIt();
+                dbc.WhipDiag();
             }
             if (currentAimState == AimState.Up) {
                 //up
                 whipUp.SetActive(true);
                 whipUp.GetComponent<Whip>().DoIt();
+                dbc.WhipUp();
             }
 
             // shooting downwards
@@ -496,16 +524,19 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 //diagdownright
                 whipDiagDownRight.SetActive(true);
                 whipDiagDownRight.GetComponent<Whip>().DoIt();
+                dbc.JumpWhipDiagDown();
             }
             if (currentAimState == AimState.DiagDownLeft && currentState == PlayerState.InAir) {
                 //diagdownleft
                 whipDiagDownLeft.SetActive(true);
                 whipDiagDownLeft.GetComponent<Whip>().DoIt();
+                dbc.JumpWhipDiagDown();
             }
             if (currentState == PlayerState.InAir && currentAimState == AimState.Down) {
                 //down
                 whipDown.SetActive(true);
                 whipDown.GetComponent<Whip>().DoIt();
+                dbc.JumpWhipDown();
             }
             canWhip = false;
             if (currentState != PlayerState.InAir) canMove = false;
@@ -549,10 +580,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // flipX
 
-        if (horizontalAxis < 0 && facingRight) {
+        if (horizontalAxis < 0 && facingRight && canMove) {
             facingRight = false;
             dbc.FaceLeft();
-        } else if (horizontalAxis > 0 && !facingRight) {
+        } else if (horizontalAxis > 0 && !facingRight && canMove) {
             facingRight = true;
             dbc.FaceRight();
         }

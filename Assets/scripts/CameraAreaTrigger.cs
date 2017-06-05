@@ -15,7 +15,7 @@ public class CameraAreaTrigger : MonoBehaviour {
     public PlayerApproachDirection myPAD;
     public float primaryYarea;
     public float secondaryYarea;
-    public GameObject playerObj;
+    GameObject playerObj;
     Vector3 playerPos;
     Vector3 myPos;
     public GameObject cam;
@@ -26,6 +26,7 @@ public class CameraAreaTrigger : MonoBehaviour {
 
 
     void Start () {
+        playerObj = GameObject.Find("player");
         cc = cam.GetComponent<CameraController>();
 	}
 	

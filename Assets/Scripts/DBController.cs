@@ -43,36 +43,69 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerInAir() {
-        //if (uac.animation.lastAnimationName != "InAir") uac.animation.Play("InAir");
         if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
     }
 
     public void Whip() {
-        if (uac.animation.lastAnimationName != "Standing_Whip") uac.animation.Play("Standing_Whip");
-        print("whip");
-        
+        if (uac.animation.lastAnimationName != "Standing_Whip") uac.animation.Play("Standing_Whip");    
     }
 
     public void CrouchWhip() {
         if (uac.animation.lastAnimationName != "Crouch_Whip") uac.animation.Play("Crouch_Whip");
-        print("crouchwhip");
+    }
+
+    public void WhipUp() {
+        if (uac.animation.lastAnimationName != "Standing_WhipUP") uac.animation.Play("Standing_WhipUP");
+    }
+
+    public void WhipDiag() {
+        if (uac.animation.lastAnimationName != "Standing_WhipAngle") uac.animation.Play("Standing_WhipAngle");
+    }
+
+    public void JumpWhip() {
+        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
+    }
+
+    public void JumpWhipDiagUp() {
+        if (uac.animation.lastAnimationName != "Jump_WhipAngleUP") uac.animation.Play("Jump_WhipAngleUP");
+    }
+
+    public void JumpWhipDiagDown() {
+        if (uac.animation.lastAnimationName != "Jump_WhipAngleDown") uac.animation.Play("Jump_WhipAngleDown");
+    }
+
+    public void JumpWhipUp() {
+        if (uac.animation.lastAnimationName != "Jump_WhipUP") uac.animation.Play("Jump_WhipUP");
+    }
+
+    public void JumpWhipDown() {
+        if (uac.animation.lastAnimationName != "Jump_WhipDown") uac.animation.Play("Jump_WhipDown");
     }
 
     public void ThrowShuriken() {
         //if (uac.animation.lastAnimationName != "ThrowShuriken") uac.animation.Play("ThrowShuriken");
+        print("animation missing");
     }
 
     public void PlayerJump() {
-       // if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
+       if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
     }
 
     public void Knockback() {
         //if (uac.animation.lastAnimationName != "Knockback") uac.animation.Play("Knockback");
         if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
+        print("animation missing");
     }
 
     public void PlayerDeath() {
         //if (uac.animation.lastAnimationName != "PlayerDeath") uac.animation.Play("PlayerDeath");
+        print("death animation missing");
+    }
+
+    public void IndianaJones() {
+        //if (uac.animation.lastAnimationName != "IndianaJones") uac.animation.Play("IndianaJones");
+        if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
+        print("ij animation missing");
     }
 
     void Update() {
