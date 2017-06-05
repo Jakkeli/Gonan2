@@ -10,10 +10,12 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     public float speed;
     public float diveSpeed;
     float hDir;
+    float prevHDir;
 
-    Vector3 originalPos;
+    //Vector3 originalPos;
     Vector3 playerPos;
     Vector3 targetPos;
+    Vector3 backOffPos;
 
     public bool activateOnStart;
     public bool goRight;
@@ -24,14 +26,19 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
 
     public float triggerDistance;
 
+    bool targetPosSet;
+    bool diveComplete;
+    bool backOffPosSet;
+
     void Start() {
         player = GameObject.Find("player");
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
             Activate();
         }
-        originalPos = transform.position;
+        //originalPos = transform.position;
         hDir = goRight ? 1 : -1;
+        prevHDir = hDir;
     }
 
     public void React() {
@@ -65,16 +72,52 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
             return;
         }
         playerPos = player.transform.position;
+        var pos = transform.position;
 
         if (hDir < 0) GetComponent<SpriteRenderer>().flipX = false;
         if (hDir > 0) GetComponent<SpriteRenderer>().flipX = true;
 
-        if (Mathf.Abs(transform.position.x - playerPos.x) <= triggerDistance && currentState == Enemy4State.Activated) {
+        if (Mathf.Abs(pos.x - playerPos.x) <= triggerDistance && currentState == Enemy4State.Activated) {
             currentState = Enemy4State.Chase;
         }
 
+        if (currentState == Enemy4State.Chase) {
+            if (!targetPosSet) {
+                targetPos = playerPos;
+                targetPosSet = true;
+            }
+            if (!diveComplete) {
+                targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * diveSpeed);
+                if (pos != targetPos) {
+                    pos = targetPos;
+                } else {
+                    diveComplete = true;
+                }
+            } else if (diveComplete && targetPosSet) {
+                if (prevHDir == 1) {
+                    if (!backOffPosSet) {
+                        backOffPos = transform.position + new Vector3(pos.x + 4, pos.y + 4, 0);
+                        backOffPosSet = true;
+                        targetPos = backOffPos;
+                    }                  
+                } else {
+                    if (!backOffPosSet) {
+                        backOffPos = transform.position + new Vector3(pos.x - 4, pos.y + 4, 0);
+                        backOffPosSet = true;
+                        targetPos = backOffPos;
+                    }
+                }
 
-        
+                if (targetPos != pos) {
+                    targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * speed);
+                } else {
+                    diveComplete = false;
+
+                }
+                
+
+            }            
+        }        
     }
 
     void OnTriggerEnter2D(Collider2D c) {

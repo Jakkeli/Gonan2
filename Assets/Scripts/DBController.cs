@@ -43,7 +43,6 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerInAir() {
-        //if (uac.animation.lastAnimationName != "InAir") uac.animation.Play("InAir");
         if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
     }
 
@@ -67,6 +66,30 @@ public class DBController : MonoBehaviour {
         if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
     }
 
+    public void JumpWhipDiagUp() {
+        //if (uac.animation.lastAnimationName != "Jump_Whip_DiagUp") uac.animation.Play("Jump_Whip_DiagUp");
+        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
+        print("animation missing");
+    }
+
+    public void JumpWhipDiagDown() {
+        //if (uac.animation.lastAnimationName != "Jump_Whip_DiagDown") uac.animation.Play("Jump_Whip_DiagDown");
+        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
+        print("animation missing");
+    }
+
+    public void JumpWhipUp() {
+        //if (uac.animation.lastAnimationName != "Jump_Whip_Up") uac.animation.Play("Jump_Whip_Up");
+        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
+        print("animation missing");
+    }
+
+    public void JumpWhipDown() {
+        //if (uac.animation.lastAnimationName != "Jump_Whip_Down") uac.animation.Play("Jump_Whip_Down");
+        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
+        print("animation missing");
+    }
+
     public void ThrowShuriken() {
         //if (uac.animation.lastAnimationName != "ThrowShuriken") uac.animation.Play("ThrowShuriken");
     }
@@ -82,6 +105,13 @@ public class DBController : MonoBehaviour {
 
     public void PlayerDeath() {
         //if (uac.animation.lastAnimationName != "PlayerDeath") uac.animation.Play("PlayerDeath");
+        print("death animation missing");
+    }
+
+    public void IndianaJones() {
+        //if (uac.animation.lastAnimationName != "IndianaJones") uac.animation.Play("IndianaJones");
+        if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
+        print("ij animation missing");
     }
 
     void Update() {
