@@ -71,8 +71,9 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
 
         if (Mathf.Abs(transform.position.x - playerPos.x) <= triggerDistance && currentState == Enemy4State.Activated) {
             currentState = Enemy4State.Chase;
-            print("chase started");
         }
+
+
         
     }
 

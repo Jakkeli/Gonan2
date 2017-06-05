@@ -48,14 +48,23 @@ public class DBController : MonoBehaviour {
     }
 
     public void Whip() {
-        if (uac.animation.lastAnimationName != "Standing_Whip") uac.animation.Play("Standing_Whip");
-        print("whip");
-        
+        if (uac.animation.lastAnimationName != "Standing_Whip") uac.animation.Play("Standing_Whip");    
     }
 
     public void CrouchWhip() {
         if (uac.animation.lastAnimationName != "Crouch_Whip") uac.animation.Play("Crouch_Whip");
-        print("crouchwhip");
+    }
+
+    public void WhipUp() {
+        if (uac.animation.lastAnimationName != "Standing_WhipUP") uac.animation.Play("Standing_WhipUP");
+    }
+
+    public void WhipDiag() {
+        if (uac.animation.lastAnimationName != "Standing_WhipAngle") uac.animation.Play("Standing_WhipAngle");
+    }
+
+    public void JumpWhip() {
+        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
     }
 
     public void ThrowShuriken() {
@@ -63,7 +72,7 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerJump() {
-       // if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
+       if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
     }
 
     public void Knockback() {
