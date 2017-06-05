@@ -215,7 +215,27 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         canMove = true;
         //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
         whipping = false;
-        dbc.PlayerIdle();
+        AnimationCheck();
+    }
+
+    void AnimationCheck() {
+        if (currentState == PlayerState.Crouch) {
+            dbc.PlayerCrouchIdle();
+        } else if (currentState == PlayerState.InAir) {
+            dbc.PlayerInAir();
+        } else if (currentState == PlayerState.OnStair) {
+            dbc.PlayerIdle();
+        } else if (currentState == PlayerState.Moving) {
+            dbc.PlayerWalk();
+        } else if (currentState == PlayerState.KnockedBack) {
+            dbc.Knockback();
+        } else if (currentState == PlayerState.Dead) {
+            dbc.Knockback();
+        } else if (currentState == PlayerState.Idle) {
+            dbc.PlayerIdle();
+        } else if (currentState == PlayerState.IndianaJones) {
+            dbc.IndianaJones();
+        }
     }
 
     void FixedUpdate() {

@@ -67,31 +67,24 @@ public class DBController : MonoBehaviour {
     }
 
     public void JumpWhipDiagUp() {
-        //if (uac.animation.lastAnimationName != "Jump_Whip_DiagUp") uac.animation.Play("Jump_Whip_DiagUp");
-        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
-        print("animation missing");
+        if (uac.animation.lastAnimationName != "Jump_WhipAngleUP") uac.animation.Play("Jump_WhipAngleUP");
     }
 
     public void JumpWhipDiagDown() {
-        //if (uac.animation.lastAnimationName != "Jump_Whip_DiagDown") uac.animation.Play("Jump_Whip_DiagDown");
-        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
-        print("animation missing");
+        if (uac.animation.lastAnimationName != "Jump_WhipAngleDown") uac.animation.Play("Jump_WhipAngleDown");
     }
 
     public void JumpWhipUp() {
-        //if (uac.animation.lastAnimationName != "Jump_Whip_Up") uac.animation.Play("Jump_Whip_Up");
-        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
-        print("animation missing");
+        if (uac.animation.lastAnimationName != "Jump_WhipUP") uac.animation.Play("Jump_WhipUP");
     }
 
     public void JumpWhipDown() {
-        //if (uac.animation.lastAnimationName != "Jump_Whip_Down") uac.animation.Play("Jump_Whip_Down");
-        if (uac.animation.lastAnimationName != "Jump_Whip") uac.animation.Play("Jump_Whip");
-        print("animation missing");
+        if (uac.animation.lastAnimationName != "Jump_WhipDown") uac.animation.Play("Jump_WhipDown");
     }
 
     public void ThrowShuriken() {
         //if (uac.animation.lastAnimationName != "ThrowShuriken") uac.animation.Play("ThrowShuriken");
+        print("animation missing");
     }
 
     public void PlayerJump() {
@@ -101,6 +94,7 @@ public class DBController : MonoBehaviour {
     public void Knockback() {
         //if (uac.animation.lastAnimationName != "Knockback") uac.animation.Play("Knockback");
         if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
+        print("animation missing");
     }
 
     public void PlayerDeath() {
