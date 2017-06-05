@@ -12,6 +12,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public AimState currentAimState;
     public AimState lastHorizontalState;
 
+    public bool disableWhipBox;
+
     Rigidbody2D rb;
     CapsuleCollider2D capCol;
     public float hSpeed = 4;
@@ -216,6 +218,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public void StopWhip() {
         canMove = true;
         //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
+        whipping = false;
         dbc.PlayerIdle();
     }
 
@@ -233,10 +236,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 if (currentState == PlayerState.Crouch) {
                     CrouchEnd();
                     currentState = PlayerState.InAir;
-                    dbc.PlayerInAir();
+                    if (!whipping) dbc.PlayerInAir();
                 } else {
                     currentState = PlayerState.InAir;
-                    dbc.PlayerInAir();
+                    if (!whipping) dbc.PlayerInAir();
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
@@ -260,18 +263,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
         } else {
             onStair = false;
-        }
-
-        if (horizontalAxis > 0 && !facingRight) {
-            facingRight = true;
-            dbc.FaceRight();
-        } else if (horizontalAxis < 0 && facingRight) {
-            facingRight = false;
-            dbc.FaceLeft();
-        }
-
-        //spriteRenderer.flipX = !facingRight; REMOVED REMOVED REMOVED
-
+        }        
 
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
 
@@ -306,8 +298,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             jump = false;
         }
         else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            DropDown();
-            
+            DropDown();            
         }
 
         // indiana jones
@@ -395,12 +386,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 } else if (horizontalAxis > 0) {
                     transform.Translate(stairSpeed, stairSpeed, 0);
                 }
-            }
-
-            if (horizontalAxis < 0) facingRight = false;
-            if (horizontalAxis > 0) facingRight = true;
+            }            
         }
 
+        // jump input and checks
         if (Input.GetButtonDown("Jump")) {
             if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && canMove && currentState != PlayerState.KnockedBack) {
                 if (currentState == PlayerState.Crouch) {
@@ -413,29 +402,29 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 DropDown();
             }
         }
-
-        if (v.x != 0) {
-            //animator.SetBool("walk", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
-            if (currentState == PlayerState.Crouch) {
-                dbc.PlayerCrouchWalk();
-            } else if (currentState == PlayerState.InAir) {
-                dbc.PlayerInAir();
-            } else if (currentState == PlayerState.Moving) {
-                dbc.PlayerWalk();
-            } else if (currentState == PlayerState.KnockedBack) {
-                dbc.Knockback();
+        if (!whipping) {
+            if (v.x != 0) {         
+                if (currentState == PlayerState.Crouch) {
+                    dbc.PlayerCrouchWalk();
+                } else if (currentState == PlayerState.InAir) {
+                    dbc.PlayerInAir();
+                } else if (currentState == PlayerState.Moving) {
+                    dbc.PlayerWalk();
+                } else if (currentState == PlayerState.KnockedBack) {
+                    dbc.Knockback();
+                }
+            }
+            if (v.x == 0) {
+                if (currentState == PlayerState.Crouch) {
+                    dbc.PlayerCrouchIdle();
+                } else if (currentState == PlayerState.Idle) {
+                    dbc.PlayerIdle();
+                } else if (currentState == PlayerState.InAir) {
+                    dbc.PlayerInAir();
+                }
             }
         }
-        if (v.x == 0) {
-            //animator.SetBool("walk", false); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
-            if (currentState == PlayerState.Crouch) {
-                dbc.PlayerCrouchIdle();
-            } else if (currentState == PlayerState.Idle) {
-                dbc.PlayerIdle();
-            } else if (currentState == PlayerState.InAir) {
-                dbc.PlayerInAir();
-            }
-        }
+        
         // aiming
 
         if (horizontalAxis > 0) {
@@ -466,6 +455,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // shooting
         if (Input.GetButtonDown("Fire1") && canWhip) {
+            whipping = true;
+            if (currentState == PlayerState.Crouch) {
+                dbc.CrouchWhip();
+            } else {
+                dbc.Whip();
+            }
+
             // shooting forward
 
             if (currentAimState == AimState.Right) {
@@ -513,12 +509,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
             canWhip = false;
             if (currentState != PlayerState.InAir) canMove = false;
-            //animator.SetBool("whip", true); ANIMATOR ANIMATOR ANIMATOR ANIMATOR
-            if (currentState == PlayerState.Crouch) {
-                dbc.CrouchWhip();
-            } else {
-                dbc.Whip();
-            }            
         }
 
         // secondary fire
@@ -545,17 +535,33 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
         }
 
-            if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
-                LetGoOfHook();
-            }
+        if (Input.GetButtonUp("Fire1") && currentState == PlayerState.IndianaJones) {
+            LetGoOfHook();
+        }
 
-            if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
-                LetGoOfHook();
-            }
+        if (!Input.GetButton("Fire1") && currentState == PlayerState.IndianaJones) {
+            LetGoOfHook();
+        }
 
-            if (Input.GetKeyDown(KeyCode.K)) {
-                KnockBack(-1);
-            }
-        
+        if (Input.GetKeyDown(KeyCode.K)) {
+            KnockBack(-1);
+        }
+
+        // flipX
+
+        if (horizontalAxis < 0 && facingRight) {
+            facingRight = false;
+            dbc.FaceLeft();
+        } else if (horizontalAxis > 0 && !facingRight) {
+            facingRight = true;
+            dbc.FaceRight();
+        }
+
+        //onstair animation
+
+        if (currentState == PlayerState.OnStair) {
+            if (horizontalAxis != 0) dbc.PlayerWalk();
+            if (horizontalAxis == 0) dbc.PlayerIdle();
+        }
     }
 }

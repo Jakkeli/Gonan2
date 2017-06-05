@@ -5,7 +5,7 @@ using UnityEngine;
 public class Whip : MonoBehaviour {
 
     float tickTime;
-    float timer = 0.1f;
+    float timer = 0.2f;
     bool called;
     Player player;
     FabricCtrl fabCtrl;
@@ -17,21 +17,21 @@ public class Whip : MonoBehaviour {
 
     void Activate() {
         GetComponent<BoxCollider2D>().enabled = true;
-        GetComponent<MeshRenderer>().enabled = true;
+        if (!player.disableWhipBox) GetComponent<MeshRenderer>().enabled = true;
         called = false;
     }
 
     public void DoIt() {
         tickTime = 0;
         called = true;
-        Invoke("PutBack", 0.3f);
+        Invoke("PutBack", 0.7f);
         player.whipping = true;
         fabCtrl.PlaySoundWhip1();
     }
 
     void PutBack() {
         GetComponent<BoxCollider2D>().enabled = false;
-        GetComponent<MeshRenderer>().enabled = false;
+        if (!player.disableWhipBox) GetComponent<MeshRenderer>().enabled = false;
         player.GetComponent<Player>().canWhip = true;
         player.whipping = false;
         player.StopWhip();
