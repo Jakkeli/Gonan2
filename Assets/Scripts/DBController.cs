@@ -15,7 +15,7 @@ public class DBController : MonoBehaviour {
         uac = GetComponent<UnityArmatureComponent>();
         uac.animation.Play("Standing_Idle");
         transform.localScale = new Vector3(0.38f, 0.38f, 1);
-        transform.position -= new Vector3(0, -0.4f, 0);
+        transform.position -= new Vector3(0, -0.24f, 0);
 	}
 
     public void FaceRight() {
