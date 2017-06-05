@@ -30,6 +30,8 @@ public class PlayerStairs : MonoBehaviour {
                 }
             } else if (player.currentState == PlayerState.InAir && player.verticalAxis > 0) {
                 PutPlayerOnStair(hit);
+            } else if (player.currentState == PlayerState.InAir && !stair.canDropDown) {
+                PutPlayerOnStair(hit);
             }
         } else if (player.currentState == PlayerState.OnStair) {
             RaycastHit2D hitGround = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, LayerMask.GetMask("ground"));

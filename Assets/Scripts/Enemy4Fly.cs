@@ -9,26 +9,22 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     public Enemy4State currentState;
     public float speed;
     public float diveSpeed;
-    public float hDir;
+    float usedSpeed;
+    float hDir;
     float prevHDir;
-
-    //Vector3 originalPos;
     Vector3 playerPos;
     Vector3 targetPos;
-    Vector3 backOffPos;
-
     public bool activateOnStart;
     public bool goRight;
     public int hp = 1;
-
     GameObject player;
     FabricCtrl fabCtrl;
-
     public float triggerDistance;
-
     public bool targetPosSet;
     public bool diveComplete;
     public bool backOffPosSet;
+    Vector3 pos;
+    Vector3 targetDir;
 
     void Start() {
         player = GameObject.Find("player");
@@ -66,13 +62,18 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
         }
     }
 
+    void Move() {        
+        targetDir = targetPos - pos;
+        targetDir.Normalize();
+        transform.position += targetDir * Time.deltaTime * usedSpeed;
+    }
+
     void Update() {
         if (currentState == Enemy4State.Inactive || currentState == Enemy4State.Dead) {
             return;
         }
         playerPos = player.transform.position;
-        var pos = transform.position;
-        Vector3 targetDir;
+        pos = transform.position;
 
         if (GetComponent<Rigidbody2D>().velocity.x < 0) {
             GetComponent<SpriteRenderer>().flipX = false;
@@ -83,28 +84,60 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
         }
 
         if (Mathf.Abs(pos.x - playerPos.x) <= triggerDistance && currentState == Enemy4State.Activated && currentState != Enemy4State.Awake) {
+            print(pos.x + " " + playerPos.x);
+            print("why!?!?!?!?");
             currentState = Enemy4State.Awake;
         }
 
-        if (currentState == Enemy4State.Awake) {
-            if ((targetPos - pos).magnitude < 0.2f) {
-                currentState = Enemy4State.Dive;
-                return;
-            }
+        if (currentState == Enemy4State.Awake) {            
             if (!targetPosSet) {
-                targetPos = pos + new Vector3((pos.x + 2) * hDir, pos.y + 2, 0);
+                usedSpeed = speed;
+                targetPos = new Vector3((pos.x + 2 * hDir), pos.y + 2, 0);
                 targetPosSet = true;
             }
-            targetDir = targetPos - pos;
-            transform.position += targetDir * Time.deltaTime * speed;
+            if (targetPosSet) {
+                Move();
+            }
+            if ((targetPos - pos).magnitude < 0.1f) {
+                targetPosSet = false;
+                currentState = Enemy4State.Dive;
+            }
         }
 
         if (currentState == Enemy4State.Dive) {
-
+            if (!targetPosSet) {
+                usedSpeed = diveSpeed;
+                targetPos = playerPos;
+                targetPosSet = true;
+            }
+            if (targetPosSet) {
+                Move();
+            }
+            if ((targetPos - pos).magnitude < 0.1f) {
+                targetPosSet = false;
+                currentState = Enemy4State.Recover;
+            }            
         }
 
-        targetDir = targetPos - pos;
-        transform.position += targetDir * Time.deltaTime * speed;
+        if (currentState == Enemy4State.Recover) {
+            if (!targetPosSet) {
+                usedSpeed = speed;
+                targetPos = new Vector3((pos.x + 4 * hDir), pos.y + 4, 0);
+                targetPosSet = true;
+                if (hDir == -1) {
+                    hDir = 1;
+                } else {
+                    hDir = -1;
+                }
+            }
+            if (targetPosSet) {
+                Move();
+            }
+            if ((targetPos - pos).magnitude < 0.1f) {
+                targetPosSet = false;
+                currentState = Enemy4State.Dive;
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D c) {
