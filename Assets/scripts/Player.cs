@@ -283,7 +283,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }        
         // moving or idle? that is the question
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-
             if (v.x != 0f && currentState != PlayerState.Crouch) {
                 currentState = PlayerState.Moving;
             } else if (v.x == 0 && currentState != PlayerState.Crouch) {
@@ -446,32 +445,36 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
         
         // aiming
-
-        if (horizontalAxis > 0) {
-            currentAimState = AimState.Right;
-            lastHorizontalState = AimState.Right;
-            if (verticalAxis > 0f) {
-                currentAimState = AimState.DiagUpRight;
-            } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-                currentAimState = AimState.DiagDownRight;
-            }
-        } else if (horizontalAxis < 0f) {
-            currentAimState = AimState.Left;
-            lastHorizontalState = AimState.Left;
-            if (verticalAxis > 0f) {
-                currentAimState = AimState.DiagUpLeft;
-            } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
-                currentAimState = AimState.DiagDownLeft;
-            }
-        } else if (horizontalAxis == 0) {
-            if (verticalAxis < 0 && currentState == PlayerState.InAir) {
-                currentAimState = AimState.Down;
-            } else if (verticalAxis > 0) {
-                currentAimState = AimState.Up;
-            } else {
-                currentAimState = lastHorizontalState;
+        if (whipping) {
+            //nope
+        } else {
+            if (horizontalAxis > 0) {
+                currentAimState = AimState.Right;
+                lastHorizontalState = AimState.Right;
+                if (verticalAxis > 0f) {
+                    currentAimState = AimState.DiagUpRight;
+                } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+                    currentAimState = AimState.DiagDownRight;
+                }
+            } else if (horizontalAxis < 0f) {
+                currentAimState = AimState.Left;
+                lastHorizontalState = AimState.Left;
+                if (verticalAxis > 0f) {
+                    currentAimState = AimState.DiagUpLeft;
+                } else if (verticalAxis < 0f && currentState == PlayerState.InAir) {
+                    currentAimState = AimState.DiagDownLeft;
+                }
+            } else if (horizontalAxis == 0) {
+                if (verticalAxis < 0 && currentState == PlayerState.InAir) {
+                    currentAimState = AimState.Down;
+                } else if (verticalAxis > 0) {
+                    currentAimState = AimState.Up;
+                } else {
+                    currentAimState = lastHorizontalState;
+                }
             }
         }
+        
 
         // shooting
         if (Input.GetButtonDown("Fire1") && canWhip) {
@@ -580,10 +583,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // flipX
 
-        if (horizontalAxis < 0 && facingRight && canMove) {
+        if (horizontalAxis < 0 && facingRight && canMove && !whipping) {
             facingRight = false;
             dbc.FaceLeft();
-        } else if (horizontalAxis > 0 && !facingRight && canMove) {
+        } else if (horizontalAxis > 0 && !facingRight && canMove && !whipping) {
             facingRight = true;
             dbc.FaceRight();
         }
