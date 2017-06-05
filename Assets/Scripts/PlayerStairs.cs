@@ -6,11 +6,13 @@ public class PlayerStairs : MonoBehaviour {
 
     public Player player;
     Stair stair;
+    public GameObject hitThing;
 
     private void Update() {
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(0, 1, 0), Vector2.down, 0.1f, LayerMask.GetMask("stair"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(0, 1, 0), Vector2.down, 0.2f, LayerMask.GetMask("stair"));
         if (hit) {
+            hitThing = hit.collider.gameObject;
             stair = hit.collider.GetComponent<Stair>();            
             if (stair.leftUp && player.currentState != PlayerState.InAir) {
                 if (player.horizontalAxis < 0 && player.verticalAxis > 0 && transform.position.y < stair.stairPos.y) {
