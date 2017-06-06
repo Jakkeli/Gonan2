@@ -56,6 +56,7 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         fabCtrl.PlaySoundEnemy1Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
+        gameObject.SetActive(false);
         //animation + effects?
     }
 
