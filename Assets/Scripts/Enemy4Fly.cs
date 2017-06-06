@@ -83,8 +83,8 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
             hDir = 1;
         }
 
-        if (playerPos.x < pos.x) if (hDir == -1) spriteRenderer.flipX = true;
-        if (playerPos.x > pos.x) if (hDir == -1) spriteRenderer.flipX = false;
+        if (playerPos.x < pos.x) spriteRenderer.flipX = true;
+        if (playerPos.x > pos.x) spriteRenderer.flipX = false;
 
         if (Input.GetKeyDown(KeyCode.F)) {
             GetComponent<SpriteRenderer>().flipX = GetComponent<SpriteRenderer>().flipX ? false : true;
