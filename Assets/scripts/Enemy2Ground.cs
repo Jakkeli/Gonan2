@@ -16,11 +16,13 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
     public float minX;
 
     GameObject player;
+    Player ps;
 
     FabricCtrl fabCtrl;
 
     void Start() {
         player = GameObject.Find("player");
+        ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
             Activate();
@@ -55,6 +57,9 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
         if (currentState != Enemy1State.Activated) {
             return;
         }
+
+        if (ps.currentState == PlayerState.Dead || ps.currentState == PlayerState.KnockedBack) return;
+
         if (transform.position.x >= maxX) {
             goRight = false;
         } else if (transform.position.x <= minX) {
@@ -76,7 +81,9 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
             } else {
                 dir = 1;
             }
-            player.GetComponent<Player>().EnemyHitPlayer(dir);
+            if (ps.currentState != PlayerState.Dead && ps.currentState != PlayerState.KnockedBack) {
+                ps.EnemyHitPlayer(dir);
+            }
         }
     }
 }

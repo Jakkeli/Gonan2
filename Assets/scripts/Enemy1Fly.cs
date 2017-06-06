@@ -25,11 +25,13 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
     public int hp = 1;
 
     GameObject player;
+    Player ps;
     FabricCtrl fabCtrl;
     int svdir;
 
 	void Start () {
         player = GameObject.Find("player");
+        ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
             Activate();
@@ -72,6 +74,8 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
                return;
         }
 
+        if (ps.currentState == PlayerState.Dead || ps.currentState == PlayerState.KnockedBack) return;
+
         if (hDir < 0) GetComponent<SpriteRenderer>().flipX = false;
         if (hDir > 0) GetComponent<SpriteRenderer>().flipX = true;
         var t = Time.time - startTime;
@@ -90,7 +94,9 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
             else {
                 dir = 1;
             }
-            player.GetComponent<Player>().EnemyHitPlayer(dir);
+            if (ps.currentState != PlayerState.Dead && ps.currentState != PlayerState.KnockedBack) {
+                ps.EnemyHitPlayer(dir);
+            }            
         }
     }
 }

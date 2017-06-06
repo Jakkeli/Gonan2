@@ -6,12 +6,12 @@ using DragonBones;
 public class DBController : MonoBehaviour {
 
     UnityArmatureComponent uac;
-    //Player player;
+    Player player;
 
     bool stopWhip;
 
 	void Start () {
-        //player = GameObject.Find("player").GetComponent<Player>();
+        player = GameObject.Find("player").GetComponent<Player>();
         uac = GetComponent<UnityArmatureComponent>();
         uac.animation.Play("Standing_Idle");
         transform.localScale = new Vector3(0.38f, 0.38f, 1);
@@ -96,7 +96,7 @@ public class DBController : MonoBehaviour {
     }
 
     public void PlayerDeath() {
-        if (uac.animation.lastAnimationName != "Die") uac.animation.Play("Die");
+        uac.animation.Play("Die", 1);
     }
 
     public void IndianaJones() {
@@ -104,6 +104,5 @@ public class DBController : MonoBehaviour {
     }
 
     void Update() {
-
     }
 }

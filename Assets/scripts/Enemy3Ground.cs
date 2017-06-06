@@ -22,8 +22,11 @@ public class Enemy3Ground : MonoBehaviour, IReaction {
     FabricCtrl fabCtrl;
     Vector3 targetPos;
 
+    Player ps;
+
     void Start () {
         player = GameObject.Find("player");
+        ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
             Activate();
@@ -69,12 +72,15 @@ public class Enemy3Ground : MonoBehaviour, IReaction {
             } else {
                 dir = 1;
             }
-            player.GetComponent<Player>().EnemyHitPlayer(dir);
+            if (ps.currentState != PlayerState.Dead && ps.currentState != PlayerState.KnockedBack) {
+                ps.EnemyHitPlayer(dir);
+            }
         }
     }
 
     void Update () {
         if (currentState != Enemy3State.Activated) return;
+        if (ps.currentState == PlayerState.Dead || ps.currentState == PlayerState.KnockedBack) return;
         var pos = transform.position;
         
         if (otherState == OtherState.Dropping) {
