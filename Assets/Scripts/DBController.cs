@@ -92,20 +92,15 @@ public class DBController : MonoBehaviour {
     }
 
     public void Knockback() {
-        //if (uac.animation.lastAnimationName != "Knockback") uac.animation.Play("Knockback");
-        if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
-        //print("animation missing");
+        if (uac.animation.lastAnimationName != "Knockback") uac.animation.Play("Knockback");
     }
 
     public void PlayerDeath() {
-        //if (uac.animation.lastAnimationName != "PlayerDeath") uac.animation.Play("PlayerDeath");
-        //print("death animation missing");
+        if (uac.animation.lastAnimationName != "Die") uac.animation.Play("Die");
     }
 
     public void IndianaJones() {
-        //if (uac.animation.lastAnimationName != "IndianaJones") uac.animation.Play("IndianaJones");
-        if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
-        //print("ij animation missing");
+        if (uac.animation.lastAnimationName != "NinjaRope") uac.animation.Play("NinjaRope");
     }
 
     void Update() {
