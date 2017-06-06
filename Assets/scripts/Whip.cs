@@ -47,6 +47,7 @@ public class Whip : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D col) {
+        if (player.currentState == PlayerState.IndianaJones) return;
         if (col.GetComponent<IReaction>() != null && col.tag == "enemy") {
             col.GetComponent<IReaction>().React();
         }

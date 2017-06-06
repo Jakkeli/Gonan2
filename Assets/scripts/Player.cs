@@ -94,6 +94,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     DBController dbc;
 
+    public float gravity = 1;
+
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         dbc = GetComponentInChildren<DBController>();
@@ -129,7 +131,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         //print("getoffstair");
         if (currentState == PlayerState.OnStair) {
             currentState = PlayerState.Idle;
-            rb.gravityScale = 1;
+            rb.gravityScale = gravity;
             capCol.isTrigger = false;
         }        
     }

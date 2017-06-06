@@ -9,7 +9,7 @@ public class PlayerStairs : MonoBehaviour {
     public GameObject hitThing;
 
     private void Update() {
-
+        if (player.currentState == PlayerState.IndianaJones) return;
         RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(0, 1, 0), Vector2.down, 0.2f, LayerMask.GetMask("stair"));
         if (hit) {
             hitThing = hit.collider.gameObject;
