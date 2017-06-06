@@ -20,9 +20,9 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     GameObject player;
     FabricCtrl fabCtrl;
     public float triggerDistance;
-    public bool targetPosSet;
-    public bool diveComplete;
-    public bool backOffPosSet;
+    bool targetPosSet;
+    bool diveComplete;
+    bool backOffPosSet;
     Vector3 pos;
     Vector3 targetDir;
 
@@ -84,8 +84,6 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
         }
 
         if (Mathf.Abs(pos.x - playerPos.x) <= triggerDistance && currentState == Enemy4State.Activated && currentState != Enemy4State.Awake) {
-            print(pos.x + " " + playerPos.x);
-            print("why!?!?!?!?");
             currentState = Enemy4State.Awake;
         }
 
