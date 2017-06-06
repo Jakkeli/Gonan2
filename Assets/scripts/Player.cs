@@ -323,7 +323,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             dbc.IndianaJones();
             Vector2 hookPos = currentHookPoint.transform.position;
 
-            line.SetPosition(0, transform.position);
+            line.SetPosition(0, transform.position + new Vector3(0, 1.4f, 0));
             line.SetPosition(1, hookPos);
             if (transform.position.y < hookPos.y - 1) {
                 rb.velocity = new Vector3(horizontalAxis * swingSpeed, rb.velocity.y, 0);
