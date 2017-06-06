@@ -593,7 +593,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4543185417664674
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503410662974000}
@@ -894,7 +894,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
 --- !u!23 &23502755274300280
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -926,7 +926,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 0
 --- !u!23 &23512180343620050
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -990,7 +990,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 0
 --- !u!23 &23584446832616794
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1054,7 +1054,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 0
 --- !u!23 &23686586429998850
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1118,7 +1118,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 0
 --- !u!23 &23764412438070238
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1214,7 +1214,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
 --- !u!23 &23848625233264988
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1246,7 +1246,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 0
 --- !u!23 &23906002108997134
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1693,7 +1693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114342731569171044
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503410662974000}
@@ -1702,7 +1702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be5949035c594745967f7d1e955ebce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uac: {fileID: 114853255022701428}
 --- !u!114 &114454509909716980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1717,6 +1716,7 @@ MonoBehaviour:
   currentState: 0
   currentAimState: 0
   lastHorizontalState: 0
+  disableWhipBox: 0
   hSpeed: 4
   vSpeed: 7
   swingSpeed: 6
@@ -1816,7 +1816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114853255022701428
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503410662974000}
