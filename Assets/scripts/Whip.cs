@@ -24,7 +24,7 @@ public class Whip : MonoBehaviour {
     public void DoIt() {
         tickTime = 0;
         called = true;
-        Invoke("PutBack", 0.7f);
+        Invoke("PutBack", 0.5f);
         player.whipping = true;
         fabCtrl.PlaySoundWhip1();
     }

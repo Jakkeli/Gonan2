@@ -11,6 +11,7 @@ public class Shuriken : MonoBehaviour {
     public bool wasThrown;
     bool hasTurnedBack;
     float startX;
+    float startY;
     public float rotateSpeed;
     public float goneDist;
     GameObject player;
@@ -26,6 +27,7 @@ public class Shuriken : MonoBehaviour {
             transform.position = new Vector2(transform.position.x, player.transform.position.y + yOffset);
             wasThrown = true;
             startX = transform.position.x;
+            startY = transform.position.y;
             sr.enabled = true;
             dir = d;
             circCol.enabled = true;
@@ -53,8 +55,9 @@ public class Shuriken : MonoBehaviour {
 	}
 
     void Move() {
-        transform.Translate(speed * Time.deltaTime * dir, 0, 0);
-        sprite.Rotate(0, 0, rotateSpeed * Time.deltaTime * dir);
+        //transform.Translate(speed * Time.deltaTime * dir, 0, 0);
+        transform.position += new Vector3(speed * Time.deltaTime * dir, 0, 0);
+        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
     }
 
     void Update () {

@@ -149,20 +149,22 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void Death() {
-        currentState = PlayerState.Dead;
-        dbc.PlayerDeath();
-        fabCtrl.PlaySoundPlayerDeath();
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        if (playerLives == 0) {
-            //gameover
-            gm.GameOver();
-            return;
+        if (currentState != PlayerState.Dead) {
+            currentState = PlayerState.Dead;
+            dbc.PlayerDeath();
+            fabCtrl.PlaySoundPlayerDeath();
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            if (playerLives == 0) {
+                //gameover
+                gm.GameOver();
+                return;
+            }
+            playerLives--;
+            // stop animations
+            print("u dieded");
+            gm.UpdateLevelLivesAmmo();
+            Respawn();
         }
-        playerLives--;
-        // stop animations
-        print("u dieded");
-        gm.UpdateLevelLivesAmmo();
-        Respawn();
     }
 
     void Respawn() {
@@ -243,7 +245,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     void FixedUpdate() {
 
-        if (currentState == PlayerState.Dead) return;
+        if (currentState == PlayerState.Dead) {
+            return;
+        }
 
         v = rb.velocity;    //rigidbody velocity
 
@@ -325,7 +329,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             dbc.IndianaJones();
             Vector2 hookPos = currentHookPoint.transform.position;
 
-            line.SetPosition(0, transform.position);
+            line.SetPosition(0, transform.position + new Vector3(0, 1.4f, 0));
             line.SetPosition(1, hookPos);
             if (transform.position.y < hookPos.y - 1) {
                 rb.velocity = new Vector3(horizontalAxis * swingSpeed, rb.velocity.y, 0);
@@ -587,15 +591,15 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         if (Input.GetKeyDown(KeyCode.K)) {
-            KnockBack(-1);
+            Death();
         }
 
         // flipX
 
-        if (horizontalAxis < 0 && facingRight && canMove && !whipping) {
+        if (horizontalAxis < 0 && facingRight && canMove && !whipping && currentState != PlayerState.IndianaJones) {
             facingRight = false;
             dbc.FaceLeft();
-        } else if (horizontalAxis > 0 && !facingRight && canMove && !whipping) {
+        } else if (horizontalAxis > 0 && !facingRight && canMove && !whipping && currentState != PlayerState.IndianaJones) {
             facingRight = true;
             dbc.FaceRight();
         }

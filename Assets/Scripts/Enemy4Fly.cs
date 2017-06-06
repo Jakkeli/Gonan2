@@ -27,9 +27,12 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     Vector3 targetDir;
     SpriteRenderer spriteRenderer;
 
+    Player ps;
+
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GameObject.Find("player");
+        ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
             Activate();
@@ -75,6 +78,9 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
         if (currentState == Enemy4State.Inactive || currentState == Enemy4State.Dead) {
             return;
         }
+
+        if (ps.currentState == PlayerState.Dead) return;
+
         playerPos = player.transform.position;
         pos = transform.position;
 
@@ -154,7 +160,9 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
             } else {
                 dir = 1;
             }
-            player.GetComponent<Player>().EnemyHitPlayer(dir);
+            if (ps.currentState != PlayerState.Dead && ps.currentState != PlayerState.KnockedBack) {
+                ps.EnemyHitPlayer(dir);
+            }
         }
     }
 }
