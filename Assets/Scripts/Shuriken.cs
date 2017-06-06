@@ -17,6 +17,7 @@ public class Shuriken : MonoBehaviour {
     Player p;
     SpriteRenderer sr;
     public float yOffset;
+    CircleCollider2D circCol;
 
     public void Throw(int d, bool crouch) {
         if (!wasThrown) {
@@ -26,6 +27,7 @@ public class Shuriken : MonoBehaviour {
             startX = transform.position.x;
             sr.enabled = true;
             dir = d;
+            circCol.enabled = true;
         }       
     }
 
@@ -34,6 +36,7 @@ public class Shuriken : MonoBehaviour {
         wasThrown = false;
         hasTurnedBack = false;
         sr.enabled = false;
+        circCol.enabled = false;
     }
 
     void Awake() {
@@ -43,11 +46,12 @@ public class Shuriken : MonoBehaviour {
         if (sr == null) {
             print("wtf");
         }
+        circCol = GetComponent<CircleCollider2D>();
+        if (circCol.enabled) circCol.enabled = false;
 	}
 
     void Move() {
         transform.Translate(speed * Time.deltaTime * dir, 0, 0);
-        //transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime * dir);
         transform.Rotate(0, 0, rotateSpeed * Time.deltaTime * dir);
     }
 

@@ -147,15 +147,16 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void Death() {
+        currentState = PlayerState.Dead;
         dbc.PlayerDeath();
         fabCtrl.PlaySoundPlayerDeath();
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
         if (playerLives == 0) {
             //gameover
             gm.GameOver();
+            return;
         }
         playerLives--;
-        currentState = PlayerState.Dead;
         // stop animations
         print("u dieded");
         gm.UpdateLevelLivesAmmo();
@@ -266,7 +267,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.KnockedBack && rb.velocity.y == 0) {
             currentState = PlayerState.Idle;
             dbc.PlayerIdle();
-            //print("knockbackendidle");
             canWhip = true;
         }
 
@@ -385,7 +385,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.OnStair) {
             rb.velocity = new Vector3(0, 0, 0);
             float stairSpeed = strSpeed * Time.deltaTime;
-            if (stairLeftUp) {
+            if (stairLeftUp && !whipping) {
                 if (verticalAxis < 0) {
                     transform.Translate(stairSpeed, -stairSpeed, 0);
                 } else if (verticalAxis > 0) {
@@ -395,7 +395,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 } else if (horizontalAxis > 0) {
                     transform.Translate(stairSpeed, -stairSpeed, 0);
                 }
-            } else if (!stairLeftUp) {
+            } else if (!stairLeftUp && !whipping) {
                 if (verticalAxis < 0) {
                     transform.Translate(-stairSpeed, -stairSpeed, 0);
                 } else if (verticalAxis > 0) {
@@ -488,6 +488,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 whipRight.GetComponent<Whip>().DoIt();
                 if (currentState == PlayerState.Crouch) {
                     dbc.CrouchWhip();
+                } else if (currentState == PlayerState.InAir) {
+                    dbc.JumpWhip();
                 } else {
                     dbc.Whip();
                 }
@@ -497,6 +499,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 whipLeft.GetComponent<Whip>().DoIt();
                 if (currentState == PlayerState.Crouch) {
                     dbc.CrouchWhip();
+                } else if (currentState == PlayerState.InAir) {
+                    dbc.JumpWhip();
                 } else {
                     dbc.Whip();
                 }
@@ -507,19 +511,22 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 //diagupright
                 whipDiagUpRight.SetActive(true);
                 whipDiagUpRight.GetComponent<Whip>().DoIt();
-                dbc.WhipDiag();
+                if (currentState == PlayerState.InAir) dbc.JumpWhipDiagUp();
+                if (currentState != PlayerState.InAir) dbc.WhipDiag();
             }
             if (currentAimState == AimState.DiagUpLeft) {
                 //diagupleft
                 whipDiagUpLeft.SetActive(true);
                 whipDiagUpLeft.GetComponent<Whip>().DoIt();
-                dbc.WhipDiag();
+                if (currentState == PlayerState.InAir) dbc.JumpWhipDiagUp();
+                if (currentState != PlayerState.InAir) dbc.WhipDiag();
             }
             if (currentAimState == AimState.Up) {
                 //up
                 whipUp.SetActive(true);
                 whipUp.GetComponent<Whip>().DoIt();
-                dbc.WhipUp();
+                if (currentState == PlayerState.InAir) dbc.JumpWhipUp();
+                if (currentState != PlayerState.InAir) dbc.WhipUp();
             }
 
             // shooting downwards
@@ -593,7 +600,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         //onstair animation
 
-        if (currentState == PlayerState.OnStair) {
+        if (currentState == PlayerState.OnStair && !whipping) {
             if (horizontalAxis != 0) dbc.PlayerWalk();
             if (horizontalAxis == 0) dbc.PlayerIdle();
         }
