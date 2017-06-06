@@ -18,6 +18,7 @@ public class Shuriken : MonoBehaviour {
     SpriteRenderer sr;
     public float yOffset;
     CircleCollider2D circCol;
+    Transform sprite;
 
     public void Throw(int d, bool crouch) {
         if (!wasThrown) {
@@ -40,9 +41,10 @@ public class Shuriken : MonoBehaviour {
     }
 
     void Awake() {
+        sprite = GetComponentInChildren<Transform>();
         player = GameObject.Find("player");
         p = player.GetComponent<Player>();
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         if (sr == null) {
             print("wtf");
         }
@@ -52,7 +54,7 @@ public class Shuriken : MonoBehaviour {
 
     void Move() {
         transform.Translate(speed * Time.deltaTime * dir, 0, 0);
-        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime * dir);
+        sprite.Rotate(0, 0, rotateSpeed * Time.deltaTime * dir);
     }
 
     void Update () {
