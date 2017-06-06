@@ -84,7 +84,7 @@ public class DBController : MonoBehaviour {
 
     public void ThrowShuriken() {
         //if (uac.animation.lastAnimationName != "ThrowShuriken") uac.animation.Play("ThrowShuriken");
-        print("animation missing");
+        //print("animation missing");
     }
 
     public void PlayerJump() {
@@ -94,18 +94,18 @@ public class DBController : MonoBehaviour {
     public void Knockback() {
         //if (uac.animation.lastAnimationName != "Knockback") uac.animation.Play("Knockback");
         if (uac.animation.lastAnimationName != "Crouch_Idle") uac.animation.Play("Crouch_Idle");
-        print("animation missing");
+        //print("animation missing");
     }
 
     public void PlayerDeath() {
         //if (uac.animation.lastAnimationName != "PlayerDeath") uac.animation.Play("PlayerDeath");
-        print("death animation missing");
+        //print("death animation missing");
     }
 
     public void IndianaJones() {
         //if (uac.animation.lastAnimationName != "IndianaJones") uac.animation.Play("IndianaJones");
         if (uac.animation.lastAnimationName != "Jump_Idle") uac.animation.Play("Jump_Idle");
-        print("ij animation missing");
+        //print("ij animation missing");
     }
 
     void Update() {

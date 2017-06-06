@@ -147,15 +147,16 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void Death() {
+        currentState = PlayerState.Dead;
         dbc.PlayerDeath();
         fabCtrl.PlaySoundPlayerDeath();
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
         if (playerLives == 0) {
             //gameover
             gm.GameOver();
+            return;
         }
         playerLives--;
-        currentState = PlayerState.Dead;
         // stop animations
         print("u dieded");
         gm.UpdateLevelLivesAmmo();
@@ -266,7 +267,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.KnockedBack && rb.velocity.y == 0) {
             currentState = PlayerState.Idle;
             dbc.PlayerIdle();
-            //print("knockbackendidle");
             canWhip = true;
         }
 

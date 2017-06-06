@@ -25,8 +25,10 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     bool backOffPosSet;
     Vector3 pos;
     Vector3 targetDir;
+    SpriteRenderer spriteRenderer;
 
     void Start() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         player = GameObject.Find("player");
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
@@ -37,7 +39,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     }
 
     public void React() {
-        //take damage
+        //take damage        
         hp--;
         if (hp == 0) {
             Death();
@@ -76,11 +78,16 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
         pos = transform.position;
 
         if (GetComponent<Rigidbody2D>().velocity.x < 0) {
-            GetComponent<SpriteRenderer>().flipX = false;
             hDir = -1;
         } else if (GetComponent<Rigidbody2D>().velocity.x > 0) {
-            GetComponent<SpriteRenderer>().flipX = true;
             hDir = 1;
+        }
+
+        if (playerPos.x < pos.x) if (hDir == -1) spriteRenderer.flipX = true;
+        if (playerPos.x > pos.x) if (hDir == -1) spriteRenderer.flipX = false;
+
+        if (Input.GetKeyDown(KeyCode.F)) {
+            GetComponent<SpriteRenderer>().flipX = GetComponent<SpriteRenderer>().flipX ? false : true;
         }
 
         if (Mathf.Abs(pos.x - playerPos.x) <= triggerDistance && currentState == Enemy4State.Activated && currentState != Enemy4State.Awake) {
