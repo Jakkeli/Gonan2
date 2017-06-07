@@ -11,7 +11,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     public float diveSpeed;
     float usedSpeed;
     float hDir;
-    float prevHDir;
+    //float prevHDir;
     Vector3 playerPos;
     Vector3 targetPos;
     public bool activateOnStart;
@@ -38,7 +38,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
             Activate();
         }
         hDir = goRight ? 1 : -1;
-        prevHDir = hDir;
+        //prevHDir = hDir;
     }
 
     public void React() {

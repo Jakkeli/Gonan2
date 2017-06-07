@@ -209,10 +209,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void KnockBack(int dir) {
-        knockBackDir = dir;
+        if (currentState == PlayerState.KnockedBack) return;
         currentState = PlayerState.KnockedBack;
         canWhip = false;
-        rb.velocity = new Vector3(knockBack * knockBackDir, knockBack + 2, 0);
+        knockBackDir = dir;
+        if (currentState != PlayerState.Dead && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
+            rb.velocity = new Vector3(knockBack * knockBackDir, knockBack + 2, 0);            
+        }
         dbc.Knockback();
     }
 

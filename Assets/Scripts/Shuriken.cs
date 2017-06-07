@@ -11,7 +11,7 @@ public class Shuriken : MonoBehaviour {
     public bool wasThrown;
     bool hasTurnedBack;
     float startX;
-    float startY;
+    //float startY;
     public float rotateSpeed;
     public float goneDist;
     GameObject player;
@@ -27,7 +27,7 @@ public class Shuriken : MonoBehaviour {
             transform.position = new Vector2(transform.position.x, player.transform.position.y + yOffset);
             wasThrown = true;
             startX = transform.position.x;
-            startY = transform.position.y;
+            //startY = transform.position.y;
             sr.enabled = true;
             dir = d;
             circCol.enabled = true;
