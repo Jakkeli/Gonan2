@@ -218,6 +218,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         } else if (currentState == PlayerState.OnStair) {
             canMove = false;
             canWhip = false;
+            Invoke("EndKnockback", 0.7f);
         } else if (currentState == PlayerState.IndianaJones) {
             LetGoOfHook();
             currentState = PlayerState.KnockedBack;
@@ -277,7 +278,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // ground-check
 
-        //float colliderLowerEdge = transform.position.y + capCol.offset.y - capCol.size.y / 2;
         if (currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             if (!Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0, whatIsGround) && currentState != PlayerState.IndianaJones) {
                 if (currentState == PlayerState.Crouch) {
@@ -290,7 +290,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 }
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
-                //print("groundcheckforceidle");
             }
         }
         // knockbackend check
@@ -413,6 +412,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.OnStair) {
             rb.velocity = new Vector3(0, 0, 0);
             float stairSpeed = strSpeed * Time.deltaTime;
+            if (!canMove) return;
             if (stairLeftUp && !whipping) {
                 if (verticalAxis < 0) {
                     transform.Translate(stairSpeed, -stairSpeed, 0);
