@@ -209,14 +209,35 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void KnockBack(int dir) {
-        if (currentState == PlayerState.KnockedBack) return;
-        currentState = PlayerState.KnockedBack;
+        if (currentState == PlayerState.KnockedBack) return;        
         canWhip = false;
         knockBackDir = dir;
         if (currentState != PlayerState.Dead && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
+            currentState = PlayerState.KnockedBack;
             rb.velocity = new Vector3(knockBack * knockBackDir, knockBack + 2, 0);            
+        } else if (currentState == PlayerState.OnStair) {
+            canMove = false;
+            canWhip = false;
+        } else if (currentState == PlayerState.IndianaJones) {
+            LetGoOfHook();
+            currentState = PlayerState.KnockedBack;
+            canWhip = false;
+            canMove = false;
         }
         dbc.Knockback();
+    }
+
+    void EndKnockback() {
+        if (currentState == PlayerState.KnockedBack) {
+            currentState = PlayerState.Idle;
+            dbc.PlayerIdle();
+            canWhip = true;
+        } else if (currentState == PlayerState.OnStair) {
+            //dbc.Stair_Player_Idle();
+            canMove = true;
+            canWhip = true;
+        }
+        
     }
 
     public void StopWhip() {
@@ -274,9 +295,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
         // knockbackend check
         if (currentState == PlayerState.KnockedBack && rb.velocity.y == 0) {
-            currentState = PlayerState.Idle;
-            dbc.PlayerIdle();
-            canWhip = true;
+            EndKnockback();
         }
 
         //stair check (are we on top of a stair?)
@@ -430,6 +449,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 DropDown();
             }
         }
+
+        // animation set
         if (!whipping) {
             if (v.x != 0) {         
                 if (currentState == PlayerState.Crouch) {
