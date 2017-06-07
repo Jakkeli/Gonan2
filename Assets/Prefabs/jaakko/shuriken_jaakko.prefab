@@ -121,7 +121,7 @@ MonoBehaviour:
   speed: 6
   flyDist: 6
   wasThrown: 0
-  rotateSpeed: 240
+  rotateSpeed: 600
   goneDist: 10
   yOffset: 0.5
 --- !u!212 &212146535599966694
