@@ -82,9 +82,16 @@ public class DBController : MonoBehaviour {
         if (uac.animation.lastAnimationName != "Jump_WhipDown") uac.animation.Play("Jump_WhipDown");
     }
 
-    public void ThrowShuriken() {
-        //if (uac.animation.lastAnimationName != "ThrowShuriken") uac.animation.Play("ThrowShuriken");
-        //print("animation missing");
+    public void ThrowShurikenStanding() {
+        if (uac.animation.lastAnimationName != "Standing_Throw") uac.animation.Play("Standing_Throw");
+    }
+
+    public void ThrowShurikenCrouch() {
+        if (uac.animation.lastAnimationName != "Crouch_Throw") uac.animation.Play("Crouch_Throw");
+    }
+
+    public void ThrowShurikenInAir() {
+        if (uac.animation.lastAnimationName != "Jump_Throw") uac.animation.Play("Jump_Throw");
     }
 
     public void PlayerJump() {
@@ -101,6 +108,50 @@ public class DBController : MonoBehaviour {
 
     public void IndianaJones() {
         if (uac.animation.lastAnimationName != "NinjaRope") uac.animation.Play("NinjaRope");
+    }
+
+    public void StairsIdleUp() {
+        if (uac.animation.lastAnimationName != "StairsUP_Idle") uac.animation.Play("StairsUP_Idle");
+    }
+
+    public void StairsIdleDown() {
+        if (uac.animation.lastAnimationName != "StairsDown_Idle") uac.animation.Play("StairsDown_Idle");
+    }
+
+    public void StairsWalkDown() {
+        if (uac.animation.lastAnimationName != "StairsDown_Walk") uac.animation.Play("StairsDown_Walk");
+    }
+
+    public void StairsWalkUp() {
+        if (uac.animation.lastAnimationName != "StairsUP_Walk") uac.animation.Play("StairsUP_Walk");
+    }
+
+    public void StairsWhip(bool facingRight, bool stairLeftUp) {
+        if (facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsDown_Whip") uac.animation.Play("StairsDown_Whip");
+        if (!facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsUP_Whip") uac.animation.Play("StairsUP_Whip");
+        if (!facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsDown_Whip") uac.animation.Play("StairsDown_Whip");
+        if (facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsUP_Whip") uac.animation.Play("StairsUP_Whip");
+    }
+
+    public void StairsWhipDiag(bool facingRight, bool stairLeftUp) {
+        if (facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsDown_WhipAngleUP") uac.animation.Play("StairsDown_WhipAngleUP");
+        if (!facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsUP_WhipAngleUP") uac.animation.Play("StairsUP_WhipAngleUP");
+        if (!facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsDown_WhipAngleUP") uac.animation.Play("StairsDown_WhipAngleUP");
+        if (facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsUP_WhipAngleUP") uac.animation.Play("StairsUP_WhipAngleUP");
+    }
+
+    public void StairsWhipUp(bool facingRight, bool stairLeftUp) {
+        if (facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsDown_WhipUP") uac.animation.Play("StairsDown_WhipUP");
+        if (!facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsUP_WhipUP") uac.animation.Play("StairsUP_WhipUP");
+        if (!facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsDown_WhipUP") uac.animation.Play("StairsDown_WhipUP");
+        if (facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsUP_WhipUP") uac.animation.Play("StairsUP_WhipUP");
+    }
+
+    public void StairsThrowShuriken(bool facingRight, bool stairLeftUp) {
+        if (facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsDown_Throw") uac.animation.Play("StairsDown_Throw");
+        if (!facingRight && stairLeftUp && uac.animation.lastAnimationName != "StairsUP_Throw") uac.animation.Play("StairsUP_Throw");
+        if (!facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsDown_Throw") uac.animation.Play("StairsDown_Throw");
+        if (facingRight && !stairLeftUp && uac.animation.lastAnimationName != "StairsUP_Throw") uac.animation.Play("StairsUP_Throw");
     }
 
     void Update() {

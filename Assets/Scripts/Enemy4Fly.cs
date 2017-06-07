@@ -161,8 +161,10 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
             } else {
                 dir = 1;
             }
-            if (ps.currentState != PlayerState.Dead && ps.currentState != PlayerState.KnockedBack) {
+            if (ps.canTakeDamage) {
                 ps.EnemyHitPlayer(dir);
+                targetPosSet = false;
+                currentState = Enemy4State.Recover;
             }
         }
     }
