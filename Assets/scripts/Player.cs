@@ -147,6 +147,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void Death() {
         if (currentState != PlayerState.Dead) {
+            if (currentState == PlayerState.OnStair) {
+                GetOffStair();
+            }
             currentState = PlayerState.Dead;
             dbc.PlayerDeath();
             fabCtrl.PlaySoundPlayerDeath();
