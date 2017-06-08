@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d4bc2e83d2ad9c64e9d81a18fa5690ad
-timeCreated: 1496649634
+timeCreated: 1496835099
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -170,8 +170,8 @@ TextureImporter:
       name: Null
       rect:
         serializedVersion: 2
-        x: 100
-        y: 500
+        x: 300
+        y: 400
         width: 100
         height: 100
       alignment: 1
@@ -470,9 +470,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 300
-        y: 200
+        y: 150
         width: 100
-        height: 100
+        height: 150
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -482,10 +482,10 @@ TextureImporter:
       name: Spikes_D
       rect:
         serializedVersion: 2
-        x: 300
+        x: 200
         y: 100
         width: 100
-        height: 100
+        height: 150
       alignment: 1
       pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
