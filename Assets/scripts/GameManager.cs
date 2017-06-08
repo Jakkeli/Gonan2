@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
         } else {
             secondaryAmmo = "PLAYER " + player.secondaryAmmo;
         }        
-        levelLivesAmmo.text = level + "\n" + playerLives + "\n" + secondaryAmmo;
+        //levelLivesAmmo.text = level + "\n" + playerLives + "\n" + secondaryAmmo;
     }
 
     public void GameOver() {

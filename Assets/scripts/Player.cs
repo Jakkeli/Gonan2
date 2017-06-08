@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float swingSpeed = 1;
     public float swingGravity = 10;
     public float swingReducer = 1;
+    public float endIndieImpulse = 1;
     public float minDistFromHookPoint = 1.5f;
     public float strSpeed = 1;
     public float stairY = 1;
@@ -41,11 +42,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public int hp;
     public int playerLives = 3;
+    public int secondaryAmmo = 99;
 
     bool facingRight;
     bool canMove;
     bool jump;
-    bool knockBackActive;
     bool crouchWhip;
     public bool onStair;
     public bool whipping;
@@ -73,7 +74,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float jointStep = 0.25f;
     public float jointMaxDist = 4;
     public float jointMinDist = 0.5f;
-    public Slider playerHealthBar;
     PolygonCollider2D polCollider;
     public SpriteRenderer spriteRenderer;
     GameManager gm;
@@ -87,10 +87,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject shurikenPrefab;
     public GameObject[] shurikens;
 
-    public int secondaryAmmo = 99;
 
     DBController dbc;
-
     public float gravity = 1;
     public bool canTakeDamage = true;
     bool lastFaceDirRight;
@@ -113,7 +111,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         canMove = true;
         joint.enabled = false;
         line.enabled = false;
-        playerHealthBar.value = hp;
+        // set player/enemy health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
     }
 
     public void FallTrigger() {
@@ -143,7 +141,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         //print("enemy hit player");
         if (!canTakeDamage) return; 
         hp--;
-        playerHealthBar.value = hp;
+        // set player health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
         if (hp == 0) {
             Death();
         } else {
@@ -202,6 +200,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         rb.gravityScale = gravity;
         capCol.isTrigger = false;
         dbc.PlayerIdle();
+        rb.AddForce(Vector2.up * endIndieImpulse, ForceMode2D.Impulse);
     }
 
     public void CrouchEnd() {
@@ -225,7 +224,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.KnockedBack) return;        
         canWhip = false;
         knockBackDir = dir;
-        knockBackActive = true;
         tickTime = 0;
         if (currentState != PlayerState.Dead && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
             currentState = PlayerState.KnockedBack;
@@ -260,7 +258,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             canMove = true;
             canWhip = true;
         }
-        knockBackActive = false;
     }
 
     public void StopWhip() {
@@ -336,49 +333,23 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         // movement
-
-        if (canMove && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            if (currentState == PlayerState.Crouch) {
-                rb.velocity = new Vector3(horizontalAxis * (hSpeed / 2), rb.velocity.y, 0);
-            }
-            else {
-                rb.velocity = new Vector3(horizontalAxis * hSpeed, rb.velocity.y, 0);
-            }
-        } else if (!canMove && currentState != PlayerState.KnockedBack) {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        } else if (currentState != PlayerState.KnockedBack) {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        }
-
-        
-
-        // jump & dropdown
-
-        if (jump && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
-            jump = false;
-            dbc.PlayerInAir();
-        }
-        else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            DropDown();            
-        }
-
-        // indiana jones
         if (currentState == PlayerState.IndianaJones) {
             dbc.IndianaJones();
-            Vector3 hookPos = currentHookPoint.transform.position;
-
-            line.SetPosition(0, transform.position + new Vector3(0, 1.4f, 0));
-            line.SetPosition(1, new Vector3(hookPos.x, hookPos.y - 0.2f, 0));
-            if (transform.position.y < hookPos.y - 1) {
-                rb.velocity = new Vector3(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y, 0);
-            } else {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+            Vector3 hookPos = new Vector3(currentHookPoint.transform.position.x, currentHookPoint.transform.position.y - 0.2f, 0);
+            line.SetPosition(0, hookDistCheck.position);
+            line.SetPosition(1, hookPos);
+            if (hookDistCheck.position.y < hookPos.y - 1) {
+                var left = Vector3.Cross((hookDistCheck.position - hookPos), Vector3.forward).normalized;
+                rb.AddForce(-horizontalAxis * swingSpeed * left);
+                print(horizontalAxis * swingSpeed * left.normalized);
+                var mag = rb.velocity.magnitude;
+                var newMag = mag - swingReducer * Time.deltaTime;
+                newMag = Mathf.Clamp(newMag, 0f, newMag);
+                rb.velocity = rb.velocity.normalized * newMag;
             }
-
             float dist;
             dist = joint.distance;
-            
+
             if (verticalAxis < 0) {
                 if (joint.distance < jointMaxDist - jointStep) {
                     joint.distance += jointStep;
@@ -394,7 +365,32 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             } else {
                 joint.distance = dist;
             }
-        }        
+        } else if (canMove && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
+            if (currentState == PlayerState.Crouch) {
+                rb.velocity = new Vector3(horizontalAxis * (hSpeed / 2), rb.velocity.y, 0);
+            }
+            else {
+                rb.velocity = new Vector3(horizontalAxis * hSpeed, rb.velocity.y, 0);
+            }
+        } else if (!canMove && currentState != PlayerState.KnockedBack ) {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        } else if (currentState != PlayerState.KnockedBack) {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+        }
+        
+
+        
+
+        // jump & dropdown
+
+        if (jump && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
+            rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
+            jump = false;
+            dbc.PlayerInAir();
+        }
+        else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
+            DropDown();            
+        }    
     }
 
     void DropDown() {
