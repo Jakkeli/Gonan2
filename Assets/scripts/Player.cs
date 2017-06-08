@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float swingSpeed = 1;
     public float swingGravity = 10;
     public float swingReducer = 1;
+    public float endIndieImpulse = 1;
     public float minDistFromHookPoint = 1.5f;
     public float strSpeed = 1;
     public float stairY = 1;
@@ -202,6 +203,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         rb.gravityScale = gravity;
         capCol.isTrigger = false;
         dbc.PlayerIdle();
+        rb.AddForce(Vector2.up * endIndieImpulse, ForceMode2D.Impulse);
     }
 
     public void CrouchEnd() {
@@ -336,49 +338,34 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         }
 
         // movement
-
-        if (canMove && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            if (currentState == PlayerState.Crouch) {
-                rb.velocity = new Vector3(horizontalAxis * (hSpeed / 2), rb.velocity.y, 0);
-            }
-            else {
-                rb.velocity = new Vector3(horizontalAxis * hSpeed, rb.velocity.y, 0);
-            }
-        } else if (!canMove && currentState != PlayerState.KnockedBack) {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        } else if (currentState != PlayerState.KnockedBack) {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        }
-
-        
-
-        // jump & dropdown
-
-        if (jump && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
-            jump = false;
-            dbc.PlayerInAir();
-        }
-        else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
-            DropDown();            
-        }
-
-        // indiana jones
         if (currentState == PlayerState.IndianaJones) {
             dbc.IndianaJones();
-            Vector3 hookPos = currentHookPoint.transform.position;
+            Vector3 hookPos = new Vector3(currentHookPoint.transform.position.x, currentHookPoint.transform.position.y - 0.2f, 0);
 
-            line.SetPosition(0, transform.position + new Vector3(0, 1.4f, 0));
-            line.SetPosition(1, new Vector3(hookPos.x, hookPos.y - 0.2f, 0));
-            if (transform.position.y < hookPos.y - 1) {
-                rb.velocity = new Vector3(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y, 0);
-            } else {
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+            line.SetPosition(0, hookDistCheck.position);
+            line.SetPosition(1, hookPos);
+            if (hookDistCheck.position.y < hookPos.y - 1) {
+                //rb.velocity = new Vector3(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y, 0);
+                //rb.velocity += new Vector2(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y);
+                var left = Vector3.Cross((hookDistCheck.position - hookPos), Vector3.forward).normalized;
+                rb.AddForce(-horizontalAxis * swingSpeed * left);
+                print(horizontalAxis * swingSpeed * left.normalized);
+                //Debug.DrawLine(hookDistCheck.position, hookDistCheck.position + left.normalized * 3);
+                //Debug.DrawLine(hookDistCheck.position, hookDistCheck.position + (Vector3)rb.velocity * 3);
+                //var dampVelocity = -Vector3.Project(rb.velocity, left).normalized;
+                //rb.velocity -= Vector3.ClampMagnitude(dampVelocity* Time.deltaTime;
+                var mag = rb.velocity.magnitude;
+                var newMag = mag - swingReducer * Time.deltaTime;
+                newMag = Mathf.Clamp(newMag, 0f, newMag);
+                rb.velocity = rb.velocity.normalized * newMag;
             }
-
+            /*else {
+                // ???
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+            }*/
             float dist;
             dist = joint.distance;
-            
+
             if (verticalAxis < 0) {
                 if (joint.distance < jointMaxDist - jointStep) {
                     joint.distance += jointStep;
@@ -394,7 +381,32 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             } else {
                 joint.distance = dist;
             }
-        }        
+        } else if (canMove && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
+            if (currentState == PlayerState.Crouch) {
+                rb.velocity = new Vector3(horizontalAxis * (hSpeed / 2), rb.velocity.y, 0);
+            }
+            else {
+                rb.velocity = new Vector3(horizontalAxis * hSpeed, rb.velocity.y, 0);
+            }
+        } else if (!canMove && currentState != PlayerState.KnockedBack ) {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        } else if (currentState != PlayerState.KnockedBack) {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
+        }
+        
+
+        
+
+        // jump & dropdown
+
+        if (jump && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
+            rb.velocity = new Vector3(rb.velocity.x, vSpeed, 0);
+            jump = false;
+            dbc.PlayerInAir();
+        }
+        else if (jump && currentState == PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
+            DropDown();            
+        }    
     }
 
     void DropDown() {
