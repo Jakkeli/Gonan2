@@ -19,6 +19,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float hSpeed = 4;
     public float vSpeed = 8;
     public float swingSpeed = 1;
+    public float swingGravity = 10;
+    public float swingReducer = 1;
+    public float minDistFromHookPoint = 1.5f;
     public float strSpeed = 1;
     public float stairY = 1;
     public float stairX = 1;
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float stairCheckWidth = 0.7f;
 
     public Transform groundCheck;
+    public Transform hookDistCheck;
     public LayerMask whatIsGround;
     public LayerMask stairsOnly;
 
@@ -90,6 +94,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float gravity = 1;
     public bool canTakeDamage = true;
     bool lastFaceDirRight;
+    public Transform[] flashSprites;
+    public float immortalTime = 1.5f;
+    float tickTime;
+    bool flash;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -150,6 +158,9 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             if (currentState == PlayerState.OnStair) {
                 GetOffStair();
             }
+            if (currentState == PlayerState.IndianaJones) {
+                LetGoOfHook();
+            }
             currentState = PlayerState.Dead;
             dbc.PlayerDeath();
             fabCtrl.PlaySoundPlayerDeath();
@@ -177,16 +188,18 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         joint.connectedBody = go.GetComponent<Rigidbody2D>();
         currentHookPoint = go;
         currentState = PlayerState.IndianaJones;
+        rb.gravityScale = swingGravity;
         capCol.isTrigger = true;
         dbc.IndianaJones();
     }
 
     void LetGoOfHook() {
         //print("letgoofhook");
-        currentState = PlayerState.Idle;
+        currentState = PlayerState.InAir;
         joint.connectedBody = null;
         joint.enabled = false;
         line.enabled = false;
+        rb.gravityScale = gravity;
         capCol.isTrigger = false;
         dbc.PlayerIdle();
     }
@@ -212,6 +225,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.KnockedBack) return;        
         canWhip = false;
         knockBackDir = dir;
+        knockBackActive = true;
+        tickTime = 0;
         if (currentState != PlayerState.Dead && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
             currentState = PlayerState.KnockedBack;
             rb.velocity = new Vector3(knockBack * knockBackDir, knockBack + 2, 0);            
@@ -224,7 +239,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             currentState = PlayerState.InAir;
             canWhip = false;
             canMove = false;
-            Invoke("EndKnockback", 0.7f);
+            Invoke("EndKnockback", 0.7f);            
         }
         dbc.Knockback();
     }
@@ -241,8 +256,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         } else if (currentState == PlayerState.InAir) {
             canMove = true;
             canWhip = true;
+        } else if (currentState == PlayerState.Idle) {
+            canMove = true;
+            canWhip = true;
         }
-        canTakeDamage = true;
         knockBackActive = false;
     }
 
@@ -296,11 +313,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             } else if (currentState == PlayerState.InAir) {
                 currentState = PlayerState.Idle;
             }
-        }
-        // knockbackend check
-        if (currentState == PlayerState.KnockedBack || knockBackActive) {
-            if (rb.velocity.y == 0) EndKnockback();
-        }
+        }        
 
         //stair check (are we on top of a stair?)
         if (Physics2D.OverlapBox(groundCheck.position, new Vector2(stairCheckWidth, stairCheckHeight), 0, stairsOnly)) {
@@ -353,25 +366,26 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         // indiana jones
         if (currentState == PlayerState.IndianaJones) {
             dbc.IndianaJones();
-            Vector2 hookPos = currentHookPoint.transform.position;
+            Vector3 hookPos = currentHookPoint.transform.position;
 
             line.SetPosition(0, transform.position + new Vector3(0, 1.4f, 0));
-            line.SetPosition(1, hookPos);
+            line.SetPosition(1, new Vector3(hookPos.x, hookPos.y - 0.2f, 0));
             if (transform.position.y < hookPos.y - 1) {
-                rb.velocity = new Vector3(horizontalAxis * swingSpeed, rb.velocity.y, 0);
+                rb.velocity = new Vector3(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y, 0);
             } else {
                 rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
             }
 
             float dist;
             dist = joint.distance;
-            if (verticalAxis > 0) {
+            
+            if (verticalAxis < 0) {
                 if (joint.distance < jointMaxDist - jointStep) {
                     joint.distance += jointStep;
                 } else if (joint.distance < jointMaxDist) {
                     joint.distance = jointMaxDist;
                 }
-            } else if (verticalAxis < 0) {
+            } else if (verticalAxis > 0 && (hookDistCheck.position - hookPos).magnitude >= minDistFromHookPoint) {
                 if (joint.distance > jointMinDist + jointStep) {
                     joint.distance -= jointStep;
                 } else if (joint.distance > jointMinDist) {
@@ -395,6 +409,29 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
+
+        // knockbackend check
+        if (!canTakeDamage) {
+            if (flash) {
+                flash = false;
+                foreach (Transform sprite in flashSprites) {
+                    sprite.GetComponent<MeshRenderer>().enabled = false;
+                }
+            } else {
+                flash = true;
+                foreach (Transform sprite in flashSprites) {
+                    sprite.GetComponent<MeshRenderer>().enabled = true;
+                }
+            }
+            tickTime += Time.deltaTime;
+            if (tickTime >= immortalTime) {
+                canTakeDamage = true;
+                foreach (Transform sprite in flashSprites) {
+                    if (!sprite.GetComponent<MeshRenderer>().enabled) sprite.GetComponent<MeshRenderer>().enabled = true;
+                }
+            }
+            if (rb.velocity.y == 0) EndKnockback();
+        }
 
         // crouch
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
