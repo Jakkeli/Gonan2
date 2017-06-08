@@ -9,6 +9,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     public Enemy4State currentState;
     public float speed;
     public float diveSpeed;
+    public float backOffSpeed;
     float usedSpeed;
     float hDir;
     //float prevHDir;
@@ -133,7 +134,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
 
         if (currentState == Enemy4State.Recover) {
             if (!targetPosSet) {
-                usedSpeed = speed;
+                usedSpeed = backOffSpeed;
                 targetPos = new Vector3((pos.x + 4 * hDir), pos.y + 4, 0);
                 targetPosSet = true;
                 if (hDir == -1) {
@@ -160,8 +161,10 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
             } else {
                 dir = 1;
             }
-            if (ps.currentState != PlayerState.Dead && ps.currentState != PlayerState.KnockedBack) {
+            if (ps.canTakeDamage) {
                 ps.EnemyHitPlayer(dir);
+                targetPosSet = false;
+                currentState = Enemy4State.Recover;
             }
         }
     }
