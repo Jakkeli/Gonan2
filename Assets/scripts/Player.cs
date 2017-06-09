@@ -118,6 +118,15 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         Death();
     }
 
+    public void HeartPickup(int value) {
+        if (secondaryAmmo + value < 100) {
+            secondaryAmmo += value;
+        } else {
+            secondaryAmmo = 99;
+        }
+        gm.UpdateLevelLivesAmmo();
+    }
+
     public void GetOnStair(bool leftUp, bool canDD) {
         if (onStair) {
             //canDropDown = canDD;
@@ -335,7 +344,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             if (hookDistCheck.position.y < hookPos.y - 1) {
                 var left = Vector3.Cross((hookDistCheck.position - hookPos), Vector3.forward).normalized;
                 rb.AddForce(-horizontalAxis * swingSpeed * left);
-                print(horizontalAxis * swingSpeed * left.normalized);
                 var mag = rb.velocity.magnitude;
                 var newMag = mag - swingReducer * Time.deltaTime;
                 newMag = Mathf.Clamp(newMag, 0f, newMag);

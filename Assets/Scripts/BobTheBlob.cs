@@ -14,8 +14,11 @@ public class BobTheBlob : MonoBehaviour {
     FabricCtrl fabCtrl;
     bool flash;
     ParticleSystem particles;
+    Player player;
+    public int myValue = 1;
 
     private void Start() {
+        player = GameObject.Find("player").GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
@@ -84,6 +87,7 @@ public class BobTheBlob : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D c) {
         if (c.tag == "Player" && start) {
             fabCtrl.PlaySoundPickup();
+            player.HeartPickup(myValue);
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
             particles.enableEmission = false;

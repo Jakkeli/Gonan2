@@ -13,14 +13,16 @@ public class GameManager : MonoBehaviour {
     public Text scoreText;
     public Text blockLivesAmmoTimerText;
 
-    string level = "LEVEL 1-1";
+    string level = "BLOCK  1-1";
     string playerLives = "LIVES 3";
     string secondaryAmmo = "PLAYER 00";
-    string scoreNumbers = "000000000";
-
+    string scoreNumbers = "000000000000";
+    string timeText = "450";
 
     Player player;
     public int score;
+    int time = 450;
+    float tickTime;
 
     public Transform[] playerHealthBars;
     public Transform[] enemyHealthBars;
@@ -33,54 +35,67 @@ public class GameManager : MonoBehaviour {
     void Start () {
         player = GameObject.Find("player").GetComponent<Player>();
         UpdateLevelLivesAmmo();
-        scoreText.text = "SCORE                       " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+        scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
 	}
 
     void ChangeBlock() {
         if (currentBlock == GameBlock.None) {
             currentBlock = GameBlock.BlockOneOne;
+            level = "BLOCK  1-1";
+            UpdateLevelLivesAmmo();
         } else if (currentBlock == GameBlock.BlockOneOne) {
             currentBlock = GameBlock.BlockOneTwo;
+            level = "BLOCK  1-2";
+            UpdateLevelLivesAmmo();
         } else if (currentBlock == GameBlock.BlockOneTwo) {
             currentBlock = GameBlock.BlockOneThree;
+            level = "BLOCK  1-3";
+            UpdateLevelLivesAmmo();
         }        
     }
 
     public void UpdateLevelLivesAmmo() {
-        playerLives = "LIVES " + player.playerLives;
+        playerLives = "H=" + player.playerLives;
         if (player.secondaryAmmo < 10) {
-            secondaryAmmo = "PLAYER 0" + player.secondaryAmmo;
+            secondaryAmmo = "P=0" + player.secondaryAmmo;
         } else {
-            secondaryAmmo = "PLAYER " + player.secondaryAmmo;
-        }        
-        //levelLivesAmmo.text = level + "\n" + playerLives + "\n" + secondaryAmmo;
+            secondaryAmmo = "P=" + player.secondaryAmmo;
+        }
+        if (time > 99) {
+            timeText = "TIME  " + time;
+        } else if (time > 9) {
+            timeText = "TIME  0" + time;
+        } else {
+            timeText = "TIME  00" + time;
+        }
+        blockLivesAmmoTimerText.text = level + "\n" + secondaryAmmo + " " + playerLives + "\n" + timeText;
     }
 
     public void UpdateScore() {
         if (score == 0) {
-            scoreNumbers = "000000000";
+            scoreNumbers = "000000000000";
         } else if (score > 999999999) {
             print("u cheating bastard!!!11!!");
         } else if (score > 99999999) {
             scoreNumbers = "" + score;
         } else if (score > 9999999) {
-            scoreNumbers = "0" + score;
-        } else if (score > 999999) {
-            scoreNumbers = "00" + score;
-        } else if (score > 99999) {
-            scoreNumbers = "000" + score;
-        } else if (score > 9999) {
             scoreNumbers = "0000" + score;
-        } else if (score > 999) {
+        } else if (score > 999999) {
             scoreNumbers = "00000" + score;
-        } else if (score > 99) {
+        } else if (score > 99999) {
             scoreNumbers = "000000" + score;
-        } else if (score > 9) {
+        } else if (score > 9999) {
             scoreNumbers = "0000000" + score;
-        } else {
+        } else if (score > 999) {
             scoreNumbers = "00000000" + score;
+        } else if (score > 99) {
+            scoreNumbers = "000000000" + score;
+        } else if (score > 9) {
+            scoreNumbers = "0000000000" + score;
+        } else {
+            scoreNumbers = "00000000000" + score;
         }
-        scoreText.text = "SCORE                       " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+        scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
     }
 
     public void UpdatePlayerEnemyHealth(int ph, int eh) {
@@ -107,26 +122,18 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R)) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
-
-        if (Input.GetKeyDown(KeyCode.U)) {
-            UpdatePlayerEnemyHealth(playerHealth, enemyHealth);
+        
+        if (currentState == GameState.Running) {
+            tickTime += Time.deltaTime;
+            if (tickTime >= 1) {
+                time--;
+                tickTime -= 1;
+                UpdateLevelLivesAmmo();
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            score += 9;
-            UpdateScore();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            score += 90;
-            UpdateScore();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) {
-            score += 900;
-            UpdateScore();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) {
-            score += 9000;
-            UpdateScore();
+        if (time <= 0) {
+            player.Death();
         }
     }
 }
