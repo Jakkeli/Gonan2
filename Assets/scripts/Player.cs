@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public AimState lastHorizontalState;
 
     public bool disableWhipBox;
+    public bool canFlash;
 
     Rigidbody2D rb;
     CapsuleCollider2D capCol;
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     public void FallTrigger() {
-        Death();
+        if (currentState != PlayerState.IndianaJones) Death();
     }
 
     public void HeartPickup(int value) {
@@ -410,23 +411,28 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // knockbackend check
         if (!canTakeDamage) {
-            if (flash) {
-                flash = false;
-                foreach (Transform sprite in flashSprites) {
-                    sprite.GetComponent<MeshRenderer>().enabled = false;
-                }
-            } else {
-                flash = true;
-                foreach (Transform sprite in flashSprites) {
-                    sprite.GetComponent<MeshRenderer>().enabled = true;
+            if (canFlash) {
+                if (flash) {
+                    flash = false;
+                    foreach (Transform sprite in flashSprites) {
+                        sprite.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                } else {
+                    flash = true;
+                    foreach (Transform sprite in flashSprites) {
+                        sprite.GetComponent<MeshRenderer>().enabled = true;
+                    }
                 }
             }
+            
             tickTime += Time.deltaTime;
             if (tickTime >= immortalTime) {
                 canTakeDamage = true;
-                foreach (Transform sprite in flashSprites) {
-                    if (!sprite.GetComponent<MeshRenderer>().enabled) sprite.GetComponent<MeshRenderer>().enabled = true;
-                }
+                if (canFlash) {
+                    foreach (Transform sprite in flashSprites) {
+                        if (!sprite.GetComponent<MeshRenderer>().enabled) sprite.GetComponent<MeshRenderer>().enabled = true;
+                    }
+                }                
             }
             if (rb.velocity.y == 0) EndKnockback();
         }

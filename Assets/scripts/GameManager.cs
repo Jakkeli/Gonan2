@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public GameBlock currentBlock;
     public Text scoreText;
     public Text blockLivesAmmoTimerText;
+    public Text scoreTextShadow;
 
     string level = "BLOCK  1-1";
     string playerLives = "LIVES 3";
@@ -36,7 +37,8 @@ public class GameManager : MonoBehaviour {
         player = GameObject.Find("player").GetComponent<Player>();
         UpdateLevelLivesAmmo();
         scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
-	}
+        scoreTextShadow.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+    }
 
     void ChangeBlock() {
         if (currentBlock == GameBlock.None) {
@@ -96,6 +98,7 @@ public class GameManager : MonoBehaviour {
             scoreNumbers = "00000000000" + score;
         }
         scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+        scoreTextShadow.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
     }
 
     public void UpdatePlayerEnemyHealth(int ph, int eh) {
