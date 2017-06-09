@@ -13,12 +13,14 @@ public class BobTheBlob : MonoBehaviour {
     public float rotSpeed = 1;
     FabricCtrl fabCtrl;
     bool flash;
+    ParticleSystem particles;
 
     private void Start() {
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
-        //GetComponentInChildren<ParticleSystem>().enableEmission = false;
+        particles = GetComponentInChildren<ParticleSystem>();
+        particles.enableEmission = false;
     }
 
     public void DropBlob() {
@@ -26,15 +28,17 @@ public class BobTheBlob : MonoBehaviour {
         canMove = true;
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<CircleCollider2D>().enabled = true;
-        //GetComponentInChildren<ParticleSystem>().enableEmission = true;
+        particles.enableEmission = true;
     }
 
     void GoRight() {
         transform.position += new Vector3(speedH * 1, speedV, 0) * Time.deltaTime;
+        transform.Rotate(0, 0, rotSpeed);
     }
 
     void GoLeft() {
         transform.position += new Vector3(speedH * -1, speedV, 0) * Time.deltaTime;
+        transform.Rotate(0, 0, rotSpeed);
     }
 
 
@@ -46,7 +50,7 @@ public class BobTheBlob : MonoBehaviour {
                 start = false;
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<CircleCollider2D>().enabled = false;
-                //GetComponentInChildren<ParticleSystem>().enableEmission = false;
+                particles.enableEmission = false;
             }
 
             if (canMove) {
@@ -65,12 +69,12 @@ public class BobTheBlob : MonoBehaviour {
                 }
             }
             
-            if (tickTime > 4.5f) {
+            if (tickTime > 4f) {
                 if (flash) {
-                    GetComponent<SpriteRenderer>().enabled = true;
+                    particles.enableEmission = true;
                     flash = false;
                 } else {
-                    GetComponent<SpriteRenderer>().enabled = false;
+                    particles.enableEmission = false;
                     flash = true;
                 }
             }
@@ -82,7 +86,7 @@ public class BobTheBlob : MonoBehaviour {
             fabCtrl.PlaySoundPickup();
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
-            //GetComponentInChildren<ParticleSystem>().enableEmission = false;
+            particles.enableEmission = false;
             start = false;
             gameObject.SetActive(false);
         } else if (c.tag == "stairs" || c.tag == "ground") {
