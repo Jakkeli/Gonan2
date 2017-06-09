@@ -111,7 +111,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         canMove = true;
         joint.enabled = false;
         line.enabled = false;
-        // set player/enemy health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
+        gm.UpdatePlayerEnemyHealth(hp, gm.enemyHealth);
     }
 
     public void FallTrigger() {
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         //print("enemy hit player");
         if (!canTakeDamage) return; 
         hp--;
-        // set player health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
+        gm.UpdatePlayerEnemyHealth(hp, gm.enemyHealth);   
         if (hp == 0) {
             Death();
         } else {
