@@ -42,11 +42,11 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public int hp;
     public int playerLives = 3;
+    public int secondaryAmmo = 99;
 
     bool facingRight;
     bool canMove;
     bool jump;
-    bool knockBackActive;
     bool crouchWhip;
     public bool onStair;
     public bool whipping;
@@ -74,7 +74,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float jointStep = 0.25f;
     public float jointMaxDist = 4;
     public float jointMinDist = 0.5f;
-    public Slider playerHealthBar;
     PolygonCollider2D polCollider;
     public SpriteRenderer spriteRenderer;
     GameManager gm;
@@ -88,10 +87,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public GameObject shurikenPrefab;
     public GameObject[] shurikens;
 
-    public int secondaryAmmo = 99;
 
     DBController dbc;
-
     public float gravity = 1;
     public bool canTakeDamage = true;
     bool lastFaceDirRight;
@@ -114,7 +111,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         canMove = true;
         joint.enabled = false;
         line.enabled = false;
-        playerHealthBar.value = hp;
+        // set player/enemy health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
     }
 
     public void FallTrigger() {
@@ -144,7 +141,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         //print("enemy hit player");
         if (!canTakeDamage) return; 
         hp--;
-        playerHealthBar.value = hp;
+        // set player health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
         if (hp == 0) {
             Death();
         } else {
@@ -172,7 +169,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 return;
             }
             playerLives--;
-            // stop animations
             print("u dieded");
             gm.UpdateLevelLivesAmmo();
             Respawn();
@@ -195,7 +191,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void LetGoOfHook() {
-        //print("letgoofhook");
         currentState = PlayerState.InAir;
         joint.connectedBody = null;
         joint.enabled = false;
@@ -227,7 +222,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.KnockedBack) return;        
         canWhip = false;
         knockBackDir = dir;
-        knockBackActive = true;
         tickTime = 0;
         if (currentState != PlayerState.Dead && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair) {
             currentState = PlayerState.KnockedBack;
@@ -252,7 +246,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             dbc.PlayerIdle();
             canWhip = true;
         } else if (currentState == PlayerState.OnStair) {
-            //dbc.Stair_Player_Idle();
             canMove = true;
             canWhip = true;
         } else if (currentState == PlayerState.InAir) {
@@ -262,12 +255,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             canMove = true;
             canWhip = true;
         }
-        knockBackActive = false;
     }
 
     public void StopWhip() {
         canMove = true;
-        //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
         whipping = false;
         AnimationCheck();
     }
@@ -277,8 +268,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             dbc.PlayerCrouchIdle();
         } else if (currentState == PlayerState.InAir) {
             dbc.PlayerInAir();
-        } else if (currentState == PlayerState.OnStair) {
-            //dbc.PlayerIdle();
         } else if (currentState == PlayerState.Moving) {
             dbc.PlayerWalk();
         } else if (currentState == PlayerState.KnockedBack) {
@@ -341,28 +330,17 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState == PlayerState.IndianaJones) {
             dbc.IndianaJones();
             Vector3 hookPos = new Vector3(currentHookPoint.transform.position.x, currentHookPoint.transform.position.y - 0.2f, 0);
-
             line.SetPosition(0, hookDistCheck.position);
             line.SetPosition(1, hookPos);
             if (hookDistCheck.position.y < hookPos.y - 1) {
-                //rb.velocity = new Vector3(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y, 0);
-                //rb.velocity += new Vector2(horizontalAxis * (swingSpeed - Mathf.Abs(transform.position.x - hookPos.x) * swingReducer), rb.velocity.y);
                 var left = Vector3.Cross((hookDistCheck.position - hookPos), Vector3.forward).normalized;
                 rb.AddForce(-horizontalAxis * swingSpeed * left);
                 print(horizontalAxis * swingSpeed * left.normalized);
-                //Debug.DrawLine(hookDistCheck.position, hookDistCheck.position + left.normalized * 3);
-                //Debug.DrawLine(hookDistCheck.position, hookDistCheck.position + (Vector3)rb.velocity * 3);
-                //var dampVelocity = -Vector3.Project(rb.velocity, left).normalized;
-                //rb.velocity -= Vector3.ClampMagnitude(dampVelocity* Time.deltaTime;
                 var mag = rb.velocity.magnitude;
                 var newMag = mag - swingReducer * Time.deltaTime;
                 newMag = Mathf.Clamp(newMag, 0f, newMag);
                 rb.velocity = rb.velocity.normalized * newMag;
             }
-            /*else {
-                // ???
-                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-            }*/
             float dist;
             dist = joint.distance;
 
@@ -449,8 +427,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             if (verticalAxis < 0) {
                 currentState = PlayerState.Crouch;
-                capCol.size = new Vector2(capCol.size.x, 1);
-                capCol.offset = new Vector2(0, -0.5f);
+                capCol.size = new Vector2(capCol.size.x, 1.5f);
+                capCol.offset = new Vector2(0, -0.25f);
                 if (!crouchWhip) {
                     whip.transform.position += new Vector3(0, -crouchWhipDrop, 0);
                     crouchWhip = true;
