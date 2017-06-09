@@ -268,8 +268,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             dbc.PlayerCrouchIdle();
         } else if (currentState == PlayerState.InAir) {
             dbc.PlayerInAir();
-        } else if (currentState == PlayerState.OnStair) {
-            //dbc.PlayerIdle();
         } else if (currentState == PlayerState.Moving) {
             dbc.PlayerWalk();
         } else if (currentState == PlayerState.KnockedBack) {
@@ -429,8 +427,8 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         if (currentState != PlayerState.InAir && currentState != PlayerState.IndianaJones && currentState != PlayerState.OnStair && currentState != PlayerState.KnockedBack) {
             if (verticalAxis < 0) {
                 currentState = PlayerState.Crouch;
-                capCol.size = new Vector2(capCol.size.x, 1);
-                capCol.offset = new Vector2(0, -0.5f);
+                capCol.size = new Vector2(capCol.size.x, 1.5f);
+                capCol.offset = new Vector2(0, -0.25f);
                 if (!crouchWhip) {
                     whip.transform.position += new Vector3(0, -crouchWhipDrop, 0);
                     crouchWhip = true;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum CameraState { Normal, CutScene, Pause, Gameover };
 public enum CameraMode { Lerp, AverageSmooth, AllLocked, XOnlyLocked, Jaakko };
-public enum CameraArea { Normal, Climb, Boss };
+public enum CameraArea { Normal, Climb, Boss, ClimbLockedX };
 public enum YLevel { Normal, Plus1, Minus1 };
 
 public class CameraController : MonoBehaviour {
