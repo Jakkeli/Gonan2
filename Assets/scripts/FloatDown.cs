@@ -9,7 +9,6 @@ public class FloatDown : MonoBehaviour {
     public float timer = 4;
     public float speedH = 1;
     public float speedV = -0.1f;
-    //public AudioClip pickupSound;
     FabricCtrl fabCtrl;
 
     private void Start() {
@@ -54,10 +53,10 @@ public class FloatDown : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D c) {
         if (c.tag == "Player" && start) {
-            // do things in gamemanager
             fabCtrl.PlaySoundPickup();
             GetComponent<SpriteRenderer>().enabled = false;
             start = false;
+            gameObject.SetActive(false);
         }
     }
 }
