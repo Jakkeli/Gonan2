@@ -5,10 +5,12 @@ using UnityEngine;
 public class BobTheBlob : MonoBehaviour {
 
     bool start;
+    bool canMove;
     float tickTime;
     public float timer = 5;
     public float speedH = 1;
     public float speedV = -0.1f;
+    public float rotSpeed = 1;
     FabricCtrl fabCtrl;
     bool flash;
 
@@ -16,14 +18,15 @@ public class BobTheBlob : MonoBehaviour {
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
-        GetComponentInChildren<ParticleSystem>().enableEmission = false;
+        //GetComponentInChildren<ParticleSystem>().enableEmission = false;
     }
 
     public void DropBlob() {
         start = true;
+        canMove = true;
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<CircleCollider2D>().enabled = true;
-        GetComponentInChildren<ParticleSystem>().enableEmission = true;
+        //GetComponentInChildren<ParticleSystem>().enableEmission = true;
     }
 
     void GoRight() {
@@ -43,21 +46,25 @@ public class BobTheBlob : MonoBehaviour {
                 start = false;
                 GetComponent<SpriteRenderer>().enabled = false;
                 GetComponent<CircleCollider2D>().enabled = false;
-                GetComponentInChildren<ParticleSystem>().enableEmission = false;
+                //GetComponentInChildren<ParticleSystem>().enableEmission = false;
             }
-            if (tickTime <= 0.38f) {
-                GoRight();
-            } else if (tickTime <= 1) {
-                GoLeft();
-            } else if (tickTime <= 1.75) {
-                GoRight();
-            } else if (tickTime <= 2.25) {
-                GoLeft();
-            } else if (tickTime < 3) {
-                GoRight();
-            } else if (tickTime < timer) {
-                GoLeft();
+
+            if (canMove) {
+                if (tickTime <= 0.38f) {
+                    GoRight();
+                } else if (tickTime <= 1) {
+                    GoLeft();
+                } else if (tickTime <= 1.75) {
+                    GoRight();
+                } else if (tickTime <= 2.25) {
+                    GoLeft();
+                } else if (tickTime < 3) {
+                    GoRight();
+                } else if (tickTime < timer) {
+                    GoLeft();
+                }
             }
+            
             if (tickTime > 4.5f) {
                 if (flash) {
                     GetComponent<SpriteRenderer>().enabled = true;
@@ -75,9 +82,11 @@ public class BobTheBlob : MonoBehaviour {
             fabCtrl.PlaySoundPickup();
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
-            GetComponentInChildren<ParticleSystem>().enableEmission = false;
+            //GetComponentInChildren<ParticleSystem>().enableEmission = false;
             start = false;
             gameObject.SetActive(false);
+        } else if (c.tag == "stairs" || c.tag == "ground") {
+            canMove = false;
         }
     }
 }
