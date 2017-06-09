@@ -169,7 +169,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 return;
             }
             playerLives--;
-            // stop animations
             print("u dieded");
             gm.UpdateLevelLivesAmmo();
             Respawn();
@@ -192,7 +191,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void LetGoOfHook() {
-        //print("letgoofhook");
         currentState = PlayerState.InAir;
         joint.connectedBody = null;
         joint.enabled = false;
@@ -248,7 +246,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             dbc.PlayerIdle();
             canWhip = true;
         } else if (currentState == PlayerState.OnStair) {
-            //dbc.Stair_Player_Idle();
             canMove = true;
             canWhip = true;
         } else if (currentState == PlayerState.InAir) {
@@ -262,7 +259,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     public void StopWhip() {
         canMove = true;
-        //animator.SetBool("whip", false);   ANIMATOR ANIMATOR ANIMATOR ANIMATOR
         whipping = false;
         AnimationCheck();
     }
