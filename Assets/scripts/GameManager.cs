@@ -33,6 +33,14 @@ public class GameManager : MonoBehaviour {
     public int playerHealth;
     public int enemyHealth;
 
+    public Canvas gui;
+    public Canvas menu;
+
+    private void Awake() {
+        gui.enabled = false;
+        menu.enabled = true;
+    }
+
     void Start () {
         player = GameObject.Find("player").GetComponent<Player>();
         UpdateLevelLivesAmmo();
@@ -137,6 +145,21 @@ public class GameManager : MonoBehaviour {
 
         if (time <= 0) {
             player.Death();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            if (gui.enabled) {
+                gui.enabled = false;
+            } else {
+                gui.enabled = true;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            if (menu.enabled) {
+                menu.enabled = false;
+            } else {
+                menu.enabled = true;
+            }
         }
     }
 }
