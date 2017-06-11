@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour {
     public GameBlock currentBlock;
     public GameBlock currentCheckpoint;
     public Text scoreText;
-    public Text blockLivesAmmoTimerText;
+    public Text blockAmmoTimerText;
     public Text scoreTextShadow;
+    public Text livesText;
 
     string level = "BLOCK  1-1";
     string playerLives = "LIVES 3";
@@ -42,9 +43,10 @@ public class GameManager : MonoBehaviour {
     bool gameStarted;
 
     public GameObject pauseText;
+    public Transform shurikenImage;
 
     private void Awake() {
-        bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
+        if (startInMenu) bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
         if (startInMenu) currentState = GameState.Menu;
         //pauseText = GameObject.Find("pauseText").GetComponent<GameObject>();
     }
@@ -96,7 +98,8 @@ public class GameManager : MonoBehaviour {
         } else {
             timeText = "TIME  00" + time;
         }
-        blockLivesAmmoTimerText.text = level + "\n" + secondaryAmmo + " " + playerLives + "\n" + timeText;
+        blockAmmoTimerText.text = level + "\n" + secondaryAmmo + " " + "\n" + timeText;
+        livesText.text = playerLives;
     }
 
     public void UpdateScore() {
@@ -123,8 +126,8 @@ public class GameManager : MonoBehaviour {
         } else {
             scoreNumbers = "00000000000" + score;
         }
-        scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
-        scoreTextShadow.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+        scoreText.text = "SCORE                " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+        scoreTextShadow.text = "SCORE                " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
     }
 
     public void UpdatePlayerEnemyHealth(int ph, int eh) {
@@ -183,6 +186,11 @@ public class GameManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.P)) {
             Pause();
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadPlus)) {
+            playerHealth--;
+            UpdatePlayerEnemyHealth(playerHealth, enemyHealth);            
         }
     }
 }

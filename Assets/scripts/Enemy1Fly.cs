@@ -53,7 +53,7 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
 
     public void Death() {
         //die
-        print("enemy dieded");
+        //print("enemy dieded");
         currentState = Enemy1State.Dead;
         fabCtrl.PlaySoundEnemy1Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
