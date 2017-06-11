@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour {
     public ClimbTransitionType currentCTT;
 
     public GameObject player;
+    Player ps;
     public Vector3 playerPos;
     Vector3 targetPos;
     Vector3 currentVelocity = Vector3.zero;
@@ -47,6 +48,10 @@ public class CameraController : MonoBehaviour {
         yTransition = true;
     }
 
+    void Start() {
+        ps = player.GetComponent<Player>();
+    }
+
     void Update() {
         var pos = transform.position;
         targetPos = pos;
@@ -57,16 +62,20 @@ public class CameraController : MonoBehaviour {
         if (currentMode == CameraMode.Jaakko) {            
             if (currentArea == CameraArea.Normal) {
                 if (transition) {
-                    if (pos.y != lockedY || pos.x != playerPos.x) {
+                    if (Mathf.Abs(pos.x - playerPos.x) > transitionTolerance || Mathf.Abs(pos.y - lockedY) > transitionTolerance) {
                         targetPos.y = lockedY;
                         targetPos.x = playerPos.x;
                         targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
                     } else {
                         transition = false;
-                        targetPos.y = lockedY;
                     }
                 } else {
                     targetPos.y = lockedY;
+                    if (playerPos.x < cameraXLimitRight && playerPos.x > cameraXLimitLeft) {
+                        targetPos.x = playerPos.x;
+                    } else {
+                        targetPos.x = pos.x;
+                    }
                 }                                
             } else if (currentArea == CameraArea.Climb) {
                 targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
@@ -86,48 +95,21 @@ public class CameraController : MonoBehaviour {
                     targetPos.x = bossX;
                 }
             } else if (currentArea == CameraArea.ClimbLockedX) {
-                if (transition) {
-                    if (Mathf.Abs(pos.x - climbLockedX) > transitionTolerance) {
-                        targetPos.x = climbLockedX;
-                        targetPos.y = lockedY;
-                        print(targetPos);
-                        targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
+                if (ps.currentState != PlayerState.InAir) {
+                    if (playerPos.y < climbLockedXMinY) {
+                        targetPos.y = climbLockedXMinY;
+                    } else if (playerPos.y > climbLockedXMaxY) {
+                        targetPos.y = climbLockedXMaxY;
                     } else {
-                        transition = false;
+                        targetPos.y = playerPos.y;
                     }
                 } else {
-
-                    if (yTransition) {
-                        if (currentCTT == ClimbTransitionType.FromBottomToTop) {
-                            if (playerPos.y < pos.y) {
-                                targetPos.y = lockedY;
-                            } else if (playerPos.y >= pos.y) {
-                                yTransition = false;
-                            }
-                        }
-                    } else {
-                        if (pos.y < climbLockedXMaxY && pos.y > climbLockedXMinY) {
-                            targetPos.y = playerPos.y;
-                            //print("targetPos.y = playerPos.y;");
-                        } else if (playerPos.y < climbLockedXMinY) {
-                            targetPos.y = climbLockedXMinY;
-                            //print("targetPos.y = climbLockedXMinY;");
-                        } else if (playerPos.y > climbLockedXMaxY) {
-                            targetPos.y = climbLockedXMaxY;
-                            //print("targetPos.y = climbLockedXMaxY;");
-                        }
-                    }
-                    print(targetPos);
-                    targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
-                    targetPos.x = climbLockedX;                  
+                    targetPos.y = pos.y;
                 }
+                targetPos.x = climbLockedX;
+                targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
             }
-            if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight && currentArea != CameraArea.Boss && currentArea != CameraArea.ClimbLockedX) {
-                targetPos.x = playerPos.x;
-            } else if (currentArea != CameraArea.Boss && currentArea != CameraArea.ClimbLockedX) {
-                targetPos.x = pos.x;
-            }
-            //if (transform.position != targetPos) transform.position = targetPos;
+
             transform.position = targetPos;
 
         } else if (currentMode == CameraMode.AverageSmooth) {

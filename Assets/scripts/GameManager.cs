@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 
     public GameState currentState;
     public GameBlock currentBlock;
-    public GameBlock currentCheckpoint;
+    public GameObject currentCheckpoint;
     public Text scoreText;
     public Text blockAmmoTimerText;
     public Text scoreTextShadow;
@@ -43,7 +43,10 @@ public class GameManager : MonoBehaviour {
     bool gameStarted;
 
     public GameObject pauseText;
+    public Text pause;
+    public Text pauseShadow;
     public Transform shurikenImage;
+    int deaths;
 
     private void Awake() {
         if (startInMenu) bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
@@ -148,6 +151,23 @@ public class GameManager : MonoBehaviour {
     public void GameOver() {
         print("Game Over N00b!1! git gud.");
         currentState = GameState.GameOver;
+        Invoke("GitGud", 2);
+        Invoke("GoToMenu", 5);
+    }
+
+    void GitGud() {
+        pauseText.SetActive(true);
+        pause.text = "GIT GUD";
+        pauseShadow.text = "GIT GUD";
+    }
+
+    void GoToMenu() {
+        pause.text = "PAUSED";
+        pauseShadow.text = "PAUSED";
+        pauseText.SetActive(false);
+        currentState = GameState.Menu;
+        bgBlack.enabled = true;
+        menu.SetActive(true);
     }
 
     void Pause() {
@@ -159,13 +179,17 @@ public class GameManager : MonoBehaviour {
             pauseText.SetActive(true);
         }
     }
+
+    public void Respawn() {
+
+    }
 	
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R) && editorMode) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         
-        if (currentState == GameState.Running) {
+        if (currentState == GameState.Running && player.currentState != PlayerState.Dead) {
             tickTime += Time.deltaTime;
             if (tickTime >= 1) {
                 time--;

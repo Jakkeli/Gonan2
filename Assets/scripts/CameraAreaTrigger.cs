@@ -66,7 +66,7 @@ public class CameraAreaTrigger : MonoBehaviour {
     }
 
     void OnTriggerExit2D(Collider2D c) {
-
+        if (c.tag != "Player") return;
         if (myPAD == PlayerApproachDirection.Left) {
             if (playerPos.x > myPos.x) {
                 ChangeToSecondary();

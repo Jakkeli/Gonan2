@@ -97,6 +97,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float immortalTime = 1.5f;
     float tickTime;
     bool flash;
+    public float respawnTimer = 5;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -181,12 +182,15 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             playerLives--;
             print("u dieded");
             gm.UpdateLevelLivesAmmo();
-            Respawn();
+            tickTime = 0;
         }
     }
 
     void Respawn() {
         print("respawn?!?!?");
+        gm.Respawn();
+        transform.position = gm.currentCheckpoint.transform.position;
+        currentState = PlayerState.Idle;
     }
 
     public void IndianaJones(GameObject go) {
@@ -377,10 +381,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         } else if (currentState != PlayerState.KnockedBack) {
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        }
-        
-
-        
+        }      
 
         // jump & dropdown
 
@@ -401,6 +402,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void Update() {
+
+        if (currentState == PlayerState.Dead && gm.currentState == GameState.Running) {
+            tickTime += Time.deltaTime;
+            if (tickTime >= respawnTimer) {
+                Respawn();
+            }
+        }
 
         if (currentState == PlayerState.Dead || gm.currentState != GameState.Running) return;
 
