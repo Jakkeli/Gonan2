@@ -293,9 +293,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     void FixedUpdate() {
 
-        if (currentState == PlayerState.Dead) {
-            return;
-        }
+        if (currentState == PlayerState.Dead || gm.currentState != GameState.Running) return;
 
         v = rb.velocity;    //rigidbody velocity
 
@@ -404,7 +402,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     void Update() {
 
-        if (currentState == PlayerState.Dead) return;
+        if (currentState == PlayerState.Dead || gm.currentState != GameState.Running) return;
 
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");

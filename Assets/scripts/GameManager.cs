@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameState { Running, Paused, Start, GameOver, Menu };
+public enum GameState { Running, Paused, GameOver, Menu };
 public enum GameBlock { None, BlockOneOne, BlockOneTwo, BlockOneThree };
 
 public class GameManager : MonoBehaviour {
@@ -36,8 +36,16 @@ public class GameManager : MonoBehaviour {
     public GameObject menu;
     Image bgBlack;
 
+    public bool startInMenu;
+    public bool editorMode;
+    bool gameStarted;
+
+    public GameObject pauseText;
+
     private void Awake() {
         bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
+        if (startInMenu) currentState = GameState.Menu;
+        //pauseText = GameObject.Find("pauseText").GetComponent<GameObject>();
     }
 
     void Start () {
@@ -45,6 +53,16 @@ public class GameManager : MonoBehaviour {
         UpdateLevelLivesAmmo();
         scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
         scoreTextShadow.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
+    }
+
+    public void StartContinueGame() {
+        if (!gameStarted) {
+            ChangeBlock();
+            currentState = GameState.Running;
+            gameStarted = true;
+        } else {
+            currentState = GameState.Running;
+        }
     }
 
     void ChangeBlock() {
@@ -127,9 +145,19 @@ public class GameManager : MonoBehaviour {
         print("Game Over N00b!1! git gud.");
         currentState = GameState.GameOver;
     }
+
+    void Pause() {
+        if (currentState == GameState.Paused) {
+            currentState = GameState.Running;
+            pauseText.SetActive(false);
+        } else if (currentState == GameState.Running) {
+            currentState = GameState.Paused;
+            pauseText.SetActive(true);
+        }
+    }
 	
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.R)) {
+        if (Input.GetKeyDown(KeyCode.R) && editorMode) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         
@@ -147,8 +175,13 @@ public class GameManager : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
+            currentState = GameState.Menu;
             bgBlack.enabled = true;
             menu.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            Pause();
         }
     }
 }
