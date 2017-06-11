@@ -33,12 +33,11 @@ public class GameManager : MonoBehaviour {
     public int playerHealth;
     public int enemyHealth;
 
-    public Canvas gui;
-    public Canvas menu;
+    public GameObject menu;
+    Image bgBlack;
 
     private void Awake() {
-        gui.enabled = false;
-        menu.enabled = true;
+        bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
     }
 
     void Start () {
@@ -147,19 +146,9 @@ public class GameManager : MonoBehaviour {
             player.Death();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            if (gui.enabled) {
-                gui.enabled = false;
-            } else {
-                gui.enabled = true;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            if (menu.enabled) {
-                menu.enabled = false;
-            } else {
-                menu.enabled = true;
-            }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            bgBlack.enabled = true;
+            menu.SetActive(true);
         }
     }
 }
