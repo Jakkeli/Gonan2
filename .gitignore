@@ -28,3 +28,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/Resources/BlueNecro/Skellington_tex.png.meta
+Assets/Resources/GonanMoves/GonanMoves_Data.asset.meta
+Assets/Resources/GonanMoves/GonanMoves_tex.png.meta
+Assets/Resources/RedNecro/SkellingtonRed_tex.png.meta
