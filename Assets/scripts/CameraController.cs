@@ -5,12 +5,14 @@ using UnityEngine;
 public enum CameraState { Normal, CutScene, Pause, Gameover };
 public enum CameraMode { Lerp, AverageSmooth, AllLocked, XOnlyLocked, Jaakko };
 public enum CameraArea { Normal, Climb, Boss, ClimbLockedX };
+public enum ClimbTransitionType { FromBottomToTop, FromTopToBottom };
 
 public class CameraController : MonoBehaviour {
 
     public CameraState currentState;
     public CameraMode currentMode;
     public CameraArea currentArea;
+    public ClimbTransitionType currentCTT;
 
     public GameObject player;
     public Vector3 playerPos;
@@ -27,6 +29,8 @@ public class CameraController : MonoBehaviour {
     public float bossX;
     public float bossY;
     public float climbLockedX = 1;
+    public float climbLockedXMinY;
+    public float climbLockedXMaxY;
 
     public bool gizmosOn;
 
@@ -34,10 +38,13 @@ public class CameraController : MonoBehaviour {
     public float cameraXLimitRight;
     public bool transition;
     public float transitionSmoother;
+    public float transitionTolerance = 0.2f;
+    public bool yTransition;
 
     public void ChangeCameraArea(CameraArea ca) {
         currentArea = ca;
         transition = true;
+        yTransition = true;
     }
 
     void Update() {
@@ -47,12 +54,12 @@ public class CameraController : MonoBehaviour {
         targetPos = player.transform.position;
         targetPos.z = cameraZ;
 
-        if (currentMode == CameraMode.Jaakko) {
-            
+        if (currentMode == CameraMode.Jaakko) {            
             if (currentArea == CameraArea.Normal) {
                 if (transition) {
-                    if (pos.y != lockedY) {
+                    if (pos.y != lockedY || pos.x != playerPos.x) {
                         targetPos.y = lockedY;
+                        targetPos.x = playerPos.x;
                         targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
                     } else {
                         transition = false;
@@ -60,8 +67,7 @@ public class CameraController : MonoBehaviour {
                     }
                 } else {
                     targetPos.y = lockedY;
-                }
-                                
+                }                                
             } else if (currentArea == CameraArea.Climb) {
                 targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
             } else if (currentArea == CameraArea.Boss) {
@@ -80,17 +86,49 @@ public class CameraController : MonoBehaviour {
                     targetPos.x = bossX;
                 }
             } else if (currentArea == CameraArea.ClimbLockedX) {
-                targetPos.x = climbLockedX;
-                targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
-            }
+                if (transition) {
+                    if (Mathf.Abs(pos.x - climbLockedX) > transitionTolerance) {
+                        targetPos.x = climbLockedX;
+                        targetPos.y = lockedY;
+                        print(targetPos);
+                        targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
+                    } else {
+                        transition = false;
+                    }
+                } else {
 
-            if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight && currentArea != CameraArea.Boss) {
+                    if (yTransition) {
+                        if (currentCTT == ClimbTransitionType.FromBottomToTop) {
+                            if (playerPos.y < pos.y) {
+                                targetPos.y = lockedY;
+                            } else if (playerPos.y >= pos.y) {
+                                yTransition = false;
+                            }
+                        }
+                    } else {
+                        if (pos.y < climbLockedXMaxY && pos.y > climbLockedXMinY) {
+                            targetPos.y = playerPos.y;
+                            //print("targetPos.y = playerPos.y;");
+                        } else if (playerPos.y < climbLockedXMinY) {
+                            targetPos.y = climbLockedXMinY;
+                            //print("targetPos.y = climbLockedXMinY;");
+                        } else if (playerPos.y > climbLockedXMaxY) {
+                            targetPos.y = climbLockedXMaxY;
+                            //print("targetPos.y = climbLockedXMaxY;");
+                        }
+                    }
+                    print(targetPos);
+                    targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
+                    targetPos.x = climbLockedX;                  
+                }
+            }
+            if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight && currentArea != CameraArea.Boss && currentArea != CameraArea.ClimbLockedX) {
                 targetPos.x = playerPos.x;
-            } else if (currentArea != CameraArea.Boss) {
+            } else if (currentArea != CameraArea.Boss && currentArea != CameraArea.ClimbLockedX) {
                 targetPos.x = pos.x;
             }
-
-            if (transform.position != targetPos) transform.position = targetPos;
+            //if (transform.position != targetPos) transform.position = targetPos;
+            transform.position = targetPos;
 
         } else if (currentMode == CameraMode.AverageSmooth) {
             //targetPos.y += speedLookaheadFactor * player.GetComponent<Player>().smoothedVerticalSpeed + avgSmoothOffset;
@@ -110,7 +148,6 @@ public class CameraController : MonoBehaviour {
             targetPos.x = playerPos.x;
             transform.position = targetPos;
         }
-
     }
 
     void OnDrawGizmos() {

@@ -13,9 +13,12 @@ public class CameraAreaTrigger : MonoBehaviour {
     public CameraArea myPrimary;
     public CameraArea mySecondary;
     public PlayerApproachDirection myPAD;
+    public ClimbTransitionType myCTT;
     public float primaryYarea;
     public float secondaryYarea;
     public float myClimbLockedX;
+    public float myClimbLockedxMinY;
+    public float myClimbLockedxMaxY;
     GameObject playerObj;
     Vector3 playerPos;
     Vector3 myPos;
@@ -38,17 +41,28 @@ public class CameraAreaTrigger : MonoBehaviour {
 	}
 
     void ChangeCameraArea(CameraArea ca) {
+        cc.currentCTT = myCTT;
         cc.ChangeCameraArea(ca);
     }
 
     void ChangeToPrimary() {
         ChangeCameraArea(myPrimary);
-        if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;        
+        if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+        if (myPrimary == CameraArea.ClimbLockedX) {
+            cc.lockedY = secondaryYarea;
+        } else if (mySecondary == CameraArea.ClimbLockedX) {
+            cc.lockedY = primaryYarea;
+        }
     }
 
     void ChangeToSecondary() {
         ChangeCameraArea(mySecondary);
         if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+        if (myPrimary == CameraArea.ClimbLockedX) {
+            cc.lockedY = secondaryYarea;
+        } else if (mySecondary == CameraArea.ClimbLockedX) {
+            cc.lockedY = primaryYarea;
+        }
     }
 
     void OnTriggerExit2D(Collider2D c) {
@@ -85,6 +99,8 @@ public class CameraAreaTrigger : MonoBehaviour {
         }
         if (myPrimary == CameraArea.ClimbLockedX || mySecondary == CameraArea.ClimbLockedX) {
             cc.climbLockedX = myClimbLockedX;
+            cc.climbLockedXMaxY = myClimbLockedxMaxY;
+            cc.climbLockedXMinY = myClimbLockedxMinY;
         }
     }
 }
