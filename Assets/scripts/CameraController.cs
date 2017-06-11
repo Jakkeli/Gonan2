@@ -5,14 +5,13 @@ using UnityEngine;
 public enum CameraState { Normal, CutScene, Pause, Gameover };
 public enum CameraMode { Lerp, AverageSmooth, AllLocked, XOnlyLocked, Jaakko };
 public enum CameraArea { Normal, Climb, Boss, ClimbLockedX };
-public enum YLevel { Normal, Plus1, Minus1 };
 
 public class CameraController : MonoBehaviour {
 
     public CameraState currentState;
     public CameraMode currentMode;
     public CameraArea currentArea;
-    //public YLevel currentLevel;
+
     public GameObject player;
     public Vector3 playerPos;
     Vector3 targetPos;
@@ -27,7 +26,7 @@ public class CameraController : MonoBehaviour {
     public float lockedY;
     public float bossX;
     public float bossY;
-    //public float[] yLevels;
+    public float climbLockedX = 1;
 
     public bool gizmosOn;
 
@@ -80,6 +79,9 @@ public class CameraController : MonoBehaviour {
                     targetPos.y = bossY;
                     targetPos.x = bossX;
                 }
+            } else if (currentArea == CameraArea.ClimbLockedX) {
+                targetPos.x = climbLockedX;
+                targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
             }
 
             if (playerPos.x > cameraXLimitLeft && playerPos.x < cameraXLimitRight && currentArea != CameraArea.Boss) {

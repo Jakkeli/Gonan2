@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 
     public GameState currentState;
     public GameBlock currentBlock;
+    public GameBlock currentCheckpoint;
     public Text scoreText;
     public Text blockLivesAmmoTimerText;
     public Text scoreTextShadow;

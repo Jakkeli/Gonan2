@@ -15,6 +15,7 @@ public class CameraAreaTrigger : MonoBehaviour {
     public PlayerApproachDirection myPAD;
     public float primaryYarea;
     public float secondaryYarea;
+    public float myClimbLockedX;
     GameObject playerObj;
     Vector3 playerPos;
     Vector3 myPos;
@@ -40,39 +41,41 @@ public class CameraAreaTrigger : MonoBehaviour {
         cc.ChangeCameraArea(ca);
     }
 
+    void ChangeToPrimary() {
+        ChangeCameraArea(myPrimary);
+        if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;        
+    }
+
+    void ChangeToSecondary() {
+        ChangeCameraArea(mySecondary);
+        if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+    }
+
     void OnTriggerExit2D(Collider2D c) {
 
         if (myPAD == PlayerApproachDirection.Left) {
             if (playerPos.x > myPos.x) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             } else if (playerPos.x < myPos.x) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             }
         } else if (myPAD == PlayerApproachDirection.Right) {
             if (playerPos.x > myPos.x) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             } else if (playerPos.x < myPos.x) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             }
         } else if (myPAD == PlayerApproachDirection.Down) {
             if (playerPos.y > myPos.y) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             } else if (playerPos.y < myPos.y) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             }
         } else if (myPAD == PlayerApproachDirection.Up) {
             if (playerPos.y < myPos.y) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             } else if (playerPos.y > myPos.y) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             }
         }
 
@@ -80,15 +83,8 @@ public class CameraAreaTrigger : MonoBehaviour {
             cc.bossX = myBossX;
             cc.bossY = myBossY;
         }
-
-        //if (myType == CameraAreaTriggerPos.LeftBottom) {
-
-        //} else if (myType == CameraAreaTriggerPos.LeftTop) {
-
-        //} else if (myType == CameraAreaTriggerPos.RightBottom) {
-
-        //} else if (myType == CameraAreaTriggerPos.RightTop) {
-
-        //}
+        if (myPrimary == CameraArea.ClimbLockedX || mySecondary == CameraArea.ClimbLockedX) {
+            cc.climbLockedX = myClimbLockedX;
+        }
     }
 }
