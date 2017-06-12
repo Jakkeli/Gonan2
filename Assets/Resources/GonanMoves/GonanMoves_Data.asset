@@ -11,6 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5733de17f8462b5449d12ccdeb7b288b, type: 3}
   m_Name: GonanMoves_Data
   m_EditorClassIdentifier: 
-  dataName: 
-  dragonBonesJSON: {fileID: 0}
-  textureAtlas: []
+  dataName: GonanMoves
+  dragonBonesJSON: {fileID: 4900000, guid: 0aea68716d6194c44a00def2c5b768cd, type: 3}
+  textureAtlas:
+  - textureAtlasJSON: {fileID: 4900000, guid: ea0b70230591a4d408da1e0bd5861e1b, type: 3}
+    texture: {fileID: 2800000, guid: 75b340bfe17a6754796d4a379d32e153, type: 3}
+    material: {fileID: 2100000, guid: 0858aa4c0a04a1e46b4b8aecc1c1d2cb, type: 2}
+    uiMaterial: {fileID: 0}
