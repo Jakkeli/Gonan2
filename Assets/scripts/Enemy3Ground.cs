@@ -16,6 +16,7 @@ public class Enemy3Ground : MonoBehaviour, IReaction {
     public bool activateOnStart;
     public bool goRight;
     public int hp = 1;
+    public int scoreWorth = 300;
     public float minX;
     public float maxX;
     GameObject player;
@@ -23,9 +24,11 @@ public class Enemy3Ground : MonoBehaviour, IReaction {
     Vector3 targetPos;
 
     Player ps;
+    GameManager gm;
 
     void Start () {
         player = GameObject.Find("player");
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
@@ -55,8 +58,8 @@ public class Enemy3Ground : MonoBehaviour, IReaction {
     }
 
     public void Death() {
-        //die
-        //print("enemy dieded");
+        gm.score += scoreWorth;
+        gm.UpdateScore();
         currentState = Enemy3State.Dead;
         fabCtrl.PlaySoundEnemy3Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
@@ -79,8 +82,7 @@ public class Enemy3Ground : MonoBehaviour, IReaction {
     }
 
     void Update () {
-        if (currentState != Enemy3State.Activated) return;
-        if (ps.currentState == PlayerState.Dead || ps.currentState == PlayerState.KnockedBack) return;
+        if (currentState != Enemy3State.Activated || gm.currentState != GameState.Running) return;        
         var pos = transform.position;
         
         if (otherState == OtherState.Dropping) {

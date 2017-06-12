@@ -11,23 +11,22 @@ public class Shuriken : MonoBehaviour {
     public bool wasThrown;
     bool hasTurnedBack;
     float startX;
-    //float startY;
     public float rotateSpeed;
     public float goneDist;
     GameObject player;
     Player p;
     SpriteRenderer sr;
-    public float yOffset;
+    public float startYfix;
+    float yOffset;
     CircleCollider2D circCol;
-    //Transform sprite;
 
     public void Throw(int d, bool crouch) {
         if (!wasThrown) {
             yOffset = crouch ? -0.25f : 0.5f;
-            transform.position = new Vector2(transform.position.x, player.transform.position.y + yOffset);
+            transform.position = new Vector2(transform.position.x, player.transform.position.y + yOffset + startYfix);
             wasThrown = true;
             startX = transform.position.x;
-            //startY = transform.position.y;
+            hasTurnedBack = false;
             sr.enabled = true;
             dir = d;
             circCol.enabled = true;
@@ -57,7 +56,7 @@ public class Shuriken : MonoBehaviour {
     void Move() {
         //transform.Translate(speed * Time.deltaTime * dir, 0, 0);
         transform.position += new Vector3(speed * Time.deltaTime * dir, 0, 0);
-        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime * -dir);
     }
 
     void Update () {
@@ -87,10 +86,6 @@ public class Shuriken : MonoBehaviour {
             }
         } else {
             transform.position = new Vector2(player.transform.position.x, player.transform.position.y + yOffset);
-        }
-
-        if (Input.GetKeyDown(KeyCode.T)) {
-            Throw(1, false);
         }
 	}
 

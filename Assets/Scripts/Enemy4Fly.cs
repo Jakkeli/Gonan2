@@ -18,6 +18,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     public bool activateOnStart;
     public bool goRight;
     public int hp = 1;
+    public int scoreWorth = 500;
     GameObject player;
     FabricCtrl fabCtrl;
     public float triggerDistance;
@@ -27,12 +28,13 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     Vector3 pos;
     Vector3 targetDir;
     SpriteRenderer spriteRenderer;
-
+    GameManager gm;
     Player ps;
 
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = GameObject.Find("player");
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
@@ -53,8 +55,8 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     }
 
     public void Death() {
-        //die
-        //print("enemy dieded");
+        gm.score += scoreWorth;
+        gm.UpdateScore();
         currentState = Enemy4State.Dead;
         fabCtrl.PlaySoundEnemy1Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
@@ -76,10 +78,8 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     }
 
     void Update() {
-        if (currentState == Enemy4State.Inactive || currentState == Enemy4State.Dead) {
-            return;
-        }
-
+        if (currentState == Enemy4State.Inactive || currentState == Enemy4State.Dead) return;
+        if (gm.currentState != GameState.Running) return;
         if (ps.currentState == PlayerState.Dead) return;
 
         playerPos = player.transform.position;

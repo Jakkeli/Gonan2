@@ -28,9 +28,12 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
     Player ps;
     FabricCtrl fabCtrl;
     int svdir;
+    GameManager gm;
+    int scoreWorth = 200;
 
 	void Start () {
         player = GameObject.Find("player");
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         if (activateOnStart) {
@@ -53,7 +56,8 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
 
     public void Death() {
         //die
-        //print("enemy dieded");
+        gm.score += scoreWorth;
+        gm.UpdateScore();
         currentState = Enemy1State.Dead;
         fabCtrl.PlaySoundEnemy1Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
@@ -70,11 +74,8 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
     }
 	
 	void Update () {
-        if (currentState != Enemy1State.Activated) {
-               return;
-        }
-
-        if (ps.currentState == PlayerState.Dead || ps.currentState == PlayerState.KnockedBack) return;
+        if (currentState != Enemy1State.Activated) return;
+        if (gm.currentState != GameState.Running) return;        
 
         if (hDir < 0) GetComponent<SpriteRenderer>().flipX = false;
         if (hDir > 0) GetComponent<SpriteRenderer>().flipX = true;
