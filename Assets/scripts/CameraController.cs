@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour {
     public CameraArea currentArea;
     public ClimbTransitionType currentCTT;
 
-    public GameObject player;
+    GameObject player;
     Player ps;
     public Vector3 playerPos;
     Vector3 targetPos;
@@ -49,6 +49,7 @@ public class CameraController : MonoBehaviour {
     }
 
     void Start() {
+        player = GameObject.Find("player");
         ps = player.GetComponent<Player>();
     }
 
