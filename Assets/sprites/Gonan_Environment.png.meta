@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d4bc2e83d2ad9c64e9d81a18fa5690ad
-timeCreated: 1496835099
+timeCreated: 1497013609
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -59,6 +59,9 @@ TextureImporter:
     21300104: WallEdge_D
     21300106: Spikes_U
     21300108: Spikes_D
+    21300110: Ground_Null
+    21300112: Ground_Corner_In_D
+    21300114: Ground_Corner_In_U
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -491,8 +494,47 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
+    - serializedVersion: 2
+      name: Ground_Null
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 500
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Ground_Corner_In_D
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Ground_Corner_In_U
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 100
+        height: 100
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
-  spritePackingTag: 
+  spritePackingTag: Tiles
   userData: 
   assetBundleName: 
   assetBundleVariant: 
