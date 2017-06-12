@@ -12,9 +12,16 @@ public class JawRotator : MonoBehaviour {
     bool highTurn = true;
     int laughCount = 0;
     public int maxLaughs = 1;
+    BossOne bossOne;
 
-    public void Laugh() {
+    private void Start() {
+        bossOne = GetComponentInParent<BossOne>();
+    }
+
+    public void Laugh(int laughycles) {
+        maxLaughs = laughycles;
         laugh = true;
+        print("laughcalled");
     }
 
     void Turn() {
@@ -26,9 +33,8 @@ public class JawRotator : MonoBehaviour {
             return;
         }
         if (!highTurn) {
-            if (laughCount == maxLaughs) {
-                laugh = false;
-                transform.rotation = new Quaternion(0, 0, 0, 0);
+            if (laughCount == maxLaughs) {                
+                EndLaugh();
                 return;
             }
             down = true;
@@ -38,7 +44,10 @@ public class JawRotator : MonoBehaviour {
     }
 
     void EndLaugh() {
-
+        laugh = false;
+        transform.rotation = new Quaternion(0, 0, 0, 0);
+        bossOne.laughComplete = true;
+        laughCount = 0;
     }
 
 	void Update () {

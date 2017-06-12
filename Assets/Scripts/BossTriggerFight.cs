@@ -7,8 +7,8 @@ public class BossTriggerFight : MonoBehaviour {
     bool used;
     public GameObject boss;
 
-    void OnTriggerEnter2D(Collider2D c) {
-        if (c.tag == "Player" && !used) {
+    void OnTriggerExit2D(Collider2D c) {
+        if (c.tag == "Player" && !used && GameObject.Find("player").transform.position.x > transform.position.x) {
             boss.GetComponent<BossOne>().TriggerFight();
             used = true;
         }
