@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     public Text blockAmmoTimerText;
     public Text scoreTextShadow;
     public Text livesText;
+    public Text blockAmmoTimerTextShadow;
+    public Text livesTextShadow;
 
     string level = "BLOCK  1-1";
     string playerLives = "LIVES 3";
@@ -119,7 +121,9 @@ public class GameManager : MonoBehaviour {
             timeText = "TIME  00" + time;
         }
         blockAmmoTimerText.text = level + "\n" + secondaryAmmo + " " + "\n" + timeText;
+        blockAmmoTimerTextShadow.text = level + "\n" + secondaryAmmo + " " + "\n" + timeText;
         livesText.text = playerLives;
+        livesTextShadow.text = playerLives;
     }
 
     public void UpdateScore() {
@@ -223,7 +227,7 @@ public class GameManager : MonoBehaviour {
             currentState = GameState.Menu;
             bgBlack.enabled = true;
             menu.SetActive(true);
-            menuLogo.SetActive(true);
+            menuLogo.SetActive(true);// rapihgaråoighaodhgioarthgoaetgoaietjgoairhgoehgoiEHG
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {

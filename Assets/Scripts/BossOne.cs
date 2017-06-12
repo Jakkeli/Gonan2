@@ -21,7 +21,8 @@ public class BossOne : MonoBehaviour {
     public GameObject projectilePrefab;
     public Vector3 projectileStartPos;
     float tickTime;
-    public float shootInterval = 2;
+    public float shootIntervalNormal = 1;
+    public float shootIntervalBarrage = 0.25f;
     GameObject currentProjectile;
     FabricCtrl fabCtrl;
     bool firstLaughStarted;
@@ -98,10 +99,10 @@ public class BossOne : MonoBehaviour {
             if (firstLaughComplete) {
                 //shoot
                 tickTime += Time.deltaTime;
-                if (tickTime > shootInterval) {
+                if (tickTime > shootIntervalNormal) {
                     ShootNormal();
                     shotsFired++;
-                    tickTime -= shootInterval;
+                    tickTime -= shootIntervalNormal;
                 }
             }
         }
