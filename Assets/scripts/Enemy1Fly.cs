@@ -81,8 +81,8 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         var t = Time.time - startTime;
         var dx = speed * hDir * t;
 
-        //transform.position = originalPos + new Vector2(dx, maxY * Mathf.Sin(dx * 2 * Mathf.PI / wavelength));
-        transform.position = originalPos + new Vector2(dx, maxY * (Mathf.Abs((Mathf.Abs(dx * 4 / wavelength) + svdir)%4 - 2) - 1));
+        transform.position = originalPos + new Vector2(dx, maxY * Mathf.Sin(dx * 2 * Mathf.PI / wavelength));
+        //transform.position = originalPos + new Vector2(dx, maxY * (Mathf.Abs((Mathf.Abs(dx * 4 / wavelength) + svdir)%4 - 2) - 1));
     }
 
     void OnTriggerEnter2D(Collider2D c) {
