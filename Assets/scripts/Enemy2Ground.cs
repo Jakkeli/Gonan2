@@ -11,16 +11,19 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
     public bool activateOnStart;
     public bool goRight;
     public int hp = 1;
+    public int scoreWorth = 100;
 
     public float maxX;
     public float minX;
 
     GameObject player;
     Player ps;
+    GameManager gm;
 
     FabricCtrl fabCtrl;
 
     void Start() {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.Find("player");
         ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -40,8 +43,8 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
     }
 
     public void Death() {
-        //die
-        //print("enemy dieded");
+        gm.score += scoreWorth;
+        gm.UpdateScore();
         currentState = Enemy1State.Dead;
         fabCtrl.PlaySoundEnemy2Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
@@ -54,6 +57,7 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
     }
 
     void Update() {
+        if (gm.currentState != GameState.Running) return;
         if (currentState != Enemy1State.Activated) {
             return;
         }

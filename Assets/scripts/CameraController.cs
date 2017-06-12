@@ -68,13 +68,14 @@ public class CameraController : MonoBehaviour {
                         targetPos = Vector3.Lerp(pos, targetPos, Time.deltaTime * transitionSmoother);
                     } else {
                         transition = false;
+                        targetPos.y = lockedY;
                     }
                 } else {
                     targetPos.y = lockedY;
                     if (playerPos.x < cameraXLimitRight && playerPos.x > cameraXLimitLeft) {
                         targetPos.x = playerPos.x;
                     } else {
-                        targetPos.x = pos.x;
+                        return;
                     }
                 }                                
             } else if (currentArea == CameraArea.Climb) {

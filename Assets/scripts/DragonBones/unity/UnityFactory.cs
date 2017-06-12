@@ -445,14 +445,40 @@ namespace DragonBones
 
 			if (data.dragonBonesJSON != null)
 			{
-				dragonBonesData = LoadDragonBonesData(data.dragonBonesJSON);
+				dragonBonesData = LoadDragonBonesData(data.dragonBonesJSON,data.dataName);
 
 				if (!string.IsNullOrEmpty(data.dataName) && dragonBonesData != null && data.textureAtlas != null)
 				{
+					#if UNITY_EDITOR
+					bool isDirty = false;
+					if(!Application.isPlaying){
+						for(int i=0;i<data.textureAtlas.Length;++i)
+						{
+							if(isUGUI){
+								if(data.textureAtlas[i].uiMaterial==null){
+									isDirty = true;
+									break;
+								}
+							}else{
+								if(data.textureAtlas[i].material==null) {
+									isDirty = true;
+									break;
+								}
+							}
+						}
+					}
+					#endif
 					for(int i=0;i<data.textureAtlas.Length;++i)
 					{
 						LoadTextureAtlasData(data.textureAtlas[i],data.dataName,texScale,isUGUI);
 					}
+					#if UNITY_EDITOR
+					if(isDirty){
+						AssetDatabase.Refresh();
+						EditorUtility.SetDirty(data);
+						AssetDatabase.SaveAssets();
+					}
+					#endif
 				}
 			}
 
