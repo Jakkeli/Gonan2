@@ -79,7 +79,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public SpriteRenderer spriteRenderer;
     GameManager gm;
 
-    public float crouchWhipDrop = 0.7f;
+    public float crouchWhipDrop = 0.94f;
     public float whipSpeed = 1;
 
     public int maxShurikenCount;

@@ -5,10 +5,11 @@ using UnityEngine;
 public class BossTriggerFight : MonoBehaviour {
 
     bool used;
+    public GameObject boss;
 
     void OnTriggerEnter2D(Collider2D c) {
         if (c.tag == "Player" && !used) {
-            GetComponentInParent<BossOne>().TriggerFight();
+            boss.GetComponent<BossOne>().TriggerFight();
             used = true;
         }
     }
