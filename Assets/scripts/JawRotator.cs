@@ -6,7 +6,7 @@ public class JawRotator : MonoBehaviour {
 
     public float rotSpeed;
     float maxAngle = 0.15f;
-    bool laugh = true;
+    bool laugh;
     bool down = true;
     bool lowTurn;
     bool highTurn = true;
