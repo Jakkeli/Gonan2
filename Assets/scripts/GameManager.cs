@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
     public GameObject menuLogo;
 
     public int checkPointIndex;
-    
+    public float currentCheckPointCameraY;
 
     void Awake() {
         if (startInMenu) bgBlack = GameObject.Find("bg_black").GetComponent<Image>();

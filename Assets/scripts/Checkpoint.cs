@@ -8,9 +8,10 @@ public class Checkpoint : MonoBehaviour {
     GameManager gm;
     public bool isFirstCheckpoint;
     public int checkPointIndex;
+    public float cameraYlevel;
 
     void Start() {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();        
     }
 
     void OnTriggerExit2D(Collider2D c) {
@@ -19,5 +20,6 @@ public class Checkpoint : MonoBehaviour {
         gm.currentBlock = thisCheckpoint;
         gm.currentCheckpoint = gameObject;
         gm.checkPointIndex = checkPointIndex;
+        gm.currentCheckPointCameraY = cameraYlevel;
     }
 }

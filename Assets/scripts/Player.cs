@@ -98,8 +98,10 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     float tickTime;
     bool flash;
     public float respawnTimer = 5;
+    CameraController cc;
 
     void Start() {
+        cc = GameObject.Find("Main Camera").GetComponent<CameraController>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         dbc = GetComponentInChildren<DBController>();
         joint = GetComponent<DistanceJoint2D>();
@@ -187,6 +189,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void Respawn() {
+        cc.lockedY = gm.currentCheckPointCameraY;
         print("respawn?!?!?");
         gm.Respawn();
         transform.position = gm.currentCheckpoint.transform.position;
