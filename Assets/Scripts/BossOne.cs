@@ -18,6 +18,9 @@ public class BossOne : MonoBehaviour {
     bool triggered;
     public float transitionSpeed = 1;
     float targetX = 289;
+    public GameObject projectilePrefab;
+    Vector3 projectileStartPos;
+    public GameObject projectilePos;
 
 	void Start () {
         player = GameObject.Find("player");
@@ -38,6 +41,7 @@ public class BossOne : MonoBehaviour {
 
     public void TakeDamage() {
         if (currentState != BossState.Fighting) return;
+        print("boss took a hit");
         hp--;
         if (hp == 0) {
             Death();
@@ -45,11 +49,12 @@ public class BossOne : MonoBehaviour {
     }
 
     void Death() {
-
+        currentState = BossState.Dead;
+        print("boss dieded. now u the boss");
     }
 
     void ShootNormal() {
-
+        Instantiate(projectilePrefab, projectileStartPos, Quaternion.identity);
     }
 
     void Laugh() {
