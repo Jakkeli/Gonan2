@@ -1,12 +1,18 @@
 fileFormatVersion: 2
-guid: b521851b265bf7543857e4b7a81235c8
-timeCreated: 1496325318
+guid: b030cb5c5115d4043af47d81fddc3307
+timeCreated: 1497008953
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: FireParticles_0
-    21300002: FireParticles_1
-    21300004: FireParticles_2
+    21300000: KillerBubbles_0
+    21300002: KillerBubbles_1
+    21300004: KillerBubbles_2
+    21300006: KillerBubbles_3
+    21300008: KillerBubbles_4
+    21300010: KillerBubbles_5
+    21300012: KillerBubbles_6
+    21300014: KillerBubbles_7
+    21300016: KillerBubble
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -89,39 +95,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireParticles_0
+      name: KillerBubble
       rect:
         serializedVersion: 2
-        x: 0
+        x: 25
         y: 0
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: FireParticles_1
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: FireParticles_2
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 0
-        width: 200
-        height: 200
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
