@@ -23,6 +23,7 @@ public class BossOne : MonoBehaviour {
         player = GameObject.Find("player");
         ps = player.GetComponent<Player>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        resetHp = hp;
 	}
 
     public void TriggerFight() {
@@ -31,7 +32,7 @@ public class BossOne : MonoBehaviour {
     }
 
     public void Reset() {
-
+        transform.position = startPos;
     }
 
     public void TakeDamage() {
