@@ -24,6 +24,7 @@ public class BossOne : MonoBehaviour {
         ps = player.GetComponent<Player>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         resetHp = hp;
+        startPos = transform.position;
 	}
 
     public void TriggerFight() {
