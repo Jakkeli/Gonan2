@@ -15,6 +15,7 @@ public class FabricCtrl : MonoBehaviour {
     public string playerDeath;
     public string drumBeat1;
     public string bossLaugh1;
+    public string stopBossLaugh1;
     public string bossLaugh2;
     public string bossLaugh3;
 
@@ -43,6 +44,10 @@ public class FabricCtrl : MonoBehaviour {
 
     public void PlaySoundBossLaugh1() {
         Fabric.EventManager.Instance.PostEvent(bossLaugh1, soundPos);
+    }
+
+    public void StopSoundBossLaugh1() {
+        Fabric.EventManager.Instance.PostEvent(stopBossLaugh1, soundPos);
     }
 
     public void PlaySoundBossLaugh2() {
