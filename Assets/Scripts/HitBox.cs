@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour, IReaction {
 
-	
+    float invunerabilityTime = 0.5f;
+    bool godMode;
+    float tickTime;
 
 	void Start () {
 		
@@ -15,13 +17,22 @@ public class HitBox : MonoBehaviour, IReaction {
     }
 
     public void React() {
-        GetComponentInParent<BossOne>().TakeDamage();
+        if (!godMode) {
+            GetComponentInParent<BossOne>().TakeDamage();
+            print("reacted");
+            tickTime = 0;
+            godMode = true;
+        }
+        
     }
 
-	
-	// Update is called once per frame
 	void Update () {
-		
+		if (godMode) {
+            tickTime += Time.deltaTime;
+            if (tickTime > invunerabilityTime) {
+                godMode = false;
+            }
+        }
 	}
 
     
