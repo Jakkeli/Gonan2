@@ -51,6 +51,9 @@ public class GameManager : MonoBehaviour {
     int resetLives;
     int resetHealth;
     int resetAmmo;
+    public GameObject menuLogo;
+
+    public int checkPointIndex;
     
 
     void Awake() {
@@ -85,14 +88,17 @@ public class GameManager : MonoBehaviour {
     void ChangeBlock() {
         if (currentBlock == GameBlock.None) {
             currentBlock = GameBlock.BlockOneOne;
+            checkPointIndex = 1;
             level = "BLOCK  1-1";
             UpdateLevelLivesAmmo();
         } else if (currentBlock == GameBlock.BlockOneOne) {
             currentBlock = GameBlock.BlockOneTwo;
+            checkPointIndex = 2;
             level = "BLOCK  1-2";
             UpdateLevelLivesAmmo();
         } else if (currentBlock == GameBlock.BlockOneTwo) {
             currentBlock = GameBlock.BlockOneThree;
+            checkPointIndex = 3;
             level = "BLOCK  1-3";
             UpdateLevelLivesAmmo();
         }        
@@ -217,6 +223,7 @@ public class GameManager : MonoBehaviour {
             currentState = GameState.Menu;
             bgBlack.enabled = true;
             menu.SetActive(true);
+            menuLogo.SetActive(true);
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {
