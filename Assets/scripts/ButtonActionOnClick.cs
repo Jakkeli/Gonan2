@@ -47,6 +47,10 @@ public class ButtonActionOnClick : MonoBehaviour {
         print("back");
     }
 
+    public void ResetButton() {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
     void FadeInOut() {
         fadingDone = false;
         fadingOut = true;

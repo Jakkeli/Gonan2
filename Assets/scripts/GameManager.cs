@@ -47,11 +47,22 @@ public class GameManager : MonoBehaviour {
     public Text pauseShadow;
     public Transform shurikenImage;
     int deaths;
+    public GameObject firstCheckpoint;
+    int resetLives;
+    int resetHealth;
+    int resetAmmo;
+    
 
-    private void Awake() {
+    void Awake() {
         if (startInMenu) bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
         if (startInMenu) currentState = GameState.Menu;
-        //pauseText = GameObject.Find("pauseText").GetComponent<GameObject>();
+        if (currentCheckpoint == null) currentCheckpoint = firstCheckpoint;
+    }
+
+    void GatherResetData() {
+        resetLives = player.playerLives;
+        resetHealth = player.hp;
+        resetAmmo = player.secondaryAmmo;
     }
 
     void Start () {

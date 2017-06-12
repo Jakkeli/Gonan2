@@ -12,10 +12,11 @@ public class BossOne : MonoBehaviour {
     Player ps;
     GameManager gm;
     Vector3 playerPos;
+    Vector3 startPos;
+    int resetHp;
     bool inPlace;
     bool triggered;
     public float transitionSpeed = 1;
-
     float targetX = 289;
 
 	void Start () {
@@ -27,6 +28,10 @@ public class BossOne : MonoBehaviour {
     public void TriggerFight() {
         //move to fightPos
         currentState = BossState.Triggered;
+    }
+
+    public void Reset() {
+
     }
 
     public void TakeDamage() {
