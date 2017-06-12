@@ -19,8 +19,10 @@ public class BossOne : MonoBehaviour {
     public float transitionSpeed = 1;
     float targetX = 289;
     public GameObject projectilePrefab;
-    Vector3 projectileStartPos;
-    public GameObject projectilePos;
+    public Vector3 projectileStartPos;
+    float tickTime;
+    public float shootInterval = 2;
+    GameObject currentProjectile;
 
 	void Start () {
         player = GameObject.Find("player");
@@ -54,7 +56,11 @@ public class BossOne : MonoBehaviour {
     }
 
     void ShootNormal() {
-        Instantiate(projectilePrefab, projectileStartPos, Quaternion.identity);
+        //Vector3 dir = player.transform.position - transform.position;
+        Vector3 dir = new Vector3(player.transform.position.x, player.transform.position.y +1, 0) - transform.position;
+        dir.Normalize();
+        currentProjectile = Instantiate(projectilePrefab, projectileStartPos, Quaternion.identity);
+        if (currentProjectile.GetComponent<Projectile>() != null) currentProjectile.GetComponent<Projectile>().ShootThis(dir);
     }
 
     void Laugh() {
@@ -62,11 +68,15 @@ public class BossOne : MonoBehaviour {
     }
 	
 	void Update () {
-
-
 		if (currentState == BossState.Triggered) {
             transform.position += new Vector3(-transitionSpeed * Time.deltaTime, 0, 0);
             if (transform.position.x <= targetX) currentState = BossState.Fighting;
+        }
+
+        if (currentState == BossState.Fighting) {
+            if (Input.GetKeyDown(KeyCode.L)) {
+                ShootNormal();
+            }
         }
 	}
 }
