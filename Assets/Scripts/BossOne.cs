@@ -27,6 +27,7 @@ public class BossOne : MonoBehaviour {
     bool firstLaughStarted;
     bool firstLaughComplete;
     int shotsFired;
+    bool shootModeNormal = true;
 
 	void Start () {
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
