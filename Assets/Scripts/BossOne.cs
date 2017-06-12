@@ -17,7 +17,7 @@ public class BossOne : MonoBehaviour {
     bool inPlace;
     bool triggered;
     public float transitionSpeed = 1;
-    float targetX = 289;
+    float targetX = 310;
     public GameObject projectilePrefab;
     public Vector3 projectileStartPos;
     float tickTime;
@@ -25,10 +25,12 @@ public class BossOne : MonoBehaviour {
     public float shootIntervalBarrage = 0.25f;
     GameObject currentProjectile;
     FabricCtrl fabCtrl;
-    bool firstLaughStarted;
-    bool firstLaughComplete;
-    int shotsFired;
-    bool shootModeNormal = true;
+    bool laughStarted;
+    public bool laughComplete;
+    public int shotsFired;
+    public bool shootModeNormal = true;
+    public int normalCycle = 10;
+    public int barrageCycle = 10;
 
 	void Start () {
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -49,7 +51,7 @@ public class BossOne : MonoBehaviour {
     }
 
     public void TakeDamage() {
-        if (!firstLaughComplete) return;
+        if (!laughComplete) return;
         print("boss took a hit");
         hp--;
         if (hp == 0) {
@@ -62,8 +64,7 @@ public class BossOne : MonoBehaviour {
         print("boss dieded. now u the boss");
     }
 
-    void ShootNormal() {
-        //Vector3 dir = player.transform.position - transform.position;
+    void Shoot() {
         Vector3 dir = new Vector3(player.transform.position.x, player.transform.position.y +1, 0) - transform.position;
         dir.Normalize();
         currentProjectile = Instantiate(projectilePrefab, projectileStartPos, Quaternion.identity);
@@ -72,9 +73,16 @@ public class BossOne : MonoBehaviour {
 
     void Laugh() {
         fabCtrl.PlaySoundBossLaugh1();
+        GetComponentInChildren<JawRotator>().Laugh(4);
+        laughStarted = true;
+        tickTime = 0;
     }
 	
 	void Update () {
+
+        if (gm.currentState != GameState.Running) return;
+        if (ps.currentState == PlayerState.Dead) return;
+
 		if (currentState == BossState.Triggered) {
             transform.position += new Vector3(-transitionSpeed * Time.deltaTime, 0, 0);
             if (transform.position.x <= targetX) currentState = BossState.Fighting;
@@ -82,29 +90,46 @@ public class BossOne : MonoBehaviour {
 
         if (currentState == BossState.Fighting) {
             if (Input.GetKeyDown(KeyCode.L) && gm.editorMode) {
-                ShootNormal();
+                Shoot();
             }
 
-            if (!firstLaughStarted) {
-                fabCtrl.PlaySoundBossLaugh1();
-                firstLaughStarted = true;
-                tickTime = 0;
-            } else if (!firstLaughComplete) {
-                tickTime += Time.deltaTime;
-                if (tickTime > 3) {
+            if (!laughStarted) {
+                Laugh();
+                laughStarted = true;
+            }
+
+            if (shootModeNormal) {
+                if (laughComplete) {
+                    tickTime += Time.deltaTime;
+                    if (tickTime > shootIntervalNormal) {
+                        Shoot();
+                        shotsFired++;
+                        tickTime -= shootIntervalNormal;
+                    }
+                }
+                if (shotsFired >= normalCycle) {
+                    shootModeNormal = false;
+                    laughComplete = false;
+                    shotsFired = 0;
                     tickTime = 0;
-                    firstLaughComplete = true;
+                    print("normal cyle over");
                 }
-            }
-            if (firstLaughComplete) {
-                //shoot
+            } else if (!shootModeNormal) {
                 tickTime += Time.deltaTime;
-                if (tickTime > shootIntervalNormal) {
-                    ShootNormal();
+                if (tickTime > shootIntervalBarrage) {
+                    Shoot();
                     shotsFired++;
-                    tickTime -= shootIntervalNormal;
+                    tickTime -= shootIntervalBarrage;
+                }
+                if (shotsFired >= barrageCycle) {
+                    shootModeNormal = true;
+                    shotsFired = 0;
+                    tickTime = 0;
+                    Laugh();
+                    print("barrage cycle over, laugh");
                 }
             }
+            
         }
 	}
 }
