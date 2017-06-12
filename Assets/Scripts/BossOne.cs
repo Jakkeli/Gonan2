@@ -54,14 +54,18 @@ public class BossOne : MonoBehaviour {
         if (!laughComplete) return;
         print("boss took a hit");
         hp--;
+        gm.enemyHealth = hp;
         if (hp == 0) {
             Death();
+            return;
         }
+        gm.UpdatePlayerEnemyHealth(gm.playerHealth, hp);
     }
 
     void Death() {
         currentState = BossState.Dead;
         print("boss dieded. now u the boss");
+        gm.GameFinished();
     }
 
     void Shoot() {

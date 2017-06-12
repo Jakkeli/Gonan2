@@ -64,6 +64,18 @@ public class GameManager : MonoBehaviour {
         if (currentCheckpoint == null) currentCheckpoint = firstCheckpoint;
     }
 
+    public void GameFinished() {
+        Invoke("Finisher", 2);
+        Invoke("Reset", 10);
+    }
+
+    void Reset() {
+        pause.text = "PAUSED";
+        pauseShadow.text = "PAUSED";
+        pauseText.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
     void GatherResetData() {
         resetLives = player.playerLives;
         resetHealth = player.hp;
@@ -155,18 +167,24 @@ public class GameManager : MonoBehaviour {
     }
 
     public void UpdatePlayerEnemyHealth(int ph, int eh) {
-        for (int i = 0; i < ph; i++) {
-            playerHealthBars[i].GetComponent<Image>().sprite = FilledBar;
+        if (ph >= 0) {
+            for (int i = 0; i < ph; i++) {
+                playerHealthBars[i].GetComponent<Image>().sprite = FilledBar;
+            }
+            for (int i = ph; i < 16; i++) {
+                playerHealthBars[i].GetComponent<Image>().sprite = emptyBar;
+            }
         }
-        for (int i = ph; i < 16; i++) {
-            playerHealthBars[i].GetComponent<Image>().sprite = emptyBar;
+        
+        if (eh >= 0) {
+            for (int i = 0; i < eh; i++) {
+                enemyHealthBars[i].GetComponent<Image>().sprite = FilledBar;
+            }
+            for (int i = eh; i < 16; i++) {
+                enemyHealthBars[i].GetComponent<Image>().sprite = emptyBar;
+            }
         }
-        for (int i = 0; i < eh; i++) {
-            enemyHealthBars[i].GetComponent<Image>().sprite = FilledBar;
-        }
-        for (int i = eh; i < 16; i++) {
-            enemyHealthBars[i].GetComponent<Image>().sprite = emptyBar;
-        }
+        
     }
 
     public void GameOver() {
@@ -180,6 +198,12 @@ public class GameManager : MonoBehaviour {
         pauseText.SetActive(true);
         pause.text = "GIT GUD";
         pauseShadow.text = "GIT GUD";
+    }
+
+    void Finisher() {        
+        pauseText.SetActive(true);
+        pause.text = "GAME FINISHED!!!";
+        pauseShadow.text = "GAME FINISHED!!!";
     }
 
     void GoToMenu() {
