@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum LavaLampState { Inactive, Activated, Destroyed };
+public enum ItemDropType { Blob, Shuriken };
 
 public class LavaLamp : MonoBehaviour, IReaction {
 
     public LavaLampState currentState;
+    public ItemDropType itemDropType;
     public bool seenAtStart;
+
 
     void Start () {
         if (seenAtStart) {
@@ -20,7 +23,11 @@ public class LavaLamp : MonoBehaviour, IReaction {
 	}
 
     public void React() {
-        //release floating blob/other pickup-item
+        if (itemDropType == ItemDropType.Blob) {
+            GetComponentInChildren<BobTheBlob>().DropBlob();
+        } else if (itemDropType == ItemDropType.Shuriken) {
+            //GetComponentInChildren<ShurikenDrop>().DropShuriken();
+        }
         Deactivate();
     }
 

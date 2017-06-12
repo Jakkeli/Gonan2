@@ -63,24 +63,24 @@ public class Shuriken : MonoBehaviour {
     void Update () {
 		if (wasThrown) {
             if (dir == 1 && !hasTurnedBack) {
-                if (transform.position.x >= startX + flyDist) {
+                if (Mathf.Abs(transform.position.x - player.transform.position.x) > flyDist) {
                     hasTurnedBack = true;
                     dir = -1;
                 }
                 Move();
             } else if (dir == -1 && hasTurnedBack) {
-                if (startX - transform.position.x > goneDist) {
+                if (Mathf.Abs(transform.position.x - player.transform.position.x) > goneDist) {
                     Destroy();
                 }
                 Move();
             } else if (dir == -1 && !hasTurnedBack) {
-                if (transform.position.x <= startX - flyDist) {
+                if (Mathf.Abs(transform.position.x - player.transform.position.x) > flyDist) {
                     hasTurnedBack = true;
                     dir = 1;
                 }
                 Move();
             } else if (dir == 1 && hasTurnedBack) {
-                if (Vector2.Distance(transform.position, player.transform.position) > goneDist) {
+                if (Mathf.Abs(transform.position.x - player.transform.position.x) > goneDist) {
                     Destroy();
                 }
                 Move();

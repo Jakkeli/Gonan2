@@ -41,7 +41,7 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
 
     public void Death() {
         //die
-        print("enemy dieded");
+        //print("enemy dieded");
         currentState = Enemy1State.Dead;
         fabCtrl.PlaySoundEnemy2Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;

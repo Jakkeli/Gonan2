@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public AimState lastHorizontalState;
 
     public bool disableWhipBox;
+    public bool canFlash;
 
     Rigidbody2D rb;
     CapsuleCollider2D capCol;
@@ -96,6 +97,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     public float immortalTime = 1.5f;
     float tickTime;
     bool flash;
+    public float respawnTimer = 5;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -111,11 +113,20 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         canMove = true;
         joint.enabled = false;
         line.enabled = false;
-        // set player/enemy health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
+        gm.UpdatePlayerEnemyHealth(hp, gm.enemyHealth);
     }
 
     public void FallTrigger() {
-        Death();
+        if (currentState != PlayerState.IndianaJones) Death();
+    }
+
+    public void HeartPickup(int value) {
+        if (secondaryAmmo + value < 100) {
+            secondaryAmmo += value;
+        } else {
+            secondaryAmmo = 99;
+        }
+        gm.UpdateLevelLivesAmmo();
     }
 
     public void GetOnStair(bool leftUp, bool canDD) {
@@ -141,7 +152,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         //print("enemy hit player");
         if (!canTakeDamage) return; 
         hp--;
-        // set player health info     FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   FIX THIS   
+        gm.UpdatePlayerEnemyHealth(hp, gm.enemyHealth);   
         if (hp == 0) {
             Death();
         } else {
@@ -171,12 +182,15 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             playerLives--;
             print("u dieded");
             gm.UpdateLevelLivesAmmo();
-            Respawn();
+            tickTime = 0;
         }
     }
 
     void Respawn() {
         print("respawn?!?!?");
+        gm.Respawn();
+        transform.position = gm.currentCheckpoint.transform.position;
+        currentState = PlayerState.Idle;
     }
 
     public void IndianaJones(GameObject go) {
@@ -283,9 +297,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     void FixedUpdate() {
 
-        if (currentState == PlayerState.Dead) {
-            return;
-        }
+        if (currentState == PlayerState.Dead || gm.currentState != GameState.Running) return;
 
         v = rb.velocity;    //rigidbody velocity
 
@@ -335,7 +347,6 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             if (hookDistCheck.position.y < hookPos.y - 1) {
                 var left = Vector3.Cross((hookDistCheck.position - hookPos), Vector3.forward).normalized;
                 rb.AddForce(-horizontalAxis * swingSpeed * left);
-                print(horizontalAxis * swingSpeed * left.normalized);
                 var mag = rb.velocity.magnitude;
                 var newMag = mag - swingReducer * Time.deltaTime;
                 newMag = Mathf.Clamp(newMag, 0f, newMag);
@@ -370,10 +381,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         } else if (currentState != PlayerState.KnockedBack) {
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        }
-        
-
-        
+        }      
 
         // jump & dropdown
 
@@ -395,30 +403,42 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
     void Update() {
 
-        if (currentState == PlayerState.Dead) return;
+        if (currentState == PlayerState.Dead && gm.currentState == GameState.Running) {
+            tickTime += Time.deltaTime;
+            if (tickTime >= respawnTimer) {
+                Respawn();
+            }
+        }
+
+        if (currentState == PlayerState.Dead || gm.currentState != GameState.Running) return;
 
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
 
         // knockbackend check
         if (!canTakeDamage) {
-            if (flash) {
-                flash = false;
-                foreach (Transform sprite in flashSprites) {
-                    sprite.GetComponent<MeshRenderer>().enabled = false;
-                }
-            } else {
-                flash = true;
-                foreach (Transform sprite in flashSprites) {
-                    sprite.GetComponent<MeshRenderer>().enabled = true;
+            if (canFlash) {
+                if (flash) {
+                    flash = false;
+                    foreach (Transform sprite in flashSprites) {
+                        sprite.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                } else {
+                    flash = true;
+                    foreach (Transform sprite in flashSprites) {
+                        sprite.GetComponent<MeshRenderer>().enabled = true;
+                    }
                 }
             }
+            
             tickTime += Time.deltaTime;
             if (tickTime >= immortalTime) {
                 canTakeDamage = true;
-                foreach (Transform sprite in flashSprites) {
-                    if (!sprite.GetComponent<MeshRenderer>().enabled) sprite.GetComponent<MeshRenderer>().enabled = true;
-                }
+                if (canFlash) {
+                    foreach (Transform sprite in flashSprites) {
+                        if (!sprite.GetComponent<MeshRenderer>().enabled) sprite.GetComponent<MeshRenderer>().enabled = true;
+                    }
+                }                
             }
             if (rb.velocity.y == 0) EndKnockback();
         }

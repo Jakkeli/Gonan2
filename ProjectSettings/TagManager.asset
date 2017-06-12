@@ -11,6 +11,7 @@ TagManager:
   - rightUp
   - ground
   - Spikes
+  - stairs
   layers:
   - Default
   - TransparentFX

@@ -13,8 +13,12 @@ public class CameraAreaTrigger : MonoBehaviour {
     public CameraArea myPrimary;
     public CameraArea mySecondary;
     public PlayerApproachDirection myPAD;
+    public ClimbTransitionType myCTT;
     public float primaryYarea;
     public float secondaryYarea;
+    public float myClimbLockedX;
+    public float myClimbLockedxMinY;
+    public float myClimbLockedxMaxY;
     GameObject playerObj;
     Vector3 playerPos;
     Vector3 myPos;
@@ -37,42 +41,55 @@ public class CameraAreaTrigger : MonoBehaviour {
 	}
 
     void ChangeCameraArea(CameraArea ca) {
+        cc.currentCTT = myCTT;
         cc.ChangeCameraArea(ca);
     }
 
-    void OnTriggerExit2D(Collider2D c) {
+    void ChangeToPrimary() {
+        ChangeCameraArea(myPrimary);
+        if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+        if (myPrimary == CameraArea.ClimbLockedX) {
+            cc.lockedY = secondaryYarea;
+        } else if (mySecondary == CameraArea.ClimbLockedX) {
+            cc.lockedY = primaryYarea;
+        }
+    }
 
+    void ChangeToSecondary() {
+        ChangeCameraArea(mySecondary);
+        if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+        if (myPrimary == CameraArea.ClimbLockedX) {
+            cc.lockedY = secondaryYarea;
+        } else if (mySecondary == CameraArea.ClimbLockedX) {
+            cc.lockedY = primaryYarea;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D c) {
+        if (c.tag != "Player") return;
         if (myPAD == PlayerApproachDirection.Left) {
             if (playerPos.x > myPos.x) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             } else if (playerPos.x < myPos.x) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             }
         } else if (myPAD == PlayerApproachDirection.Right) {
             if (playerPos.x > myPos.x) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             } else if (playerPos.x < myPos.x) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             }
         } else if (myPAD == PlayerApproachDirection.Down) {
             if (playerPos.y > myPos.y) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             } else if (playerPos.y < myPos.y) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             }
         } else if (myPAD == PlayerApproachDirection.Up) {
             if (playerPos.y < myPos.y) {
-                ChangeCameraArea(mySecondary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = secondaryYarea;
+                ChangeToSecondary();
             } else if (playerPos.y > myPos.y) {
-                ChangeCameraArea(myPrimary);
-                if (primaryYarea != secondaryYarea) cc.lockedY = primaryYarea;
+                ChangeToPrimary();
             }
         }
 
@@ -80,15 +97,10 @@ public class CameraAreaTrigger : MonoBehaviour {
             cc.bossX = myBossX;
             cc.bossY = myBossY;
         }
-
-        //if (myType == CameraAreaTriggerPos.LeftBottom) {
-
-        //} else if (myType == CameraAreaTriggerPos.LeftTop) {
-
-        //} else if (myType == CameraAreaTriggerPos.RightBottom) {
-
-        //} else if (myType == CameraAreaTriggerPos.RightTop) {
-
-        //}
+        if (myPrimary == CameraArea.ClimbLockedX || mySecondary == CameraArea.ClimbLockedX) {
+            cc.climbLockedX = myClimbLockedX;
+            cc.climbLockedXMaxY = myClimbLockedxMaxY;
+            cc.climbLockedXMinY = myClimbLockedxMinY;
+        }
     }
 }
