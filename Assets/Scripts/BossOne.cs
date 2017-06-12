@@ -23,8 +23,13 @@ public class BossOne : MonoBehaviour {
     float tickTime;
     public float shootInterval = 2;
     GameObject currentProjectile;
+    FabricCtrl fabCtrl;
+    bool firstLaughStarted;
+    bool firstLaughComplete;
+    int shotsFired;
 
 	void Start () {
+        fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         player = GameObject.Find("player");
         ps = player.GetComponent<Player>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -42,7 +47,7 @@ public class BossOne : MonoBehaviour {
     }
 
     public void TakeDamage() {
-        if (currentState != BossState.Fighting) return;
+        if (!firstLaughComplete) return;
         print("boss took a hit");
         hp--;
         if (hp == 0) {
@@ -64,7 +69,7 @@ public class BossOne : MonoBehaviour {
     }
 
     void Laugh() {
-
+        fabCtrl.PlaySoundBossLaugh1();
     }
 	
 	void Update () {
@@ -74,8 +79,29 @@ public class BossOne : MonoBehaviour {
         }
 
         if (currentState == BossState.Fighting) {
-            if (Input.GetKeyDown(KeyCode.L)) {
+            if (Input.GetKeyDown(KeyCode.L) && gm.editorMode) {
                 ShootNormal();
+            }
+
+            if (!firstLaughStarted) {
+                fabCtrl.PlaySoundBossLaugh1();
+                firstLaughStarted = true;
+                tickTime = 0;
+            } else if (!firstLaughComplete) {
+                tickTime += Time.deltaTime;
+                if (tickTime > 3) {
+                    tickTime = 0;
+                    firstLaughComplete = true;
+                }
+            }
+            if (firstLaughComplete) {
+                //shoot
+                tickTime += Time.deltaTime;
+                if (tickTime > shootInterval) {
+                    ShootNormal();
+                    shotsFired++;
+                    tickTime -= shootInterval;
+                }
             }
         }
 	}

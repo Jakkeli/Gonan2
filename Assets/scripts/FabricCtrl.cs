@@ -14,6 +14,9 @@ public class FabricCtrl : MonoBehaviour {
     //public string playerHit1;
     public string playerDeath;
     public string drumBeat1;
+    public string bossLaugh1;
+    public string bossLaugh2;
+    public string bossLaugh3;
 
     public Fabric.GroupComponent music;
     public Fabric.GroupComponent sfx;
@@ -36,6 +39,18 @@ public class FabricCtrl : MonoBehaviour {
         else {
             sfx.Mute = true;
         }
+    }
+
+    public void PlaySoundBossLaugh1() {
+        Fabric.EventManager.Instance.PostEvent(bossLaugh1, soundPos);
+    }
+
+    public void PlaySoundBossLaugh2() {
+        Fabric.EventManager.Instance.PostEvent(bossLaugh2, soundPos);
+    }
+
+    public void PlaySoundBossLaugh3() {
+        Fabric.EventManager.Instance.PostEvent(bossLaugh3, soundPos);
     }
 
     public void PlaySoundWhip1() {
