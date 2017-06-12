@@ -18,5 +18,6 @@ public class Checkpoint : MonoBehaviour {
         if (checkPointIndex <= gm.checkPointIndex) return;
         gm.currentBlock = thisCheckpoint;
         gm.currentCheckpoint = gameObject;
+        gm.checkPointIndex = checkPointIndex;
     }
 }
