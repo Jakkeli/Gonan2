@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour {
         //print("Game Over N00b!1! git gud.");
         currentState = GameState.GameOver;
         Invoke("GitGud", 2);
-        Invoke("GoToMenu", 5);
+        Invoke("Reset", 5);
     }
 
     void GitGud() {

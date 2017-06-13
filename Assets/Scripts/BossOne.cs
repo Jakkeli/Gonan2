@@ -33,6 +33,7 @@ public class BossOne : MonoBehaviour {
     public int barrageCycle = 10;
 
     DeathParticles[] dp;
+    SpriteRenderer[] spriteRenderers;
 
 	void Start () {
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -42,6 +43,7 @@ public class BossOne : MonoBehaviour {
         resetHp = hp;
         startPos = transform.position;
         dp = GetComponentsInChildren<DeathParticles>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 	}
 
     public void TriggerFight() {
@@ -62,11 +64,14 @@ public class BossOne : MonoBehaviour {
             Death();
             return;
         }
-        gm.UpdatePlayerEnemyHealth(gm.playerHealth, hp);
+        gm.UpdatePlayerEnemyHealth(ps.hp, hp);
     }
 
     void Death() {
         currentState = BossState.Dead;
+        foreach (SpriteRenderer sr in spriteRenderers) {
+            sr.enabled = false;
+        }
         foreach (DeathParticles dep in dp) {
             dep.DeathFX();
         }
@@ -89,6 +94,7 @@ public class BossOne : MonoBehaviour {
     }
 	
 	void Update () {
+        
 
         if (gm.currentState != GameState.Running) return;
         if (ps.currentState == PlayerState.Dead) return;
