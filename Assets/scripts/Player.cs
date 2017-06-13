@@ -165,6 +165,12 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         canTakeDamage = false;
     }
 
+    public void HeartPickupHealth()
+    {
+        hp++;
+        gm.UpdatePlayerEnemyHealth(hp, gm.enemyHealth);
+    }
+
     public void Death() {
         if (currentState != PlayerState.Dead) {
             if (currentState == PlayerState.OnStair) {

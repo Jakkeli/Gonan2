@@ -87,6 +87,13 @@ public class BobTheBlob : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D c) {
         if (c.tag == "Player" && start) {
             fabCtrl.PlaySoundPickup();
+            if (player.hp <= 4)
+            {
+                player.HeartPickupHealth();
+            } else
+            {
+                player.HeartPickup(myValue);
+            }
             player.HeartPickup(myValue);
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
