@@ -11,6 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5733de17f8462b5449d12ccdeb7b288b, type: 3}
   m_Name: Skellington_Data
   m_EditorClassIdentifier: 
-  dataName: 
-  dragonBonesJSON: {fileID: 0}
-  textureAtlas: []
+  dataName: Skellington
+  dragonBonesJSON: {fileID: 4900000, guid: 7ca188a4e9b43954c892c77858b84eab, type: 3}
+  textureAtlas:
+  - textureAtlasJSON: {fileID: 4900000, guid: 5af781750d6cb524fa2ee8f8c55236ff, type: 3}
+    texture: {fileID: 2800000, guid: fef932b1fc468ca48ad6a700836f76f7, type: 3}
+    material: {fileID: 2100000, guid: a3b618da6ec11a041bfa39a5367ddd80, type: 2}
+    uiMaterial: {fileID: 0}

@@ -181,6 +181,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
                 gm.GameOver();
                 return;
             }
+            if (secondaryAmmo >= 10) secondaryAmmo = 10;
             playerLives--;
             print("u dieded");
             gm.UpdateLevelLivesAmmo();
