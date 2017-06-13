@@ -7,10 +7,12 @@ public class HitBox : MonoBehaviour, IReaction {
     float invunerabilityTime = 0.5f;
     bool godMode;
     float tickTime;
+    ParticleSystem[] ps;
+    public bool editorMode;
 
-	void Start () {
-		
-	}
+    void Start () {
+        ps = GetComponentsInChildren<ParticleSystem>();
+    }
 
     public void Activate() {
 
@@ -22,6 +24,10 @@ public class HitBox : MonoBehaviour, IReaction {
             print("reacted");
             tickTime = 0;
             godMode = true;
+            foreach (ParticleSystem parSys in ps)
+            {
+                parSys.Play();
+            }
         }
         
     }
@@ -32,6 +38,10 @@ public class HitBox : MonoBehaviour, IReaction {
             if (tickTime > invunerabilityTime) {
                 godMode = false;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.J) && editorMode)
+        {
+            React();
         }
 	}
 

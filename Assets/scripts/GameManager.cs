@@ -58,11 +58,21 @@ public class GameManager : MonoBehaviour {
     public int checkPointIndex;
     public float currentCheckPointCameraY;
     FabricCtrl fabCtrl;
+    CameraController cc;
+
+    public Sprite[] menuLogoSprites;
+    int menuLogoSpriteIndex;
+    float mlticktime;
+    public float mlinterval = 1;
+    public float mlspeed = 0.06f;
+    bool mlanimationHasPlayed;
+    float mlIntervalTickTime;
 
     void Awake() {
         if (startInMenu) bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
         if (startInMenu) currentState = GameState.Menu;
         if (currentCheckpoint == null) currentCheckpoint = firstCheckpoint;
+        cc = GameObject.Find("Main Camera").GetComponent<CameraController>();
     }
 
     public void GameFinished() {
@@ -230,19 +240,47 @@ public class GameManager : MonoBehaviour {
         if (currentState == GameState.Paused) {
             currentState = GameState.Running;
             pauseText.SetActive(false);
+            fabCtrl.PlayGameMusic();
         } else if (currentState == GameState.Running) {
             currentState = GameState.Paused;
             pauseText.SetActive(true);
+            fabCtrl.PauseGameMusic();
         }
     }
 
     public void Respawn() {
         if (time < 350) time = 450;
+        if (currentBlock == GameBlock.BlockOneFive)
+        {
+            cc.ChangeCameraArea(CameraArea.Normal);
+            GameObject.Find("boss_level1").GetComponent<BossOne>().Reset();
+        }
+    }
+
+    void MenuLogoAnimation()
+    {
+        menuLogoSpriteIndex++;
+        if (menuLogoSpriteIndex > menuLogoSprites.Length - 1)
+        {
+            menuLogoSpriteIndex = 0;
+        }
+        menuLogo.GetComponent<Image>().sprite = menuLogoSprites[menuLogoSpriteIndex];
+        
     }
 	
 	void Update () {
         if (Input.GetKeyDown(KeyCode.R) && editorMode) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        if (currentState == GameState.Menu)
+        {
+            mlticktime += Time.deltaTime;
+            if (mlticktime >= mlspeed)
+            {
+                MenuLogoAnimation();
+                mlticktime -= mlspeed;
+            }
         }
         
         if (currentState == GameState.Running && player.currentState != PlayerState.Dead) {

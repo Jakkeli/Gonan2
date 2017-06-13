@@ -53,6 +53,7 @@ public class BossOne : MonoBehaviour {
     }
 
     public void Reset() {
+        GameObject.Find("bossActivationTrigger").GetComponent<BossTriggerFight>().used = false;
         currentState = BossState.Inactive;
         shotsFired = 0;
         laughComplete = false;

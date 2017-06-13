@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossTriggerFight : MonoBehaviour {
 
-    bool used;
+    public bool used;
     public GameObject boss;
 
     void OnTriggerExit2D(Collider2D c) {

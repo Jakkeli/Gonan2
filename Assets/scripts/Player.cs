@@ -605,7 +605,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
         
 
         // shooting
-        if (Input.GetButtonDown("Fire1") && canWhip) {
+        if (Input.GetButtonDown("Fire1") && canWhip && currentState != PlayerState.KnockedBack && canTakeDamage) {
             whipping = true;
 
             // shooting forward
@@ -701,7 +701,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
 
         // secondary fire
 
-        if (Input.GetButtonDown("Fire2") && currentState != PlayerState.IndianaJones && currentState != PlayerState.KnockedBack) {
+        if (Input.GetButtonDown("Fire2") && currentState != PlayerState.IndianaJones && canTakeDamage) {
             if (currentShurikenCount < maxShurikenCount && secondaryAmmo > 0) {
                 GameObject shrkn = null;
                 for (int i = 0; i < maxShurikenCount; i++) {
@@ -733,7 +733,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             LetGoOfHook();
         }
 
-        if (Input.GetKeyDown(KeyCode.K)) {
+        if (Input.GetKeyDown(KeyCode.K) && gm.editorMode) {
             Death();
         }
 

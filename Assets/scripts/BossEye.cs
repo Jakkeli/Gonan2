@@ -6,9 +6,10 @@ public class BossEye : MonoBehaviour {
 
     public GameObject target;
     Vector3 targetPos;
+    
 
 	void Start () {
-		
+        
 	}
 	
 	void Update () {

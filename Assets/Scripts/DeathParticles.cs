@@ -13,8 +13,7 @@ public class DeathParticles : MonoBehaviour {
 	public void DeathFX() {
         print("kutsutaanko?");
         foreach (ParticleSystem ps in partSys) {
-            ps.enableEmission = true;
-            ps.Emit(1);
+            ps.Play();
         }
     }
 }
