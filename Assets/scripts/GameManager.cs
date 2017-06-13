@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
     public Text blockAmmoTimerTextShadow;
     public Text livesTextShadow;
 
-    string level = "BLOCK  1-1";
+    public string level = "BLOCK  1-1";
     string playerLives = "LIVES 3";
     string secondaryAmmo = "PLAYER 00";
     string scoreNumbers = "000000000000";
