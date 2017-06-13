@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour {
 
     public int checkPointIndex;
     public float currentCheckPointCameraY;
+    FabricCtrl fabCtrl;
 
     void Awake() {
         if (startInMenu) bgBlack = GameObject.Find("bg_black").GetComponent<Image>();
@@ -84,6 +85,9 @@ public class GameManager : MonoBehaviour {
 
     void Start () {
         player = GameObject.Find("player").GetComponent<Player>();
+        fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
+        fabCtrl.PlayMenuMusic();
+        if (GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>() == null) print("fug");
         UpdateLevelLivesAmmo();
         scoreText.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
         scoreTextShadow.text = "SCORE           " + scoreNumbers + "\n" + "    PLAYER\n" + "        ENEMY";
@@ -97,6 +101,8 @@ public class GameManager : MonoBehaviour {
         } else {
             currentState = GameState.Running;
         }
+        fabCtrl.PauseMenuMusic();
+        fabCtrl.PlayGameMusic();
     }
 
     void ChangeBlock() {
@@ -142,7 +148,7 @@ public class GameManager : MonoBehaviour {
         if (score == 0) {
             scoreNumbers = "000000000000";
         } else if (score > 999999999) {
-            print("u cheating bastard!!!11!!");
+            //print("u cheating bastard!!!11!!");
         } else if (score > 99999999) {
             scoreNumbers = "" + score;
         } else if (score > 9999999) {
@@ -188,7 +194,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void GameOver() {
-        print("Game Over N00b!1! git gud.");
+        //print("Game Over N00b!1! git gud.");
         currentState = GameState.GameOver;
         Invoke("GitGud", 2);
         Invoke("GoToMenu", 5);
@@ -226,7 +232,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Respawn() {
-
+        if (time < 350) time = 450;
     }
 	
 	void Update () {
@@ -247,11 +253,13 @@ public class GameManager : MonoBehaviour {
             player.Death();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape) && currentState == GameState.Running) {
+            fabCtrl.PauseGameMusic();
+            fabCtrl.PlayMenuMusic();
             currentState = GameState.Menu;
             bgBlack.enabled = true;
             menu.SetActive(true);
-            menuLogo.SetActive(true);// rapihgaråoighaodhgioarthgoaetgoaietjgoairhgoehgoiEHG
+            menuLogo.SetActive(true);
         }
 
         if (Input.GetKeyDown(KeyCode.P)) {

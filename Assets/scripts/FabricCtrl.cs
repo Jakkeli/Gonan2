@@ -19,12 +19,23 @@ public class FabricCtrl : MonoBehaviour {
     public string bossLaugh2;
     public string bossLaugh3;
 
+    public string menuMusicPlay;
+    public string menuMusicPause;
+    public string menuMusicUnPause;
+    public string menuMusicStop;
+    public string gameMusicStop;
+    public string gameMusicPause;
+    public string gameMusicUnPause;
+    public string gameMusicPlay;
+
     public Fabric.GroupComponent music;
     public Fabric.GroupComponent sfx;
 
     public GameObject soundPos;
+    bool menuMusicStarted;
+    bool gameMusicStarted;
 
-    void MuteMusic() {
+    public void MuteMusic() {
         if (music.Mute) {
             music.Mute = false;
         }
@@ -33,13 +44,52 @@ public class FabricCtrl : MonoBehaviour {
         }
     }
 
-    void MuteSFX() {
+    public void MuteSFX() {
         if (sfx.Mute) {
             sfx.Mute = false;
         }
         else {
             sfx.Mute = true;
         }
+    }
+
+    void Respawn() {
+        menuMusicStarted = false;
+        gameMusicStarted = false;
+    }
+
+    public void PlayMenuMusic() {
+        if (!menuMusicStarted) {
+            Fabric.EventManager.Instance.PostEvent(menuMusicPlay, soundPos);
+            menuMusicStarted = true;
+        } else {
+            Fabric.EventManager.Instance.PostEvent(menuMusicUnPause, soundPos);
+        }        
+    }
+
+    public void PauseMenuMusic() {
+        Fabric.EventManager.Instance.PostEvent(menuMusicPause, soundPos);
+    }
+
+    public void StopMenuMusic() {
+        Fabric.EventManager.Instance.PostEvent(menuMusicStop, soundPos);
+    }
+
+    public void StopGameMusic() {
+        Fabric.EventManager.Instance.PostEvent(gameMusicStop, soundPos);
+    }
+
+    public void PauseGameMusic() {
+        Fabric.EventManager.Instance.PostEvent(gameMusicPause, soundPos);
+    }
+
+    public void PlayGameMusic() {
+        if (!gameMusicStarted) {
+            Fabric.EventManager.Instance.PostEvent(gameMusicPlay, soundPos);
+            gameMusicStarted = true;
+        } else {
+            Fabric.EventManager.Instance.PostEvent(gameMusicUnPause, soundPos);
+        }        
     }
 
     public void PlaySoundBossLaugh1() {
