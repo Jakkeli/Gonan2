@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public enum GameState { Running, Paused, GameOver, Menu };
-public enum GameBlock { None, BlockOneOne, BlockOneTwo, BlockOneThree };
+public enum GameBlock { None, BlockOneOne, BlockOneTwo, BlockOneThree, BlockOneFour, BlockOneFive };
 
 public class GameManager : MonoBehaviour {
 
@@ -121,7 +121,12 @@ public class GameManager : MonoBehaviour {
             checkPointIndex = 3;
             level = "BLOCK  1-3";
             UpdateLevelLivesAmmo();
-        }        
+        } else if (currentBlock == GameBlock.BlockOneThree) {
+            currentBlock = GameBlock.BlockOneFour;
+            checkPointIndex = 4;
+            level = "BLOCK  1-4";
+            UpdateLevelLivesAmmo();
+        }
     }
 
     public void UpdateLevelLivesAmmo() {

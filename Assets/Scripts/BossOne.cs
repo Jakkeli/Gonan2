@@ -49,10 +49,19 @@ public class BossOne : MonoBehaviour {
     public void TriggerFight() {
         //move to fightPos
         currentState = BossState.Triggered;
+        
     }
 
     public void Reset() {
+        currentState = BossState.Inactive;
+        shotsFired = 0;
+        laughComplete = false;
+        laughStarted = false;
+        shootModeNormal = true;
+        tickTime = 0;
         transform.position = startPos;
+        hp = 16;
+        gm.UpdatePlayerEnemyHealth(16, 16);
     }
 
     public void TakeDamage() {
@@ -80,7 +89,7 @@ public class BossOne : MonoBehaviour {
     }
 
     void Shoot() {
-        Vector3 dir = new Vector3(player.transform.position.x, player.transform.position.y +1, 0) - transform.position;
+        Vector3 dir = new Vector3(player.transform.position.x, player.transform.position.y + 0.5f, 0) - transform.position;
         dir.Normalize();
         currentProjectile = Instantiate(projectilePrefab, projectileStartPos, Quaternion.identity);
         if (currentProjectile.GetComponent<Projectile>() != null) currentProjectile.GetComponent<Projectile>().ShootThis(dir);

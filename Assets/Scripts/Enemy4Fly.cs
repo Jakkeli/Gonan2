@@ -30,9 +30,11 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
     SpriteRenderer spriteRenderer;
     GameManager gm;
     Player ps;
+    DeathParticles dp;
 
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        dp = GetComponentInChildren<DeathParticles>();
         player = GameObject.Find("player");
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         ps = player.GetComponent<Player>();
@@ -62,7 +64,7 @@ public class Enemy4Fly : MonoBehaviour, IReaction {
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
         gameObject.SetActive(false);
-        //animation + effects?
+        dp.DeathFX();
     }
 
     public void Activate() {

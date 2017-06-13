@@ -99,6 +99,7 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     bool flash;
     public float respawnTimer = 5;
     CameraController cc;
+    bool deathFromAbove;
 
     void Start() {
         cc = GameObject.Find("Main Camera").GetComponent<CameraController>();
@@ -172,10 +173,13 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             if (currentState == PlayerState.IndianaJones) {
                 LetGoOfHook();
             }
+            if (currentState == PlayerState.InAir) deathFromAbove = true;
             currentState = PlayerState.Dead;
-            dbc.PlayerDeath();
-            fabCtrl.PlaySoundPlayerDeath();
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            if (!deathFromAbove) {
+                dbc.PlayerDeath();
+                fabCtrl.PlaySoundPlayerDeath();
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }                       
             if (playerLives == 0) {
                 //gameover
                 gm.GameOver();
@@ -183,13 +187,14 @@ public class Player : MonoBehaviour {       // gonan 2d actual
             }
             if (secondaryAmmo >= 10) secondaryAmmo = 10;
             playerLives--;
-            print("u dieded");
             gm.UpdateLevelLivesAmmo();
             tickTime = 0;
         }
     }
 
     void Respawn() {
+        hp = 16;
+        gm.UpdatePlayerEnemyHealth(hp, 16);
         cc.lockedY = gm.currentCheckPointCameraY;
         print("respawn?!?!?");
         gm.Respawn();
@@ -300,6 +305,14 @@ public class Player : MonoBehaviour {       // gonan 2d actual
     }
 
     void FixedUpdate() {
+
+        if (deathFromAbove) {
+            if (rb.velocity.y == 0) {
+                dbc.PlayerDeath();
+                fabCtrl.PlaySoundPlayerDeath();
+                deathFromAbove = false;
+            }
+        }
 
         if (currentState == PlayerState.Dead || gm.currentState != GameState.Running) return;
 
