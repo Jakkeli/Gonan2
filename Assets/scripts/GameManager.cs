@@ -125,11 +125,11 @@ public class GameManager : MonoBehaviour {
     }
 
     public void UpdateLevelLivesAmmo() {
-        playerLives = "H=" + player.playerLives;
+        playerLives = "P=" + player.playerLives;
         if (player.secondaryAmmo < 10) {
-            secondaryAmmo = "P=0" + player.secondaryAmmo;
+            secondaryAmmo = "H=0" + player.secondaryAmmo;
         } else {
-            secondaryAmmo = "P=" + player.secondaryAmmo;
+            secondaryAmmo = "H=" + player.secondaryAmmo;
         }
         if (time > 99) {
             timeText = "TIME  " + time;
@@ -253,7 +253,8 @@ public class GameManager : MonoBehaviour {
             player.Death();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && currentState == GameState.Running) {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Esc")) {
+            if (currentState != GameState.Running) return;
             fabCtrl.PauseGameMusic();
             fabCtrl.PlayMenuMusic();
             currentState = GameState.Menu;
@@ -262,7 +263,8 @@ public class GameManager : MonoBehaviour {
             menuLogo.SetActive(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.P)) {
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetButtonDown("Pause")) {
+            if (currentState == GameState.GameOver || currentState == GameState.Menu) return;
             Pause();
         }
 
