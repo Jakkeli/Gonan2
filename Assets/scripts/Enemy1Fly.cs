@@ -7,32 +7,28 @@ public enum Enemy1State { Inactive, Activated, Dead };
 public class Enemy1Fly : MonoBehaviour, IReaction {
 
     public Enemy1State currentState;
-    public float hSpeed;
-    public float vSpeed;
     float hDir;
     public float maxY;
-    public float minY;
-
     public float speed = 1;
     public float wavelength = 5;
     float startTime;
-
     Vector2 originalPos;
-
     public bool activateOnStart;
     public bool goRight;
     public bool startVDirDown;
     public int hp = 1;
-
     GameObject player;
     Player ps;
     FabricCtrl fabCtrl;
     int svdir;
     GameManager gm;
     int scoreWorth = 200;
+    DeathParticles dp;
+    bool xSet;
 
-	void Start () {
+    void Start () {
         player = GameObject.Find("player");
+        dp = GetComponentInChildren<DeathParticles>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         ps = player.GetComponent<Player>();
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
@@ -41,8 +37,9 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         }
         originalPos = transform.position;
         hDir = goRight? 1:-1;
-        svdir = startVDirDown ? 1 : 3; 
-	}
+        svdir = startVDirDown ? 1 : 3;
+        
+    }
 
     public void React() {
         //take damage
@@ -63,7 +60,7 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
         gameObject.SetActive(false);
-        //animation + effects?
+        dp.DeathFX();
     }
 
     public void Activate() {
@@ -81,7 +78,11 @@ public class Enemy1Fly : MonoBehaviour, IReaction {
         if (hDir > 0) GetComponent<SpriteRenderer>().flipX = true;
         var t = Time.time - startTime;
         var dx = speed * hDir * t;
-
+        if (!xSet) {
+            originalPos -= new Vector2(dx, 0);
+            xSet = true;
+        }
+        
         transform.position = originalPos + new Vector2(dx, maxY * Mathf.Sin(dx * 2 * Mathf.PI / wavelength));
         //transform.position = originalPos + new Vector2(dx, maxY * (Mathf.Abs((Mathf.Abs(dx * 4 / wavelength) + svdir)%4 - 2) - 1));
     }

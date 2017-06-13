@@ -32,6 +32,8 @@ public class BossOne : MonoBehaviour {
     public int normalCycle = 10;
     public int barrageCycle = 10;
 
+    DeathParticles[] dp;
+
 	void Start () {
         fabCtrl = GameObject.Find("FabricCtrl").GetComponent<FabricCtrl>();
         player = GameObject.Find("player");
@@ -39,6 +41,7 @@ public class BossOne : MonoBehaviour {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         resetHp = hp;
         startPos = transform.position;
+        dp = GetComponentsInChildren<DeathParticles>();
 	}
 
     public void TriggerFight() {
@@ -64,6 +67,9 @@ public class BossOne : MonoBehaviour {
 
     void Death() {
         currentState = BossState.Dead;
+        foreach (DeathParticles dep in dp) {
+            dep.DeathFX();
+        }
         print("boss dieded. now u the boss");
         gm.GameFinished();
     }

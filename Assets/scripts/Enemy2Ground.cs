@@ -21,6 +21,7 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
     GameManager gm;
 
     FabricCtrl fabCtrl;
+    DeathParticles dp;
 
     void Start() {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -30,6 +31,7 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
         if (activateOnStart) {
             Activate();
         }
+        dp = GetComponentInChildren<DeathParticles>();
     }
 
     public void React() {
@@ -49,7 +51,7 @@ public class Enemy2Ground : MonoBehaviour, IReaction {
         fabCtrl.PlaySoundEnemy2Destroyed();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<BoxCollider2D>().enabled = false;
-        //animation + effects?
+        dp.DeathFX();
     }
 
     public void Activate() {
